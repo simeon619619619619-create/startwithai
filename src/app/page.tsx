@@ -56,7 +56,9 @@ function Card({ title, desc }: { title: string; desc: string }) {
 }
 
 export default function HomePage() {
+  const [heroStep, setHeroStep] = useState<"website" | "email">("website");
   const [heroWebsite, setHeroWebsite] = useState("");
+  const [heroEmail, setHeroEmail] = useState("");
 
   const [lead, setLead] = useState<
     Omit<Lead, "submittedAt"> & { submittedAt?: string }
@@ -96,7 +98,14 @@ export default function HomePage() {
 
   function onHeroSubmit(e: React.FormEvent) {
     e.preventDefault();
-    setLead((prev) => ({ ...prev, website: heroWebsite }));
+
+    if (heroStep === "website") {
+      setLead((prev) => ({ ...prev, website: heroWebsite }));
+      setHeroStep("email");
+      return;
+    }
+
+    setLead((prev) => ({ ...prev, website: heroWebsite, email: heroEmail }));
     scrollToApply();
   }
 
@@ -130,6 +139,8 @@ export default function HomePage() {
     setStatus("Готово — получихме заявката. Ще се свържем с теб.");
     setLead({});
     setHeroWebsite("");
+    setHeroEmail("");
+    setHeroStep("website");
 
     setTimeout(() => setStatus(""), 7000);
   }
@@ -174,20 +185,35 @@ export default function HomePage() {
               onSubmit={onHeroSubmit}
               className="mx-auto mt-9 flex max-w-3xl flex-col gap-3 rounded-2xl border border-white/10 bg-white/5 p-3 md:flex-row md:items-center"
             >
-              <div className="flex flex-1 items-center gap-3 rounded-xl border border-white/10 bg-black/30 px-4 py-3">
-                <span className="text-white/35">🌐</span>
-                <input
-                  value={heroWebsite}
-                  onChange={(e) => setHeroWebsite(e.target.value)}
-                  className="w-full bg-transparent text-sm text-white placeholder:text-white/30 focus:outline-none"
-                  placeholder="Въведи сайта на фирмата (по желание)"
-                />
-              </div>
+              {heroStep === "website" ? (
+                <div className="flex flex-1 items-center gap-3 rounded-xl border border-white/10 bg-black/30 px-4 py-3">
+                  <span className="text-white/35">🌐</span>
+                  <input
+                    value={heroWebsite}
+                    onChange={(e) => setHeroWebsite(e.target.value)}
+                    className="w-full bg-transparent text-sm text-white placeholder:text-white/30 focus:outline-none"
+                    placeholder="Въведи сайта на фирмата (по желание)"
+                  />
+                </div>
+              ) : (
+                <div className="flex flex-1 items-center gap-3 rounded-xl border border-white/10 bg-black/30 px-4 py-3">
+                  <span className="text-white/35">✉️</span>
+                  <input
+                    value={heroEmail}
+                    onChange={(e) => setHeroEmail(e.target.value)}
+                    type="email"
+                    className="w-full bg-transparent text-sm text-white placeholder:text-white/30 focus:outline-none"
+                    placeholder="Въведи фирмен имейл (пример: office@company.com)"
+                    required
+                  />
+                </div>
+              )}
+
               <button
                 type="submit"
                 className="rounded-xl bg-gradient-to-r from-sky-400 to-emerald-300 px-6 py-3 text-sm font-bold text-black"
               >
-                Започни →
+                {heroStep === "website" ? "Продължи →" : "Кандидатствай →"}
               </button>
             </form>
 
