@@ -56,15 +56,61 @@ function Card({ title, desc }: { title: string; desc: string }) {
 }
 
 export default function HomePage() {
-  const [heroStep, setHeroStep] = useState<"website" | "email">("website");
+  const [heroStep, setHeroStep] = useState<"website" | "email" | "qa">("website");
   const [heroWebsite, setHeroWebsite] = useState("");
   const [heroEmail, setHeroEmail] = useState("");
+  const [heroEmailError, setHeroEmailError] = useState<string>("");
+
+  const [qaIndex, setQaIndex] = useState(0);
+  const [qaInput, setQaInput] = useState("");
+  const [, setQaAnswers] = useState<Array<{ q: string; a: string }>>([]);
 
   const [lead, setLead] = useState<
     Omit<Lead, "submittedAt"> & { submittedAt?: string }
   >({});
 
   const [status, setStatus] = useState<string>("");
+
+  const disallowedEmailDomains = useMemo(
+    () =>
+      new Set([
+        "gmail.com",
+        "googlemail.com",
+        "yahoo.com",
+        "yahoo.co.uk",
+        "yahoo.de",
+        "yahoo.fr",
+        "outlook.com",
+        "hotmail.com",
+        "live.com",
+        "msn.com",
+        "icloud.com",
+        "me.com",
+        "mac.com",
+        "aol.com",
+        "proton.me",
+        "protonmail.com",
+        "mail.com",
+        "yandex.com",
+        "yandex.ru",
+        "abv.bg",
+        "mail.bg",
+        "dir.bg",
+      ]),
+    []
+  );
+
+  const heroQuestions = useMemo(
+    () => [
+      "Каква е най-важната ти цел за приход/ефективност в следващите 12 месеца?",
+      "Кои 1–2 процеса в момента ви крадат най-много време?",
+      "Колко служители са в екипа (10–80) и кои отдели са най-засегнати?",
+      "Как изглежда успехът за вас след 90 дни (в часове, разходи или капацитет)?",
+      "Имате ли вътрешен човек за координация (не IT) или искате ние да поемем?",
+      "Имате ли предпочитан ден/час за кратка проверка на допустимост (15 мин)?",
+    ],
+    []
+  );
 
   const faqs = useMemo(
     () => [
@@ -96,6 +142,16 @@ export default function HomePage() {
     document.getElementById("apply")?.scrollIntoView({ behavior: "smooth" });
   }
 
+  function validateProfessionalEmail(email: string) {
+    const v = (email || "").trim().toLowerCase();
+    if (!v) return "Въведи фирмен имейл.";
+    if (!v.includes("@") || v.split("@").length !== 2) return "Имейлът не изглежда валиден.";
+    const domain = v.split("@")[1];
+    if (!domain || !domain.includes(".")) return "Използвай фирмен домейн (пример: office@company.com).";
+    if (disallowedEmailDomains.has(domain)) return "Приемаме само фирмени имейли (не Gmail/Outlook/Abv и т.н.).";
+    return "";
+  }
+
   function onHeroSubmit(e: React.FormEvent) {
     e.preventDefault();
 
@@ -105,8 +161,28 @@ export default function HomePage() {
       return;
     }
 
-    setLead((prev) => ({ ...prev, website: heroWebsite, email: heroEmail }));
-    scrollToApply();
+    if (heroStep === "email") {
+      const err = validateProfessionalEmail(heroEmail);
+      setHeroEmailError(err);
+      if (err) return;
+
+      setLead((prev) => ({ ...prev, website: heroWebsite, email: heroEmail }));
+      setHeroStep("qa");
+      return;
+    }
+
+    // qa step
+    if (!qaInput.trim()) return;
+    const q = heroQuestions[qaIndex];
+    setQaAnswers((prev) => [...prev, { q, a: qaInput.trim() }]);
+    setQaInput("");
+
+    const nextIndex = qaIndex + 1;
+    if (nextIndex >= heroQuestions.length) {
+      scrollToApply();
+      return;
+    }
+    setQaIndex(nextIndex);
   }
 
   function onSubmit(e: React.FormEvent) {
@@ -140,7 +216,11 @@ export default function HomePage() {
     setLead({});
     setHeroWebsite("");
     setHeroEmail("");
+    setHeroEmailError("");
     setHeroStep("website");
+    setQaIndex(0);
+    setQaInput("");
+    setQaAnswers([]);
 
     setTimeout(() => setStatus(""), 7000);
   }
@@ -195,17 +275,59 @@ export default function HomePage() {
                     placeholder="Въведи сайта на фирмата (по желание)"
                   />
                 </div>
+              ) : heroStep === "email" ? (
+                <div className="flex flex-1 flex-col gap-2">
+                  <div className="flex items-center gap-3 rounded-xl border border-white/10 bg-black/30 px-4 py-3">
+                    <span className="text-white/35">✉️</span>
+                    <input
+                      value={heroEmail}
+                      onChange={(e) => {
+                        setHeroEmail(e.target.value);
+                        setHeroEmailError("");
+                      }}
+                      type="email"
+                      className="w-full bg-transparent text-sm text-white placeholder:text-white/30 focus:outline-none"
+                      placeholder="Въведи фирмен имейл (пример: office@company.com)"
+                      required
+                    />
+                  </div>
+                  {heroEmailError ? (
+                    <div className="text-left text-xs font-semibold text-rose-200/90">
+                      {heroEmailError}
+                    </div>
+                  ) : null}
+                  <div className="text-left text-xs text-white/35">
+                    Допускат се само професионални имейли с фирмен домейн.
+                  </div>
+                </div>
               ) : (
-                <div className="flex flex-1 items-center gap-3 rounded-xl border border-white/10 bg-black/30 px-4 py-3">
-                  <span className="text-white/35">✉️</span>
-                  <input
-                    value={heroEmail}
-                    onChange={(e) => setHeroEmail(e.target.value)}
-                    type="email"
-                    className="w-full bg-transparent text-sm text-white placeholder:text-white/30 focus:outline-none"
-                    placeholder="Въведи фирмен имейл (пример: office@company.com)"
-                    required
-                  />
+                <div className="flex flex-1 flex-col gap-2">
+                  <div className="rounded-xl border border-white/10 bg-black/30 px-4 py-3">
+                    <div className="flex items-center justify-between gap-3">
+                      <div className="text-xs font-semibold uppercase tracking-widest text-white/45">
+                        AI Agent • {qaIndex + 1}/{heroQuestions.length}
+                      </div>
+                      <div className="text-xs text-white/30">2–3 изречения</div>
+                    </div>
+                    <div className="mt-2 text-sm font-semibold text-white">
+                      {heroQuestions[qaIndex]}
+                    </div>
+                  </div>
+
+                  <div className="flex items-center gap-3 rounded-xl border border-white/10 bg-black/30 px-4 py-3">
+                    <span className="text-white/35">⌨️</span>
+                    <input
+                      value={qaInput}
+                      onChange={(e) => setQaInput(e.target.value)}
+                      className="w-full bg-transparent text-sm text-white placeholder:text-white/30 focus:outline-none"
+                      placeholder="Напиши отговор…"
+                      required
+                    />
+                  </div>
+
+                  <div className="text-left text-xs text-white/35">
+                    След 6 въпроса те пращаме към кандидатстването (формата долу).
+                  </div>
                 </div>
               )}
 
@@ -213,7 +335,13 @@ export default function HomePage() {
                 type="submit"
                 className="rounded-xl bg-gradient-to-r from-sky-400 to-emerald-300 px-6 py-3 text-sm font-bold text-black"
               >
-                {heroStep === "website" ? "Продължи →" : "Кандидатствай →"}
+                {heroStep === "website"
+                  ? "Продължи →"
+                  : heroStep === "email"
+                    ? "Продължи →"
+                    : qaIndex + 1 >= heroQuestions.length
+                      ? "Към формата →"
+                      : "Изпрати →"}
               </button>
             </form>
 
