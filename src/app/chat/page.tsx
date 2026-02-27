@@ -42,19 +42,22 @@ function ChatInner() {
   const [done, setDone] = useState(false);
 
   const [msgs, setMsgs] = useState<ChatMsg[]>(() => {
-    const intro: ChatMsg[] = [
-      {
-        role: "agent",
-        text:
-          "Ок. Имам информацията ти. Ще задам 6 кратки въпроса, за да направим план за внедряване.",
-      },
-    ];
+    const intro: ChatMsg[] = [];
+
     if (website) intro.push({ role: "agent", text: `Сайт: ${website}` });
     if (email) intro.push({ role: "agent", text: `Имейл: ${email}` });
+
+    intro.push({
+      role: "agent",
+      text:
+        "Ще ти направим персонален анализ и план за внедряване. Започвам с 6 кратки въпроса.",
+    });
+
     intro.push({
       role: "agent",
       text: `Въпрос 1/${questions.length}: ${questions[0]}`,
     });
+
     return intro;
   });
 
