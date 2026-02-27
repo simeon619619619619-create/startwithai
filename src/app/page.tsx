@@ -1,22 +1,15 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { useRouter } from "next/navigation";
 
 type Lead = {
   website?: string;
-  name?: string;
-  email?: string;
-  phone?: string;
-  company?: string;
-  teamSize?: string;
+  email: string;
   submittedAt: string;
 };
 
 const KEY = "startwithai_leads";
-
-function cn(...xs: Array<string | false | null | undefined>) {
-  return xs.filter(Boolean).join(" ");
-}
 
 function SectionTitle({ title, subtitle }: { title: string; subtitle?: string }) {
   return (
@@ -56,20 +49,12 @@ function Card({ title, desc }: { title: string; desc: string }) {
 }
 
 export default function HomePage() {
-  const [heroStep, setHeroStep] = useState<"website" | "email" | "qa">("website");
+  const router = useRouter();
+
+  const [heroStep, setHeroStep] = useState<"website" | "email">("website");
   const [heroWebsite, setHeroWebsite] = useState("");
   const [heroEmail, setHeroEmail] = useState("");
   const [heroEmailError, setHeroEmailError] = useState<string>("");
-
-  const [qaIndex, setQaIndex] = useState(0);
-  const [qaInput, setQaInput] = useState("");
-  const [, setQaAnswers] = useState<Array<{ q: string; a: string }>>([]);
-
-  const [lead, setLead] = useState<
-    Omit<Lead, "submittedAt"> & { submittedAt?: string }
-  >({});
-
-  const [status, setStatus] = useState<string>("");
 
   const disallowedEmailDomains = useMemo(
     () =>
@@ -100,18 +85,6 @@ export default function HomePage() {
     []
   );
 
-  const heroQuestions = useMemo(
-    () => [
-      "Каква е най-важната ти цел за приход/ефективност в следващите 12 месеца?",
-      "Кои 1–2 процеса в момента ви крадат най-много време?",
-      "Колко служители са в екипа (10–80) и кои отдели са най-засегнати?",
-      "Как изглежда успехът за вас след 90 дни (в часове, разходи или капацитет)?",
-      "Имате ли вътрешен човек за координация (не IT) или искате ние да поемем?",
-      "Имате ли предпочитан ден/час за кратка проверка на допустимост (15 мин)?",
-    ],
-    []
-  );
-
   const faqs = useMemo(
     () => [
       {
@@ -138,10 +111,6 @@ export default function HomePage() {
     []
   );
 
-  function scrollToApply() {
-    document.getElementById("apply")?.scrollIntoView({ behavior: "smooth" });
-  }
-
   function validateProfessionalEmail(email: string) {
     const v = (email || "").trim().toLowerCase();
     if (!v) return "Въведи фирмен имейл.";
@@ -162,59 +131,29 @@ export default function HomePage() {
     return "";
   }
 
+  function scrollToHero() {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
   function onHeroSubmit(e: React.FormEvent) {
     e.preventDefault();
 
     if (heroStep === "website") {
-      setLead((prev) => ({ ...prev, website: heroWebsite }));
       setHeroStep("email");
       return;
     }
 
-    if (heroStep === "email") {
-      const err = validateProfessionalEmail(heroEmail);
-      setHeroEmailError(err);
-      if (err) return;
+    const err = validateProfessionalEmail(heroEmail);
+    setHeroEmailError(err);
+    if (err) return;
 
-      setLead((prev) => ({ ...prev, website: heroWebsite, email: heroEmail }));
-      setHeroStep("qa");
-      return;
-    }
-
-    // qa step
-    if (!qaInput.trim()) return;
-    const q = heroQuestions[qaIndex];
-    setQaAnswers((prev) => [...prev, { q, a: qaInput.trim() }]);
-    setQaInput("");
-
-    const nextIndex = qaIndex + 1;
-    if (nextIndex >= heroQuestions.length) {
-      scrollToApply();
-      return;
-    }
-    setQaIndex(nextIndex);
-  }
-
-  function onSubmit(e: React.FormEvent) {
-    e.preventDefault();
-    setStatus("");
-
-    const payload: Lead = {
-      website: lead.website,
-      name: lead.name,
-      email: lead.email,
-      phone: lead.phone,
-      company: lead.company,
-      teamSize: lead.teamSize,
-      submittedAt: new Date().toISOString(),
-    };
-
-    if (!payload.email && !payload.phone) {
-      setStatus("Остави поне имейл или телефон.");
-      return;
-    }
-
+    // Save a minimal lead right away (MVP)
     try {
+      const payload: Lead = {
+        website: heroWebsite || undefined,
+        email: heroEmail.trim().toLowerCase(),
+        submittedAt: new Date().toISOString(),
+      };
       const existing = JSON.parse(localStorage.getItem(KEY) || "[]") as Lead[];
       existing.push(payload);
       localStorage.setItem(KEY, JSON.stringify(existing));
@@ -222,17 +161,11 @@ export default function HomePage() {
       // ignore
     }
 
-    setStatus("Готово — получихме заявката. Ще се свържем с теб.");
-    setLead({});
-    setHeroWebsite("");
-    setHeroEmail("");
-    setHeroEmailError("");
-    setHeroStep("website");
-    setQaIndex(0);
-    setQaInput("");
-    setQaAnswers([]);
+    const qp = new URLSearchParams();
+    if (heroWebsite) qp.set("website", heroWebsite);
+    qp.set("email", heroEmail.trim().toLowerCase());
 
-    setTimeout(() => setStatus(""), 7000);
+    router.push(`/chat?${qp.toString()}`);
   }
 
   return (
@@ -250,7 +183,10 @@ export default function HomePage() {
             <a className="hover:text-white" href="#faq">FAQ</a>
           </div>
           <button
-            onClick={scrollToApply}
+            onClick={() => {
+              scrollToHero();
+              setHeroStep("website");
+            }}
             className="rounded-full bg-gradient-to-r from-sky-400 to-emerald-300 px-4 py-2 text-xs font-bold uppercase tracking-widest text-black shadow-[0_12px_40px_rgba(34,197,94,0.18)]"
           >
             Кандидатствай
@@ -285,7 +221,7 @@ export default function HomePage() {
                     placeholder="Въведи сайта на фирмата (по желание)"
                   />
                 </div>
-              ) : heroStep === "email" ? (
+              ) : (
                 <div className="flex flex-1 flex-col gap-2">
                   <div className="flex items-center gap-3 rounded-xl border border-white/10 bg-black/30 px-4 py-3">
                     <span className="text-white/35">✉️</span>
@@ -310,48 +246,13 @@ export default function HomePage() {
                     Допускат се само професионални имейли с фирмен домейн.
                   </div>
                 </div>
-              ) : (
-                <div className="flex flex-1 flex-col gap-2">
-                  <div className="rounded-xl border border-white/10 bg-black/30 px-4 py-3">
-                    <div className="flex items-center justify-between gap-3">
-                      <div className="text-xs font-semibold uppercase tracking-widest text-white/45">
-                        AI Agent • {qaIndex + 1}/{heroQuestions.length}
-                      </div>
-                      <div className="text-xs text-white/30">2–3 изречения</div>
-                    </div>
-                    <div className="mt-2 text-sm font-semibold text-white">
-                      {heroQuestions[qaIndex]}
-                    </div>
-                  </div>
-
-                  <div className="flex items-center gap-3 rounded-xl border border-white/10 bg-black/30 px-4 py-3">
-                    <span className="text-white/35">⌨️</span>
-                    <input
-                      value={qaInput}
-                      onChange={(e) => setQaInput(e.target.value)}
-                      className="w-full bg-transparent text-sm text-white placeholder:text-white/30 focus:outline-none"
-                      placeholder="Напиши отговор…"
-                      required
-                    />
-                  </div>
-
-                  <div className="text-left text-xs text-white/35">
-                    След 6 въпроса те пращаме към кандидатстването (формата долу).
-                  </div>
-                </div>
               )}
 
               <button
                 type="submit"
                 className="rounded-xl bg-gradient-to-r from-sky-400 to-emerald-300 px-6 py-3 text-sm font-bold text-black"
               >
-                {heroStep === "website"
-                  ? "Продължи →"
-                  : heroStep === "email"
-                    ? "Продължи →"
-                    : qaIndex + 1 >= heroQuestions.length
-                      ? "Към формата →"
-                      : "Изпрати →"}
+                {heroStep === "website" ? "Продължи →" : "Към въпросите →"}
               </button>
             </form>
 
@@ -395,7 +296,7 @@ export default function HomePage() {
           <div className="mx-auto max-w-6xl px-5 py-16">
             <SectionTitle
               title="90-дневна система: обучение + внедряване + измерим резултат"
-              subtitle="Повечето пазари предлагат или скъпа консултация, или теоретично обучение. Тук процесът е комбиниран и контролиран." 
+              subtitle="Повечето пазари предлагат или скъпа консултация, или теоретично обучение. Тук процесът е комбиниран и контролиран."
             />
 
             <div className="mx-auto mt-10 grid max-w-5xl grid-cols-1 gap-4 md:grid-cols-2">
@@ -438,7 +339,7 @@ export default function HomePage() {
         <section className="mx-auto max-w-6xl px-5 py-16">
           <SectionTitle
             title="Стойност, която обичайно струва 25 000–35 000 лв"
-            subtitle="Пазарните алтернативи са консултанти, скъпи обучения и внедрявания без обучение. Тук влиза система с обучение + сертификация + внедряване и отчет." 
+            subtitle="Пазарните алтернативи са консултанти, скъпи обучения и внедрявания без обучение. Тук влиза система с обучение + сертификация + внедряване и отчет."
           />
 
           <div className="mx-auto mt-10 grid max-w-5xl grid-cols-1 gap-4 md:grid-cols-2">
@@ -473,7 +374,7 @@ export default function HomePage() {
           <div className="mx-auto max-w-6xl px-5 py-16">
             <SectionTitle
               title="Често задавани въпроси"
-              subtitle="Скептицизмът е нормален — затова моделът е прозрачен и измерим." 
+              subtitle="Скептицизмът е нормален — затова моделът е прозрачен и измерим."
             />
 
             <div className="mx-auto mt-10 max-w-4xl space-y-3">
@@ -485,7 +386,7 @@ export default function HomePage() {
                   <summary className="cursor-pointer list-none text-sm font-semibold text-white">
                     <div className="flex items-center justify-between gap-4">
                       <span>{f.q}</span>
-                      <span className="text-white/35 group-open:rotate-45 transition-transform">
+                      <span className="text-white/35 transition-transform group-open:rotate-45">
                         +
                       </span>
                     </div>
@@ -496,120 +397,17 @@ export default function HomePage() {
                 </details>
               ))}
             </div>
-          </div>
-        </section>
 
-        {/* Apply */}
-        <section id="apply" className="mx-auto max-w-6xl px-5 py-16">
-          <SectionTitle
-            title="Провери допустимост (1 минута)"
-            subtitle="Работим с ограничен брой компании на тримесечие, защото внедряваме процеси лично." 
-          />
-
-          <div className="mx-auto mt-10 max-w-4xl rounded-2xl border border-white/10 bg-white/5 p-6">
-            <form onSubmit={onSubmit} className="grid grid-cols-1 gap-4 md:grid-cols-2">
-              <div className="md:col-span-2">
-                <label className="text-xs font-semibold uppercase tracking-widest text-white/55">
-                  Сайт (по желание)
-                </label>
-                <input
-                  value={lead.website || ""}
-                  onChange={(e) => setLead((p) => ({ ...p, website: e.target.value }))}
-                  className="mt-2 w-full rounded-xl border border-white/10 bg-black/30 px-4 py-3 text-sm text-white placeholder:text-white/25"
-                  placeholder="https://example.com"
-                />
-              </div>
-
-              <div>
-                <label className="text-xs font-semibold uppercase tracking-widest text-white/55">
-                  Име
-                </label>
-                <input
-                  value={lead.name || ""}
-                  onChange={(e) => setLead((p) => ({ ...p, name: e.target.value }))}
-                  className="mt-2 w-full rounded-xl border border-white/10 bg-black/30 px-4 py-3 text-sm text-white placeholder:text-white/25"
-                  placeholder="Име и фамилия"
-                />
-              </div>
-
-              <div>
-                <label className="text-xs font-semibold uppercase tracking-widest text-white/55">
-                  Фирма
-                </label>
-                <input
-                  value={lead.company || ""}
-                  onChange={(e) => setLead((p) => ({ ...p, company: e.target.value }))}
-                  className="mt-2 w-full rounded-xl border border-white/10 bg-black/30 px-4 py-3 text-sm text-white placeholder:text-white/25"
-                  placeholder="Име на фирмата"
-                />
-              </div>
-
-              <div>
-                <label className="text-xs font-semibold uppercase tracking-widest text-white/55">
-                  Имейл
-                </label>
-                <input
-                  value={lead.email || ""}
-                  onChange={(e) => setLead((p) => ({ ...p, email: e.target.value }))}
-                  type="email"
-                  className="mt-2 w-full rounded-xl border border-white/10 bg-black/30 px-4 py-3 text-sm text-white placeholder:text-white/25"
-                  placeholder="name@company.com"
-                />
-              </div>
-
-              <div>
-                <label className="text-xs font-semibold uppercase tracking-widest text-white/55">
-                  Телефон
-                </label>
-                <input
-                  value={lead.phone || ""}
-                  onChange={(e) => setLead((p) => ({ ...p, phone: e.target.value }))}
-                  className="mt-2 w-full rounded-xl border border-white/10 bg-black/30 px-4 py-3 text-sm text-white placeholder:text-white/25"
-                  placeholder="+359…"
-                />
-              </div>
-
-              <div className="md:col-span-2">
-                <label className="text-xs font-semibold uppercase tracking-widest text-white/55">
-                  Брой служители
-                </label>
-                <select
-                  value={lead.teamSize || ""}
-                  onChange={(e) => setLead((p) => ({ ...p, teamSize: e.target.value }))}
-                  className="mt-2 w-full rounded-xl border border-white/10 bg-black/30 px-4 py-3 text-sm text-white"
-                >
-                  <option value="">Избери…</option>
-                  <option value="10-20">10–20</option>
-                  <option value="21-40">21–40</option>
-                  <option value="41-80">41–80</option>
-                  <option value="80+">80+</option>
-                </select>
-              </div>
-
-              <div className="md:col-span-2 mt-2 flex flex-col items-start justify-between gap-3 md:flex-row md:items-center">
-                <button
-                  type="submit"
-                  className={cn(
-                    "rounded-xl bg-gradient-to-r from-sky-400 to-emerald-300 px-6 py-3 text-sm font-bold text-black",
-                    "shadow-[0_18px_60px_rgba(56,189,248,0.12)]"
-                  )}
-                >
-                  Изпрати →
-                </button>
-                <div className="text-xs text-white/35">
-                  Минимум: имейл или телефон.
-                </div>
-              </div>
-
-              {status ? (
-                <div className="md:col-span-2 text-sm font-semibold text-white">
-                  {status}
-                </div>
-              ) : null}
-            </form>
-
-            <div className="mt-4 text-xs leading-5 text-white/35">
-              * Този формуляр е MVP (локално записване). Като следваща стъпка го свързваме с CRM / календар.
+            <div className="mx-auto mt-10 max-w-4xl text-center">
+              <button
+                onClick={() => {
+                  scrollToHero();
+                  setHeroStep("website");
+                }}
+                className="rounded-xl bg-gradient-to-r from-sky-400 to-emerald-300 px-6 py-3 text-sm font-bold text-black"
+              >
+                Кандидатствай →
+              </button>
             </div>
           </div>
         </section>
