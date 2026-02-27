@@ -3,6 +3,24 @@
 import { Suspense, useMemo, useState } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 
+function pad2(n: number) {
+  return n < 10 ? `0${n}` : `${n}`;
+}
+
+function formatSlot(d: Date) {
+  const day = pad2(d.getDate());
+  const month = pad2(d.getMonth() + 1);
+  const hh = pad2(d.getHours());
+  const mm = pad2(d.getMinutes());
+  return `${day}.${month} • ${hh}:${mm}`;
+}
+
+function addDays(d: Date, n: number) {
+  const x = new Date(d);
+  x.setDate(x.getDate() + n);
+  return x;
+}
+
 type ChatMsg = {
   role: "agent" | "user";
   text: string;
@@ -41,6 +59,35 @@ function ChatInner() {
   const [answers, setAnswers] = useState<Array<{ q: string; a: string }>>([]);
   const [done, setDone] = useState(false);
 
+  const isScheduleStep = idx === 5; // Q6
+
+  const scheduleSlots = useMemo(() => {
+    // Next 3 days are blocked (busy)
+    const now = new Date();
+    const minDate = addDays(new Date(now.getFullYear(), now.getMonth(), now.getDate()), 3);
+
+    // Allowed days: Tue/Wed/Thu
+    const allowed = new Set([2, 3, 4]);
+
+    // Generate up to next 3 eligible days
+    const days: Date[] = [];
+    for (let i = 0; i < 30 && days.length < 3; i++) {
+      const d = addDays(minDate, i);
+      if (allowed.has(d.getDay())) days.push(d);
+    }
+
+    // Slots between 12:00 and 16:00 (end exclusive) every 30 minutes
+    const slots: Date[] = [];
+    for (const day of days) {
+      for (let h = 12; h < 16; h++) {
+        slots.push(new Date(day.getFullYear(), day.getMonth(), day.getDate(), h, 0));
+        slots.push(new Date(day.getFullYear(), day.getMonth(), day.getDate(), h, 30));
+      }
+    }
+
+    return slots;
+  }, []);
+
   const [msgs, setMsgs] = useState<ChatMsg[]>(() => {
     const intro: ChatMsg[] = [];
 
@@ -69,11 +116,7 @@ function ChatInner() {
     setMsgs((m) => [...m, { role: "user", text }]);
   }
 
-  function submitAnswer(e: React.FormEvent) {
-    e.preventDefault();
-    const v = input.trim();
-    if (!v) return;
-
+  function acceptAnswer(v: string) {
     const q = questions[idx];
     pushUser(v);
     setAnswers((prev) => [...prev, { q, a: v }]);
@@ -91,6 +134,13 @@ function ChatInner() {
 
     setIdx(next);
     pushAgent(`Въпрос ${next + 1}/${questions.length}: ${questions[next]}`);
+  }
+
+  function submitAnswer(e: React.FormEvent) {
+    e.preventDefault();
+    const v = input.trim();
+    if (!v) return;
+    acceptAnswer(v);
   }
 
   function finalize() {
@@ -164,25 +214,48 @@ function ChatInner() {
               ))}
             </div>
 
-            <form
-              onSubmit={submitAnswer}
-              className="mt-5 flex flex-col gap-3 md:flex-row md:items-center"
-            >
-              <input
-                value={input}
-                onChange={(e) => setInput(e.target.value)}
-                className="flex-1 rounded-xl border border-white/10 bg-black/30 px-4 py-3 text-sm text-white placeholder:text-white/25"
-                placeholder={done ? "Готово" : "Напиши отговор…"}
-                disabled={done}
-              />
-              <button
-                type="submit"
-                disabled={done}
-                className="rounded-xl bg-gradient-to-r from-sky-400 to-emerald-300 px-6 py-3 text-sm font-bold text-black disabled:opacity-40"
+            {isScheduleStep && !done ? (
+              <div className="mt-5">
+                <div className="text-xs font-semibold uppercase tracking-widest text-white/55">
+                  Избери час (вторник/сряда/четвъртък, 12:00–16:00)
+                </div>
+                <div className="mt-3 grid grid-cols-2 gap-2 md:grid-cols-4">
+                  {scheduleSlots.map((s) => (
+                    <button
+                      key={s.toISOString()}
+                      type="button"
+                      onClick={() => acceptAnswer(formatSlot(s))}
+                      className="rounded-xl border border-white/10 bg-black/20 px-3 py-2 text-xs font-semibold text-white/85 hover:bg-white/10"
+                    >
+                      {formatSlot(s)}
+                    </button>
+                  ))}
+                </div>
+                <div className="mt-3 text-xs text-white/35">
+                  Следващите 3 дни са заети. Показваме първите свободни слотове във вторник/сряда/четвъртък.
+                </div>
+              </div>
+            ) : (
+              <form
+                onSubmit={submitAnswer}
+                className="mt-5 flex flex-col gap-3 md:flex-row md:items-center"
               >
-                Изпрати
-              </button>
-            </form>
+                <input
+                  value={input}
+                  onChange={(e) => setInput(e.target.value)}
+                  className="flex-1 rounded-xl border border-white/10 bg-black/30 px-4 py-3 text-sm text-white placeholder:text-white/25"
+                  placeholder={done ? "Готово" : "Напиши отговор…"}
+                  disabled={done}
+                />
+                <button
+                  type="submit"
+                  disabled={done}
+                  className="rounded-xl bg-gradient-to-r from-sky-400 to-emerald-300 px-6 py-3 text-sm font-bold text-black disabled:opacity-40"
+                >
+                  Изпрати
+                </button>
+              </form>
+            )}
 
             {done ? (
               <div className="mt-4 flex items-center justify-between gap-3">
