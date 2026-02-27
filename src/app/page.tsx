@@ -145,10 +145,20 @@ export default function HomePage() {
   function validateProfessionalEmail(email: string) {
     const v = (email || "").trim().toLowerCase();
     if (!v) return "Въведи фирмен имейл.";
-    if (!v.includes("@") || v.split("@").length !== 2) return "Имейлът не изглежда валиден.";
+
+    // Strict format requested: word@domain.com
+    // - local part: only letters/numbers (no dots, plus, underscores)
+    // - domain: single label + TLD (domain.com), no subdomains
+    const strict = /^[a-z0-9]+@[a-z0-9-]+\.[a-z]{2,}$/i;
+    if (!strict.test(v)) {
+      return "Използвай формат: word@domain.com (без точки/плюсове и без поддомейни).";
+    }
+
     const domain = v.split("@")[1];
-    if (!domain || !domain.includes(".")) return "Използвай фирмен домейн (пример: office@company.com).";
-    if (disallowedEmailDomains.has(domain)) return "Приемаме само фирмени имейли (не Gmail/Outlook/Abv и т.н.).";
+    if (disallowedEmailDomains.has(domain)) {
+      return "Приемаме само фирмени имейли (не Gmail/Outlook/Abv и т.н.).";
+    }
+
     return "";
   }
 
