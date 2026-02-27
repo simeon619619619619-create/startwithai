@@ -217,7 +217,7 @@ function ChatInner() {
             {isScheduleStep && !done ? (
               <div className="mt-5">
                 <div className="text-xs font-semibold uppercase tracking-widest text-white/55">
-                  Избери час (вторник/сряда/четвъртък, 12:00–16:00)
+                  Свободни часове (вторник/сряда/четвъртък, 12:00–16:00)
                 </div>
                 <div className="mt-3 grid grid-cols-2 gap-2 md:grid-cols-4">
                   {scheduleSlots.map((s) => (
