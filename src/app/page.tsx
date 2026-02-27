@@ -230,8 +230,19 @@ export default function HomePage() {
                       onChange={(e) => {
                         setHeroEmail(e.target.value);
                         setHeroEmailError("");
+                        e.currentTarget.setCustomValidity("");
                       }}
-                      type="email"
+                      onInvalid={(e) => {
+                        e.currentTarget.setCustomValidity(
+                          "Използвай формат: word@domain.com (само латински букви/цифри; без точки/плюсове; без поддомейни)."
+                        );
+                      }}
+                      type="text"
+                      inputMode="email"
+                      autoComplete="email"
+                      autoCapitalize="none"
+                      spellCheck={false}
+                      pattern="[A-Za-z0-9]+@[A-Za-z0-9-]+\\.[A-Za-z]{2,}"
                       className="w-full bg-transparent text-sm text-white placeholder:text-white/30 focus:outline-none"
                       placeholder="Въведи фирмен имейл (пример: office@company.com)"
                       required
