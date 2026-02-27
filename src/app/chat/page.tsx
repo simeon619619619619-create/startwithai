@@ -15,6 +15,20 @@ function formatSlot(d: Date) {
   return `${day}.${month} • ${hh}:${mm}`;
 }
 
+function formatDay(d: Date) {
+  const day = pad2(d.getDate());
+  const month = pad2(d.getMonth() + 1);
+  return `${day}.${month}`;
+}
+
+function sameDay(a: Date, b: Date) {
+  return (
+    a.getFullYear() === b.getFullYear() &&
+    a.getMonth() === b.getMonth() &&
+    a.getDate() === b.getDate()
+  );
+}
+
 function addDays(d: Date, n: number) {
   const x = new Date(d);
   x.setDate(x.getDate() + n);
@@ -61,32 +75,88 @@ function ChatInner() {
 
   const isScheduleStep = idx === 5; // Q6
 
-  const scheduleSlots = useMemo(() => {
+  const scheduleWindow = useMemo(() => {
     // Next 3 days are blocked (busy)
     const now = new Date();
-    const minDate = addDays(new Date(now.getFullYear(), now.getMonth(), now.getDate()), 3);
+    const blockedUntil = addDays(
+      new Date(now.getFullYear(), now.getMonth(), now.getDate()),
+      3
+    );
 
-    // Allowed days: Tue/Wed/Thu
-    const allowed = new Set([2, 3, 4]);
+    const allowed = new Set([2, 3, 4]); // Tue/Wed/Thu
 
-    // Generate up to next 3 eligible days
+    const start = blockedUntil;
     const days: Date[] = [];
-    for (let i = 0; i < 30 && days.length < 3; i++) {
-      const d = addDays(minDate, i);
+    for (let i = 0; i < 45; i++) {
+      const d = addDays(start, i);
       if (allowed.has(d.getDay())) days.push(d);
+      if (days.length >= 18) break; // enough for calendar
     }
 
-    // Slots between 12:00 and 16:00 (end exclusive) every 30 minutes
-    const slots: Date[] = [];
-    for (const day of days) {
-      for (let h = 12; h < 16; h++) {
-        slots.push(new Date(day.getFullYear(), day.getMonth(), day.getDate(), h, 0));
-        slots.push(new Date(day.getFullYear(), day.getMonth(), day.getDate(), h, 30));
+    const end = days.length ? days[days.length - 1] : addDays(start, 14);
+    return { start, end, allowed };
+  }, []);
+
+  const scheduleDays = useMemo(() => {
+    const days: Date[] = [];
+    const total = 42; // 6 weeks grid
+    const start = new Date(
+      scheduleWindow.start.getFullYear(),
+      scheduleWindow.start.getMonth(),
+      scheduleWindow.start.getDate()
+    );
+
+    // align to Monday
+    const dow = start.getDay(); // 0 Sun
+    const delta = (dow + 6) % 7; // Mon=0
+    const gridStart = addDays(start, -delta);
+
+    for (let i = 0; i < total; i++) days.push(addDays(gridStart, i));
+    return days;
+  }, [scheduleWindow.start]);
+
+  const allowedDaysSet = useMemo(() => {
+    // Allowed days must be Tue/Wed/Thu and not within blocked 3 days
+    const set = new Set<string>();
+    for (const d of scheduleDays) {
+      const key = d.toISOString().slice(0, 10);
+      if (
+        d >= scheduleWindow.start &&
+        scheduleWindow.allowed.has(d.getDay())
+      ) {
+        set.add(key);
       }
     }
+    return set;
+  }, [scheduleDays, scheduleWindow]);
 
+  const [selectedDay, setSelectedDay] = useState<Date | null>(null);
+
+  const timeSlotsForSelectedDay = useMemo(() => {
+    if (!selectedDay) return [] as Date[];
+    const slots: Date[] = [];
+    for (let h = 12; h < 16; h++) {
+      slots.push(
+        new Date(
+          selectedDay.getFullYear(),
+          selectedDay.getMonth(),
+          selectedDay.getDate(),
+          h,
+          0
+        )
+      );
+      slots.push(
+        new Date(
+          selectedDay.getFullYear(),
+          selectedDay.getMonth(),
+          selectedDay.getDate(),
+          h,
+          30
+        )
+      );
+    }
     return slots;
-  }, []);
+  }, [selectedDay]);
 
   const [msgs, setMsgs] = useState<ChatMsg[]>(() => {
     const intro: ChatMsg[] = [];
@@ -219,21 +289,71 @@ function ChatInner() {
                 <div className="text-xs font-semibold uppercase tracking-widest text-white/55">
                   Свободни часове (вторник/сряда/четвъртък, 12:00–16:00)
                 </div>
-                <div className="mt-3 grid grid-cols-2 gap-2 md:grid-cols-4">
-                  {scheduleSlots.map((s) => (
-                    <button
-                      key={s.toISOString()}
-                      type="button"
-                      onClick={() => acceptAnswer(formatSlot(s))}
-                      className="rounded-xl border border-white/10 bg-black/20 px-3 py-2 text-xs font-semibold text-white/85 hover:bg-white/10"
-                    >
-                      {formatSlot(s)}
-                    </button>
-                  ))}
+
+                {/* Calendar grid */}
+                <div className="mt-3 rounded-2xl border border-white/10 bg-black/20 p-4">
+                  <div className="grid grid-cols-7 gap-2 text-center text-[10px] font-semibold uppercase tracking-widest text-white/35">
+                    <div>Mon</div><div>Tue</div><div>Wed</div><div>Thu</div><div>Fri</div><div>Sat</div><div>Sun</div>
+                  </div>
+
+                  <div className="mt-3 grid grid-cols-7 gap-2">
+                    {scheduleDays.map((d) => {
+                      const key = d.toISOString().slice(0, 10);
+                      const enabled = allowedDaysSet.has(key);
+                      const isSelected = selectedDay ? sameDay(d, selectedDay) : false;
+                      const faded = d.getMonth() !== scheduleWindow.start.getMonth();
+
+                      return (
+                        <button
+                          key={key}
+                          type="button"
+                          disabled={!enabled}
+                          onClick={() => setSelectedDay(d)}
+                          className={
+                            "h-9 rounded-xl border text-xs font-semibold transition-colors " +
+                            (enabled
+                              ? "border-white/10 bg-white/5 text-white/85 hover:bg-white/10"
+                              : "border-white/5 bg-black/10 text-white/20") +
+                            (isSelected ? " ring-2 ring-sky-400/50" : "") +
+                            (faded ? " opacity-50" : "")
+                          }
+                          title={enabled ? `Свободно: ${formatDay(d)}` : `Заето/неактивно: ${formatDay(d)}`}
+                        >
+                          {d.getDate()}
+                        </button>
+                      );
+                    })}
+                  </div>
+
+                  <div className="mt-3 text-xs text-white/35">
+                    Следващите 3 дни са заети. Активни са само вторник/сряда/четвъртък.
+                  </div>
                 </div>
-                <div className="mt-3 text-xs text-white/35">
-                  Следващите 3 дни са заети. Показваме първите свободни слотове във вторник/сряда/четвъртък.
-                </div>
+
+                {/* Time picker */}
+                {selectedDay ? (
+                  <div className="mt-4">
+                    <div className="text-xs font-semibold uppercase tracking-widest text-white/55">
+                      Избери точен час за {formatDay(selectedDay)}
+                    </div>
+                    <div className="mt-3 grid grid-cols-2 gap-2 md:grid-cols-4">
+                      {timeSlotsForSelectedDay.map((s) => (
+                        <button
+                          key={s.toISOString()}
+                          type="button"
+                          onClick={() => acceptAnswer(formatSlot(s))}
+                          className="rounded-xl border border-white/10 bg-black/20 px-3 py-2 text-xs font-semibold text-white/85 hover:bg-white/10"
+                        >
+                          {pad2(s.getHours())}:{pad2(s.getMinutes())}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                ) : (
+                  <div className="mt-4 text-xs text-white/35">
+                    Първо избери ден от календара.
+                  </div>
+                )}
               </div>
             ) : (
               <form
