@@ -206,10 +206,46 @@ function ChatInner() {
     pushAgent(`Въпрос ${next + 1}/${questions.length}: ${questions[next]}`);
   }
 
-  function submitAnswer(e: React.FormEvent) {
+  async function validateWithAI(question: string, answer: string) {
+    const r = await fetch("/api/chat", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ question, answer, website, email }),
+    });
+    const j = await r.json().catch(() => null);
+    if (!r.ok || !j?.ok) {
+      return {
+        valid: true,
+        followup: "",
+        reason:
+          j?.message ||
+          "(AI проверката временно не е налична. Продължаваме.)",
+      };
+    }
+    return { valid: !!j.valid, followup: j.followup || "", reason: j.reason || "" };
+  }
+
+  async function submitAnswer(e: React.FormEvent) {
     e.preventDefault();
     const v = input.trim();
     if (!v) return;
+
+    // calendar step is handled by buttons, not the text form
+    if (isScheduleStep) {
+      acceptAnswer(v);
+      return;
+    }
+
+    const q = questions[idx];
+    const verdict = await validateWithAI(q, v);
+
+    if (!verdict.valid && verdict.followup) {
+      pushUser(v);
+      setInput("");
+      pushAgent(verdict.followup);
+      return;
+    }
+
     acceptAnswer(v);
   }
 
