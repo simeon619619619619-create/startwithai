@@ -85,6 +85,7 @@ function ChatInner() {
   const [answers, setAnswers] = useState<Array<{ q: string; a: string }>>([]);
   const [done, setDone] = useState(false);
   const [clarifyQ, setClarifyQ] = useState<string | null>(null);
+  const [clarifyAttempts, setClarifyAttempts] = useState<Record<number, number>>({});
   const [busy, setBusy] = useState(false);
 
   const isScheduleStep = idx === 5; // Q6
@@ -228,6 +229,7 @@ function ChatInner() {
     }
 
     setIdx(next);
+    setClarifyAttempts((m) => ({ ...m, [next]: 0 }));
     pushAgent(questionMsg(next));
     // show tip except for the calendar step (it already has UI)
     if (next !== 5) pushAgent(tipMsg(next));
@@ -298,7 +300,16 @@ function ChatInner() {
       const verdict = await validateWithAI(q, v);
 
       if (!verdict.valid && verdict.followup) {
-        // If they don't know, allow skipping on next attempt.
+        const attempts = (clarifyAttempts[idx] ?? 0) + 1;
+        setClarifyAttempts((m) => ({ ...m, [idx]: attempts }));
+
+        // If we already asked once and still not getting a good answer — record what we have and move on.
+        if (attempts >= 2) {
+          acceptAnswer(v || "(неясно)");
+          return;
+        }
+
+        // Ask clarification
         pushUser(v);
         setInput("");
         setClarifyQ(verdict.followup);
