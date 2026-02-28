@@ -22,7 +22,7 @@ export default function ThanksPage() {
           </p>
 
           <div className="mt-5 rounded-xl border border-[color:var(--stroke)] bg-white p-4 text-sm text-[color:var(--muted)]">
-            Ако има нещо спешно, отговорете на имейла, който сте оставили.
+            За повече информация се свържете с нас през (контакти).
           </div>
 
           <Link
