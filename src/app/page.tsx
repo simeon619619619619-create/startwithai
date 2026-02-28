@@ -339,7 +339,7 @@ export default function HomePage() {
         </div>
 
         {/* 90 days */}
-        <section id="process" className="mt-20 border-y border-[color:var(--stroke)] bg-white/50">
+        <section id="process" className="mt-20 bg-white/50">
           <div className="mx-auto max-w-6xl px-5 py-16">
             <SectionTitle
               title="90-дневна система: обучение + внедряване + измерим резултат"
