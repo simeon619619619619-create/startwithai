@@ -349,15 +349,15 @@ function ChatInner() {
 
   return (
     <div className="min-h-screen bg-[color:var(--bg)] pt-24">
-      <header className="fixed inset-x-0 top-0 z-50 border-b border-white/10 bg-black/30 backdrop-blur">
+      <header className="fixed inset-x-0 top-0 z-50 border-b border-[color:var(--stroke)] bg-white/70 backdrop-blur">
         <div className="mx-auto flex max-w-5xl items-center justify-between gap-4 px-5 py-4">
           <div className="flex items-center gap-3">
             <div className="h-8 w-8 rounded-xl bg-gradient-to-br from-sky-400/80 via-emerald-300/60 to-sky-400/30 ring-1 ring-white/15" />
-            <div className="font-semibold tracking-tight text-white">startwithai</div>
+            <div className="font-semibold tracking-tight text-[color:var(--text)]">startwithai</div>
           </div>
           <button
             onClick={() => router.push("/")}
-            className="text-xs font-semibold uppercase tracking-widest text-white/60 hover:text-white"
+            className="text-xs font-semibold uppercase tracking-widest text-[color:var(--muted)] hover:text-[color:var(--text)]"
           >
             ← Назад
           </button>
@@ -366,14 +366,14 @@ function ChatInner() {
 
       <main className="mx-auto w-full max-w-5xl px-5 pb-14">
         <div className="mx-auto max-w-3xl">
-          <h1 className="text-balance text-center text-2xl font-semibold tracking-tight text-white md:text-3xl">
+          <h1 className="text-balance text-center text-2xl font-semibold tracking-tight text-[color:var(--text)] md:text-3xl">
             Чат за бърза проверка
           </h1>
-          <p className="mt-3 text-center text-sm leading-6 text-white/55">
+          <p className="mt-3 text-center text-sm leading-6 text-[color:var(--muted)]">
             Отговори кратко. След 6 въпроса записваме заявката.
           </p>
 
-          <div className="mt-8 rounded-2xl border border-white/10 bg-white/5 p-5">
+          <div className="mt-8 rounded-2xl border border-[color:var(--stroke)] bg-white/80 p-5 shadow-sm">
             <div className="space-y-3">
               {msgs.map((m, i) => (
                 <div
@@ -387,7 +387,7 @@ function ChatInner() {
                   <div
                     className={
                       m.role === "agent"
-                        ? "max-w-[90%] rounded-2xl border border-white/10 bg-black/20 px-4 py-3 text-sm text-white/90"
+                        ? "max-w-[90%] rounded-2xl border border-[color:var(--stroke)] bg-white px-4 py-3 text-sm text-[color:var(--text)] shadow-sm"
                         : "max-w-[90%] rounded-2xl bg-gradient-to-r from-sky-400 to-emerald-300 px-4 py-3 text-sm font-semibold text-black"
                     }
                   >
@@ -399,13 +399,13 @@ function ChatInner() {
 
             {isScheduleStep && !done ? (
               <div className="mt-5">
-                <div className="text-xs font-semibold uppercase tracking-widest text-white/55">
+                <div className="text-xs font-semibold uppercase tracking-widest text-[color:var(--muted)]">
                   Свободни часове (вторник/сряда/четвъртък, 12:00–16:00)
                 </div>
 
                 {/* Calendar grid */}
-                <div className="mt-3 rounded-2xl border border-white/10 bg-black/20 p-4">
-                  <div className="grid grid-cols-7 gap-2 text-center text-[10px] font-semibold uppercase tracking-widest text-white/35">
+                <div className="mt-3 rounded-2xl border border-[color:var(--stroke)] bg-white p-4 shadow-sm">
+                  <div className="grid grid-cols-7 gap-2 text-center text-[10px] font-semibold uppercase tracking-widest text-[color:var(--muted-2)]">
                     <div>Mon</div><div>Tue</div><div>Wed</div><div>Thu</div><div>Fri</div><div>Sat</div><div>Sun</div>
                   </div>
 
@@ -425,8 +425,8 @@ function ChatInner() {
                           className={
                             "h-9 rounded-xl border text-xs font-semibold transition-colors " +
                             (enabled
-                              ? "border-white/10 bg-white/5 text-white/85 hover:bg-white/10"
-                              : "border-white/5 bg-black/10 text-white/20") +
+                              ? "border-[color:var(--stroke)] bg-white text-[color:var(--text)] hover:bg-slate-50"
+                              : "border-[color:var(--stroke)] bg-white/50 text-[color:var(--muted-2)]") +
                             (isSelected ? " ring-2 ring-sky-400/50" : "") +
                             (faded ? " opacity-50" : "")
                           }
@@ -438,7 +438,7 @@ function ChatInner() {
                     })}
                   </div>
 
-                  <div className="mt-3 text-xs text-white/35">
+                  <div className="mt-3 text-xs text-[color:var(--muted)]">
                     Следващите 3 дни са заети. Активни са само вторник/сряда/четвъртък.
                   </div>
                 </div>
@@ -446,7 +446,7 @@ function ChatInner() {
                 {/* Time picker */}
                 {selectedDay ? (
                   <div className="mt-4">
-                    <div className="text-xs font-semibold uppercase tracking-widest text-white/55">
+                    <div className="text-xs font-semibold uppercase tracking-widest text-[color:var(--muted)]">
                       Избери точен час за {formatDay(selectedDay)}
                     </div>
                     <div className="mt-3 grid grid-cols-2 gap-2 md:grid-cols-4">
@@ -455,7 +455,7 @@ function ChatInner() {
                           key={s.toISOString()}
                           type="button"
                           onClick={() => acceptAnswer(formatSlot(s))}
-                          className="rounded-xl border border-white/10 bg-black/20 px-3 py-2 text-xs font-semibold text-white/85 hover:bg-white/10"
+                          className="rounded-xl border border-[color:var(--stroke)] bg-white px-3 py-2 text-xs font-semibold text-[color:var(--text)] shadow-sm hover:bg-slate-50"
                         >
                           {pad2(s.getHours())}:{pad2(s.getMinutes())}
                         </button>
@@ -463,7 +463,7 @@ function ChatInner() {
                     </div>
                   </div>
                 ) : (
-                  <div className="mt-4 text-xs text-white/35">
+                  <div className="mt-4 text-xs text-[color:var(--muted)]">
                     Първо избери ден от календара.
                   </div>
                 )}
@@ -476,7 +476,7 @@ function ChatInner() {
                 <input
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
-                  className="flex-1 rounded-xl border border-white/10 bg-black/30 px-4 py-3 text-sm text-white placeholder:text-white/25"
+                  className="flex-1 rounded-xl border border-[color:var(--stroke)] bg-white px-4 py-3 text-sm text-[color:var(--text)] placeholder:text-[color:var(--muted)] shadow-sm"
                   placeholder={done ? "Готово" : busy ? "Проверявам отговора…" : "Напиши отговор…"}
                   disabled={done || busy}
                 />
@@ -492,12 +492,12 @@ function ChatInner() {
 
             {done ? (
               <div className="mt-4 flex items-center justify-between gap-3">
-                <div className="text-xs text-white/40">
+                <div className="text-xs text-[color:var(--muted)]">
                   {answers.length}/{questions.length} отговора
                 </div>
                 <button
                   onClick={finalize}
-                  className="rounded-xl bg-white/10 px-4 py-2 text-xs font-bold uppercase tracking-widest text-white hover:bg-white/15"
+                  className="rounded-xl bg-[color:var(--accent)] px-4 py-2 text-xs font-bold uppercase tracking-widest text-white shadow-[0_10px_30px_rgba(37,99,235,0.18)] hover:bg-[color:var(--accent-2)]"
                 >
                   Финализирай →
                 </button>
