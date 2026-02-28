@@ -434,9 +434,9 @@ function ChatInner() {
       // ignore
     }
 
-    pushAgent("Готово. Получихме отговорите ти. Ще се свържем с теб.");
+    pushAgent("Готово. Получихме отговорите Ви. Очаквайте скоро да се свържем с Вас.");
     setDone(false);
-    setTimeout(() => router.push("/"), 1200);
+    setTimeout(() => router.push("/thanks"), 600);
   }
 
   return (
