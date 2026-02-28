@@ -14,7 +14,7 @@ const KEY = "startwithai_leads";
 function SectionTitle({ title, subtitle }: { title: string; subtitle?: string }) {
   return (
     <div className="mx-auto max-w-3xl text-center">
-      <h2 className="text-balance text-2xl font-semibold tracking-tight text-white md:text-3xl">
+      <h2 className="text-balance text-2xl font-semibold tracking-tight text-[color:var(--text)] md:text-3xl">
         {title}
       </h2>
       {subtitle ? (
@@ -278,7 +278,7 @@ export default function HomePage() {
 
           {/* What you receive */}
           <section id="what" className="mx-auto mt-16 max-w-5xl">
-            <div className="text-center text-xs font-semibold uppercase tracking-[0.5em] text-white/30">
+            <div className="text-center text-xs font-semibold uppercase tracking-[0.5em] text-[color:var(--muted-2)]">
               Какво получаваш
             </div>
             <div className="mt-6 grid grid-cols-1 gap-4 md:grid-cols-2">
@@ -303,7 +303,7 @@ export default function HomePage() {
         </div>
 
         {/* 90 days */}
-        <section id="process" className="mt-20 border-y border-white/10 bg-white/[0.03]">
+        <section id="process" className="mt-20 border-y border-[color:var(--stroke)] bg-white/50">
           <div className="mx-auto max-w-6xl px-5 py-16">
             <SectionTitle
               title="90-дневна система: обучение + внедряване + измерим резултат"
@@ -329,15 +329,15 @@ export default function HomePage() {
                   d: "Отчет за спестени човекочасове + инструкции за поддръжка и разширяване.",
                 },
               ].map((x) => (
-                <div key={x.t} className="rounded-2xl border border-white/10 bg-black/20 p-6">
-                  <div className="text-sm font-semibold text-white">{x.t}</div>
+                <div key={x.t} className="rounded-2xl border border-[color:var(--stroke)] bg-white/80 p-6 shadow-sm">
+                  <div className="text-sm font-semibold text-[color:var(--text)]">{x.t}</div>
                   <div className="mt-2 text-sm leading-6 text-[color:var(--muted)]">{x.d}</div>
                 </div>
               ))}
             </div>
 
-            <div className="mx-auto mt-10 max-w-5xl rounded-2xl border border-white/10 bg-gradient-to-r from-sky-400/10 to-emerald-300/10 p-6">
-              <div className="text-sm font-semibold text-white">Гаранция „Измерим капацитет“</div>
+            <div className="mx-auto mt-10 max-w-5xl rounded-2xl border border-[color:var(--stroke)] bg-white/80 p-6 shadow-sm">
+              <div className="text-sm font-semibold text-[color:var(--text)]">Гаранция „Измерим капацитет“</div>
               <div className="mt-2 text-sm leading-6 text-[color:var(--muted)]">
                 Ако до 90-ия ден не: имате минимум 10 сертифицирани служители, внедрите поне 2 работещи автоматизации и получите отчет за реално спестени часове —
                 провеждаме допълнителен 30-дневен цикъл безплатно.
@@ -363,16 +363,16 @@ export default function HomePage() {
             ].map(([k, v]) => (
               <div
                 key={k}
-                className="flex items-center justify-between rounded-2xl border border-white/10 bg-white/5 px-5 py-4"
+                className="flex items-center justify-between rounded-2xl border border-[color:var(--stroke)] bg-white/80 px-5 py-4 shadow-sm"
               >
-                <div className="text-sm text-white/80">{k}</div>
-                <div className="text-sm font-semibold text-white">{v}</div>
+                <div className="text-sm text-[color:var(--muted)]">{k}</div>
+                <div className="text-sm font-semibold text-[color:var(--text)]">{v}</div>
               </div>
             ))}
           </div>
 
-          <div className="mx-auto mt-6 max-w-5xl rounded-2xl border border-white/10 bg-black/20 p-6">
-            <div className="text-sm font-semibold text-white">Реална цена за клиента</div>
+          <div className="mx-auto mt-6 max-w-5xl rounded-2xl border border-[color:var(--stroke)] bg-white/80 p-6 shadow-sm">
+            <div className="text-sm font-semibold text-[color:var(--text)]">Реална цена за клиента</div>
             <div className="mt-2 text-sm leading-6 text-[color:var(--muted)]">
               0 лв разход за фирмата за обучението и сертификацията (при одобрение) + 1000 лв тимбилдинг бонус при 10 сертифицирани служители.
               Всичко се уточнява предварително и е описано в договор (без скрити такси).
@@ -381,7 +381,7 @@ export default function HomePage() {
         </section>
 
         {/* FAQ */}
-        <section id="faq" className="border-t border-white/10 bg-white/[0.03]">
+        <section id="faq" className="border-t border-[color:var(--stroke)] bg-white/50">
           <div className="mx-auto max-w-6xl px-5 py-16">
             <SectionTitle
               title="Често задавани въпроси"
@@ -392,12 +392,12 @@ export default function HomePage() {
               {faqs.map((f) => (
                 <details
                   key={f.q}
-                  className="group rounded-2xl border border-white/10 bg-black/20 p-5"
+                  className="group rounded-2xl border border-[color:var(--stroke)] bg-white/80 p-5 shadow-sm"
                 >
-                  <summary className="cursor-pointer list-none text-sm font-semibold text-white">
+                  <summary className="cursor-pointer list-none text-sm font-semibold text-[color:var(--text)]">
                     <div className="flex items-center justify-between gap-4">
                       <span>{f.q}</span>
-                      <span className="text-white/35 transition-transform group-open:rotate-45">
+                      <span className="text-[color:var(--muted)] transition-transform group-open:rotate-45">
                         +
                       </span>
                     </div>
@@ -423,8 +423,8 @@ export default function HomePage() {
           </div>
         </section>
 
-        <footer className="border-t border-white/10 py-10">
-          <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-3 px-5 text-xs text-white/35 md:flex-row">
+        <footer className="border-t border-[color:var(--stroke)] py-10">
+          <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-3 px-5 text-xs text-[color:var(--muted)] md:flex-row">
             <div>© {new Date().getFullYear()} startwithai</div>
             <div className="uppercase tracking-[0.4em]">AI внедряване за МСП</div>
           </div>

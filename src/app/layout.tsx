@@ -1,11 +1,5 @@
 import type { Metadata } from "next";
-import { Geist } from "next/font/google";
 import "./globals.css";
-
-const geist = Geist({
-  variable: "--font-geist",
-  subsets: ["latin"],
-});
 
 export const metadata: Metadata = {
   title: "startwithai — кандидатствай за безплатно обучение и сертификати (признати в цяла Европа)",
@@ -21,7 +15,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="bg">
-      <body className={`${geist.variable} antialiased`}>{children}</body>
+      <body className="antialiased">{children}</body>
     </html>
   );
 }
