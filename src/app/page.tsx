@@ -217,6 +217,7 @@ export default function HomePage() {
             <a className="hover:text-[color:var(--text)]" href="#what">Какво получаваш</a>
             <a className="hover:text-[color:var(--text)]" href="#process">90 дни</a>
             <a className="hover:text-[color:var(--text)]" href="#faq">FAQ</a>
+            <a className="hover:text-[color:var(--text)]" href="#about">За нас</a>
           </div>
           <button
             onClick={() => {
@@ -470,6 +471,37 @@ export default function HomePage() {
               >
                 Кандидатствай →
               </button>
+            </div>
+          </div>
+        </section>
+
+        {/* About */}
+        <section id="about" className="border-t border-[color:var(--stroke)] bg-white/50">
+          <div className="mx-auto max-w-6xl px-5 py-16">
+            <SectionTitle
+              title="За нас"
+              subtitle="Екип от консултанти и внедрители, фокусирани върху практични AI решения за реални процеси."
+            />
+
+            <div className="mx-auto mt-10 grid max-w-5xl grid-cols-1 gap-4 md:grid-cols-3">
+              <div className="rounded-2xl border border-[color:var(--stroke)] bg-white/80 p-6 shadow-sm">
+                <div className="text-sm font-semibold text-[color:var(--text)]">Практика, не теория</div>
+                <div className="mt-2 text-sm leading-6 text-[color:var(--muted)]">
+                  Работим по конкретни процеси и измерваме резултата в време, капацитет и качество.
+                </div>
+              </div>
+              <div className="rounded-2xl border border-[color:var(--stroke)] bg-white/80 p-6 shadow-sm">
+                <div className="text-sm font-semibold text-[color:var(--text)]">Прозрачен модел</div>
+                <div className="mt-2 text-sm leading-6 text-[color:var(--muted)]">
+                  Всичко се уточнява предварително и се описва писмено — без скрити условия.
+                </div>
+              </div>
+              <div className="rounded-2xl border border-[color:var(--stroke)] bg-white/80 p-6 shadow-sm">
+                <div className="text-sm font-semibold text-[color:var(--text)]">GDPR ориентирано</div>
+                <div className="mt-2 text-sm leading-6 text-[color:var(--muted)]">
+                  Подхождаме внимателно към данните и достъпите при внедряване в реална среда.
+                </div>
+              </div>
             </div>
           </div>
         </section>
