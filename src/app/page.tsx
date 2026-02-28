@@ -346,40 +346,6 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* Value */}
-        <section className="mx-auto max-w-6xl px-5 py-16">
-          <SectionTitle
-            title="Стойност, която обичайно струва 25 000–35 000 лв"
-            subtitle="Пазарните алтернативи са консултанти, скъпи обучения и внедрявания без обучение. Тук влиза система с обучение + сертификация + внедряване и отчет."
-          />
-
-          <div className="mx-auto mt-10 grid max-w-5xl grid-cols-1 gap-4 md:grid-cols-2">
-            {[
-              ["AI консултация (10–20 души)", "8 000 – 15 000 лв"],
-              ["Дигитално обучение", "4 000 – 7 000 лв"],
-              ["Сертификационна подготовка", "~3 000 лв"],
-              ["Внедряване на автоматизации", "10 000+ лв"],
-              ["Вътрешен координатор", "2 000+ лв"],
-            ].map(([k, v]) => (
-              <div
-                key={k}
-                className="flex items-center justify-between rounded-2xl border border-[color:var(--stroke)] bg-white/80 px-5 py-4 shadow-sm"
-              >
-                <div className="text-sm text-[color:var(--muted)]">{k}</div>
-                <div className="text-sm font-semibold text-[color:var(--text)]">{v}</div>
-              </div>
-            ))}
-          </div>
-
-          <div className="mx-auto mt-6 max-w-5xl rounded-2xl border border-[color:var(--stroke)] bg-white/80 p-6 shadow-sm">
-            <div className="text-sm font-semibold text-[color:var(--text)]">Реална цена за клиента</div>
-            <div className="mt-2 text-sm leading-6 text-[color:var(--muted)]">
-              0 лв разход за фирмата за обучението и сертификацията (при одобрение) + 1000 лв тимбилдинг бонус при 10 сертифицирани служители.
-              Всичко се уточнява предварително и е описано в договор (без скрити такси).
-            </div>
-          </div>
-        </section>
-
         {/* FAQ */}
         <section id="faq" className="border-t border-[color:var(--stroke)] bg-white/50">
           <div className="mx-auto max-w-6xl px-5 py-16">
