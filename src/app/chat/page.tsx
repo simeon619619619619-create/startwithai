@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense, useMemo, useState } from "react";
+import { Suspense, useEffect, useMemo, useState } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 
 function pad2(n: number) {
@@ -88,7 +88,90 @@ function ChatInner() {
   const [clarifyAttempts, setClarifyAttempts] = useState<Record<number, number>>({});
   const [busy, setBusy] = useState(false);
 
+  const [sessionId, setSessionId] = useState<string>("");
+  const [leadId, setLeadId] = useState<string>("");
+
   const isScheduleStep = idx === 5; // Q6
+
+  async function syncLead(nextAnswers: Array<{ q: string; a: string }>, nextIdx: number, completed: boolean) {
+    if (!sessionId || !leadId) return;
+    try {
+      await fetch("/api/leads/update", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          id: leadId,
+          sessionId,
+          website,
+          email,
+          progress: nextIdx,
+          completed,
+          lastQuestion: questions[Math.min(nextIdx, questions.length - 1)] || null,
+          answers: nextAnswers.reduce((acc, x) => {
+            acc[x.q] = x.a;
+            return acc;
+          }, {} as Record<string, string>),
+        }),
+      });
+    } catch {
+      // ignore
+    }
+  }
+
+  useEffect(() => {
+    // Session + lead ids
+    try {
+      const sidKey = "swai_session_id";
+      const lidKey = "swai_lead_id";
+
+      let sid = localStorage.getItem(sidKey) || "";
+      if (!sid) {
+        sid = crypto.randomUUID();
+        localStorage.setItem(sidKey, sid);
+      }
+
+      let lid = localStorage.getItem(lidKey) || "";
+      if (!lid) {
+        lid = crypto.randomUUID();
+        localStorage.setItem(lidKey, lid);
+      }
+
+      setSessionId(sid);
+      setLeadId(lid);
+
+      // Track chat entry
+      fetch("/api/track/visit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          sessionId: sid,
+          path: "/chat",
+          website,
+          email,
+          referrer: document.referrer,
+          userAgent: navigator.userAgent,
+        }),
+      }).catch(() => null);
+
+      // Ensure lead exists immediately (even before first answer)
+      fetch("/api/leads/update", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          id: lid,
+          sessionId: sid,
+          website,
+          email,
+          progress: 0,
+          completed: false,
+          answers: {},
+        }),
+      }).catch(() => null);
+    } catch {
+      // ignore
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const scheduleWindow = useMemo(() => {
     // Next 3 days are blocked (busy)
@@ -213,12 +296,18 @@ function ChatInner() {
 
   function acceptAnswer(v: string) {
     const q = questions[idx];
+    const nextAnswers = [...answers, { q, a: v }];
+
     pushUser(v);
-    setAnswers((prev) => [...prev, { q, a: v }]);
+    setAnswers(nextAnswers);
     setInput("");
     setClarifyQ(null);
 
     const next = idx + 1;
+
+    // persist partial progress
+    syncLead(nextAnswers, Math.min(next, questions.length), false);
+
     if (next >= questions.length) {
       pushAgent("Супер. Това е достатъчно за старт.");
       pushAgent(
@@ -333,6 +422,9 @@ function ChatInner() {
       answers,
       submittedAt: new Date().toISOString(),
     };
+
+    // mark completed server-side
+    syncLead(answers, questions.length, true);
 
     try {
       const existing = JSON.parse(localStorage.getItem(KEY) || "[]") as ChatLead[];

@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 
 type Lead = {
@@ -55,6 +55,30 @@ export default function HomePage() {
   const [heroWebsite, setHeroWebsite] = useState("");
   const [heroEmail, setHeroEmail] = useState("");
   const [heroEmailError, setHeroEmailError] = useState<string>("");
+
+  useEffect(() => {
+    try {
+      const sidKey = "swai_session_id";
+      let sid = localStorage.getItem(sidKey) || "";
+      if (!sid) {
+        sid = crypto.randomUUID();
+        localStorage.setItem(sidKey, sid);
+      }
+
+      fetch("/api/track/visit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          sessionId: sid,
+          path: "/",
+          referrer: document.referrer,
+          userAgent: navigator.userAgent,
+        }),
+      }).catch(() => null);
+    } catch {
+      // ignore
+    }
+  }, []);
 
   const disallowedEmailDomains = useMemo(
     () =>
