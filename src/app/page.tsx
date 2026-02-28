@@ -192,6 +192,18 @@ export default function HomePage() {
     router.push(`/chat?${qp.toString()}`);
   }
 
+  function onInlineSurveySubmit(e: React.FormEvent) {
+    e.preventDefault();
+    const err = validateProfessionalEmail(heroEmail);
+    setHeroEmailError(err);
+    if (err) return;
+
+    const qp = new URLSearchParams();
+    if (heroWebsite) qp.set("website", heroWebsite);
+    qp.set("email", heroEmail.trim().toLowerCase());
+    router.push(`/chat?${qp.toString()}`);
+  }
+
   return (
     <div>
       {/* Topbar */}
@@ -366,6 +378,55 @@ export default function HomePage() {
                 Ако до 90-ия ден не: имате минимум 10 сертифицирани служители, внедрите поне 2 работещи автоматизации и получите отчет за реално спестени часове —
                 провеждаме допълнителен 30-дневен цикъл безплатно.
               </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Inline survey (above FAQ) */}
+        <section className="border-t border-[color:var(--stroke)] bg-white/50">
+          <div className="mx-auto max-w-6xl px-5 py-10">
+            <div className="mx-auto max-w-5xl rounded-2xl border border-[color:var(--stroke)] bg-white/80 p-4 shadow-sm">
+              <form
+                onSubmit={onInlineSurveySubmit}
+                className="flex flex-col gap-3 md:flex-row md:items-center"
+              >
+                <div className="flex flex-1 items-center gap-3 rounded-xl border border-[color:var(--stroke)] bg-white px-4 py-3">
+                  <span className="text-[color:var(--muted)]">🌐</span>
+                  <input
+                    value={heroWebsite}
+                    onChange={(e) => setHeroWebsite(e.target.value)}
+                    placeholder="Въведи сайта на фирмата (по желание)"
+                    className="w-full bg-transparent text-sm text-[color:var(--text)] placeholder:text-[color:var(--muted)] focus:outline-none"
+                  />
+                </div>
+
+                <div className="flex flex-1 items-center gap-3 rounded-xl border border-[color:var(--stroke)] bg-white px-4 py-3">
+                  <span className="text-[color:var(--muted)]">✉️</span>
+                  <input
+                    value={heroEmail}
+                    onChange={(e) => setHeroEmail(e.target.value)}
+                    onInvalid={(e) => {
+                      (e.target as HTMLInputElement).setCustomValidity(
+                        "Моля, въведете фирмен имейл във формат: word@domain.com"
+                      );
+                    }}
+                    onInput={(e) => (e.target as HTMLInputElement).setCustomValidity("")}
+                    placeholder="Фирмен имейл (напр. office@company.com)"
+                    className="w-full bg-transparent text-sm text-[color:var(--text)] placeholder:text-[color:var(--muted)] focus:outline-none"
+                  />
+                </div>
+
+                <button
+                  type="submit"
+                  className="rounded-xl bg-[color:var(--accent)] px-8 py-3 text-sm font-semibold text-white shadow-[0_10px_30px_rgba(37,99,235,0.18)] hover:bg-[color:var(--accent-2)]"
+                >
+                  Продължи →
+                </button>
+              </form>
+
+              {heroEmailError ? (
+                <div className="mt-3 text-left text-xs text-red-600">{heroEmailError}</div>
+              ) : null}
             </div>
           </div>
         </section>
