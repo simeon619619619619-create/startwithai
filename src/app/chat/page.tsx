@@ -514,7 +514,7 @@ export default function ChatPage() {
   return (
     <Suspense
       fallback={
-        <div className="min-h-screen bg-[color:var(--bg)] pt-24 text-center text-sm text-white/60">
+        <div className="min-h-screen bg-[color:var(--bg)] pt-24 text-center text-sm text-[color:var(--muted)]">
           Зареждане…
         </div>
       }

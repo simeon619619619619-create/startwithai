@@ -28,7 +28,7 @@ function SectionTitle({ title, subtitle }: { title: string; subtitle?: string })
 
 function Pill({ children }: { children: React.ReactNode }) {
   return (
-    <span className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs font-semibold tracking-wider text-white/70">
+    <span className="inline-flex items-center gap-2 rounded-full border border-[color:var(--stroke)] bg-white/70 px-3 py-1 text-xs font-semibold tracking-wider text-[color:var(--muted)]">
       {children}
     </span>
   );
@@ -36,11 +36,11 @@ function Pill({ children }: { children: React.ReactNode }) {
 
 function Card({ title, desc }: { title: string; desc: string }) {
   return (
-    <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
+    <div className="rounded-2xl border border-[color:var(--stroke)] bg-white/80 p-5 shadow-sm">
       <div className="flex items-start gap-3">
         <div className="mt-1 h-6 w-6 shrink-0 rounded-full bg-emerald-400/15 ring-1 ring-emerald-400/35" />
         <div>
-          <div className="text-sm font-semibold text-white">{title}</div>
+          <div className="text-sm font-semibold text-[color:var(--text)]">{title}</div>
           <div className="mt-1 text-sm leading-6 text-[color:var(--muted)]">{desc}</div>
         </div>
       </div>
@@ -171,23 +171,23 @@ export default function HomePage() {
   return (
     <div>
       {/* Topbar */}
-      <header className="fixed inset-x-0 top-0 z-50 border-b border-white/10 bg-black/30 backdrop-blur">
+      <header className="fixed inset-x-0 top-0 z-50 border-b border-[color:var(--stroke)] bg-white/70 backdrop-blur">
         <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-5 py-4">
           <div className="flex items-center gap-3">
-            <div className="h-8 w-8 rounded-xl bg-gradient-to-br from-sky-400/80 via-emerald-300/60 to-sky-400/30 ring-1 ring-white/15" />
-            <div className="font-semibold tracking-tight text-white">startwithai</div>
+            <div className="h-8 w-8 rounded-xl bg-gradient-to-br from-[color:var(--accent)] to-[color:var(--accent-2)] ring-1 ring-[color:var(--stroke)]" />
+            <div className="font-semibold tracking-tight text-[color:var(--text)]">startwithai</div>
           </div>
-          <div className="hidden items-center gap-6 text-xs font-semibold uppercase tracking-widest text-white/60 md:flex">
-            <a className="hover:text-white" href="#what">Какво получаваш</a>
-            <a className="hover:text-white" href="#process">90 дни</a>
-            <a className="hover:text-white" href="#faq">FAQ</a>
+          <div className="hidden items-center gap-6 text-xs font-semibold uppercase tracking-widest text-[color:var(--muted)] md:flex">
+            <a className="hover:text-[color:var(--text)]" href="#what">Какво получаваш</a>
+            <a className="hover:text-[color:var(--text)]" href="#process">90 дни</a>
+            <a className="hover:text-[color:var(--text)]" href="#faq">FAQ</a>
           </div>
           <button
             onClick={() => {
               scrollToHero();
               setHeroStep("website");
             }}
-            className="rounded-full bg-gradient-to-r from-sky-400 to-emerald-300 px-4 py-2 text-xs font-bold uppercase tracking-widest text-black shadow-[0_12px_40px_rgba(34,197,94,0.18)]"
+            className="rounded-full bg-[color:var(--accent)] px-4 py-2 text-xs font-bold uppercase tracking-widest text-white shadow-[0_10px_30px_rgba(37,99,235,0.22)] hover:bg-[color:var(--accent-2)]"
           >
             Кандидатствай
           </button>
@@ -199,7 +199,7 @@ export default function HomePage() {
         <div className="mx-auto max-w-6xl px-5">
           <div className="mx-auto max-w-4xl text-center">
             <Pill>Кандидатствай за безплатно обучение + сертификати (признати в ЕС)</Pill>
-            <h1 className="mt-6 text-balance text-4xl font-semibold leading-[1.05] tracking-tight text-white md:text-6xl">
+            <h1 className="mt-6 text-balance text-4xl font-semibold leading-[1.05] tracking-tight text-[color:var(--text)] md:text-6xl">
               Увеличи продуктивността на екипа си с AI внедряване за 90 дни.
             </h1>
             <p className="mx-auto mt-5 max-w-3xl text-pretty text-base leading-7 text-[color:var(--muted)] md:text-lg">
@@ -209,22 +209,22 @@ export default function HomePage() {
 
             <form
               onSubmit={onHeroSubmit}
-              className="mx-auto mt-9 flex max-w-3xl flex-col gap-3 rounded-2xl border border-white/10 bg-white/5 p-3 md:flex-row md:items-center"
+              className="mx-auto mt-9 flex max-w-3xl flex-col gap-3 rounded-2xl border border-[color:var(--stroke)] bg-white/80 p-3 shadow-sm md:flex-row md:items-center"
             >
               {heroStep === "website" ? (
-                <div className="flex flex-1 items-center gap-3 rounded-xl border border-white/10 bg-black/30 px-4 py-3">
-                  <span className="text-white/35">🌐</span>
+                <div className="flex flex-1 items-center gap-3 rounded-xl border border-[color:var(--stroke)] bg-white px-4 py-3">
+                  <span className="text-[color:var(--muted)]">🌐</span>
                   <input
                     value={heroWebsite}
                     onChange={(e) => setHeroWebsite(e.target.value)}
-                    className="w-full bg-transparent text-sm text-white placeholder:text-white/30 focus:outline-none"
+                    className="w-full bg-transparent text-sm text-[color:var(--text)] placeholder:text-[color:var(--muted)] focus:outline-none"
                     placeholder="Въведи сайта на фирмата (по желание)"
                   />
                 </div>
               ) : (
                 <div className="flex flex-1 flex-col gap-2">
-                  <div className="flex items-center gap-3 rounded-xl border border-white/10 bg-black/30 px-4 py-3">
-                    <span className="text-white/35">✉️</span>
+                  <div className="flex items-center gap-3 rounded-xl border border-[color:var(--stroke)] bg-white px-4 py-3">
+                    <span className="text-[color:var(--muted)]">✉️</span>
                     <input
                       value={heroEmail}
                       onChange={(e) => {
@@ -243,7 +243,7 @@ export default function HomePage() {
                       autoCapitalize="none"
                       spellCheck={false}
                       pattern="[A-Za-z0-9]+@[A-Za-z0-9-]+\\.[A-Za-z]{2,}"
-                      className="w-full bg-transparent text-sm text-white placeholder:text-white/30 focus:outline-none"
+                      className="w-full bg-transparent text-sm text-[color:var(--text)] placeholder:text-[color:var(--muted)] focus:outline-none"
                       placeholder="Въведи фирмен имейл (пример: office@company.com)"
                       required
                     />
@@ -253,7 +253,7 @@ export default function HomePage() {
                       {heroEmailError}
                     </div>
                   ) : null}
-                  <div className="text-left text-xs text-white/35">
+                  <div className="text-left text-xs text-[color:var(--muted)]">
                     Допускат се само професионални имейли с фирмен домейн.
                   </div>
                 </div>
@@ -267,7 +267,7 @@ export default function HomePage() {
               </button>
             </form>
 
-            <div className="mt-5 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs text-white/40">
+            <div className="mt-5 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs text-[color:var(--muted)]">
               <span>Договор: 0 лв такса за обучение/сертификация (при одобрение)</span>
               <span className="hidden md:inline">•</span>
               <span>Микро-сесии извън пиковите часове</span>
