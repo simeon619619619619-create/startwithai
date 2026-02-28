@@ -252,6 +252,27 @@ function ChatInner() {
     return { valid: !!j.valid, followup: j.followup || "", reason: j.reason || "" };
   }
 
+  function isSkipAnswer(v: string) {
+    const t = v.trim().toLowerCase();
+    if (!t) return false;
+    const skips = [
+      "не знам",
+      "нз",
+      "не съм сигурен",
+      "не съм сигурна",
+      "нямам информация",
+      "не мога",
+      "нямам",
+      "нямам идея",
+      "не е ясно",
+      "не в момента",
+      "по-късно",
+      "skip",
+      "пропусни",
+    ];
+    return skips.some((s) => t === s || t.startsWith(s + " "));
+  }
+
   async function submitAnswer(e: React.FormEvent) {
     e.preventDefault();
     if (busy) return;
@@ -265,18 +286,26 @@ function ChatInner() {
       return;
     }
 
+    // If user explicitly doesn't know, record and move on.
+    if (isSkipAnswer(v)) {
+      acceptAnswer("(не знам)");
+      return;
+    }
+
     setBusy(true);
     try {
       const q = clarifyQ || questions[idx];
       const verdict = await validateWithAI(q, v);
 
       if (!verdict.valid && verdict.followup) {
-        // Do NOT record this as an answer; ask clarification instead.
+        // If they don't know, allow skipping on next attempt.
         pushUser(v);
         setInput("");
         setClarifyQ(verdict.followup);
         pushAgent(verdict.followup);
-        pushAgent("Съвет: дайте конкретика (число/време/процес) в 1–2 изречения.");
+        pushAgent(
+          "Ако не сте сигурни, може да напишете „не знам“ и ще продължим към следващия въпрос."
+        );
         return;
       }
 
