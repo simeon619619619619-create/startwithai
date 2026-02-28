@@ -72,6 +72,8 @@ function ChatInner() {
   const [input, setInput] = useState("");
   const [answers, setAnswers] = useState<Array<{ q: string; a: string }>>([]);
   const [done, setDone] = useState(false);
+  const [clarifyQ, setClarifyQ] = useState<string | null>(null);
+  const [busy, setBusy] = useState(false);
 
   const isScheduleStep = idx === 5; // Q6
 
@@ -179,7 +181,11 @@ function ChatInner() {
   });
 
   function pushAgent(text: string) {
-    setMsgs((m) => [...m, { role: "agent", text }]);
+    setMsgs((m) => {
+      const last = m[m.length - 1];
+      if (last?.role === "agent" && last.text === text) return m; // avoid duplicates
+      return [...m, { role: "agent", text }];
+    });
   }
 
   function pushUser(text: string) {
@@ -191,6 +197,7 @@ function ChatInner() {
     pushUser(v);
     setAnswers((prev) => [...prev, { q, a: v }]);
     setInput("");
+    setClarifyQ(null);
 
     const next = idx + 1;
     if (next >= questions.length) {
@@ -227,6 +234,8 @@ function ChatInner() {
 
   async function submitAnswer(e: React.FormEvent) {
     e.preventDefault();
+    if (busy) return;
+
     const v = input.trim();
     if (!v) return;
 
@@ -236,17 +245,24 @@ function ChatInner() {
       return;
     }
 
-    const q = questions[idx];
-    const verdict = await validateWithAI(q, v);
+    setBusy(true);
+    try {
+      const q = clarifyQ || questions[idx];
+      const verdict = await validateWithAI(q, v);
 
-    if (!verdict.valid && verdict.followup) {
-      pushUser(v);
-      setInput("");
-      pushAgent(verdict.followup);
-      return;
+      if (!verdict.valid && verdict.followup) {
+        // Do NOT record this as an answer; ask clarification instead.
+        pushUser(v);
+        setInput("");
+        setClarifyQ(verdict.followup);
+        pushAgent(verdict.followup);
+        return;
+      }
+
+      acceptAnswer(v);
+    } finally {
+      setBusy(false);
     }
-
-    acceptAnswer(v);
   }
 
   function finalize() {
@@ -400,15 +416,15 @@ function ChatInner() {
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
                   className="flex-1 rounded-xl border border-white/10 bg-black/30 px-4 py-3 text-sm text-white placeholder:text-white/25"
-                  placeholder={done ? "Готово" : "Напиши отговор…"}
-                  disabled={done}
+                  placeholder={done ? "Готово" : busy ? "Проверявам отговора…" : "Напиши отговор…"}
+                  disabled={done || busy}
                 />
                 <button
                   type="submit"
-                  disabled={done}
+                  disabled={done || busy}
                   className="rounded-xl bg-gradient-to-r from-sky-400 to-emerald-300 px-6 py-3 text-sm font-bold text-black disabled:opacity-40"
                 >
-                  Изпрати
+                  {busy ? "…" : "Изпрати"}
                 </button>
               </form>
             )}
