@@ -55,6 +55,8 @@ export default function HomePage() {
   const [heroWebsite, setHeroWebsite] = useState("");
   const [heroEmail, setHeroEmail] = useState("");
   const [heroEmailError, setHeroEmailError] = useState<string>("");
+  const [analyzing, setAnalyzing] = useState(false);
+  const [analysisNote, setAnalysisNote] = useState<string>("");
 
   useEffect(() => {
     try {
@@ -157,11 +159,40 @@ export default function HomePage() {
 
   // scrollToHero removed (no header/FAQ CTA)
 
-  function onHeroSubmit(e: React.FormEvent) {
+  async function analyzeThenContinue() {
+    setAnalyzing(true);
+    setAnalysisNote("Анализираме сайта…");
+
+    try {
+      const r = await fetch("/api/analyze", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ url: heroWebsite }),
+      });
+      const j = await r.json().catch(() => null);
+      if (j?.ok && (j.title || j.description)) {
+        const label = j.title ? `Открихме: ${j.title}` : "";
+        setAnalysisNote(label || "Анализът е готов.");
+      }
+    } catch {
+      // ignore
+    }
+
+    // wait 3–5 seconds to feel like a real check
+    const waitMs = 3000 + Math.floor(Math.random() * 2000);
+    await new Promise((res) => setTimeout(res, waitMs));
+
+    setAnalyzing(false);
+    setAnalysisNote("");
+    setHeroStep("email");
+  }
+
+  async function onHeroSubmit(e: React.FormEvent) {
     e.preventDefault();
+    if (analyzing) return;
 
     if (heroStep === "website") {
-      setHeroStep("email");
+      await analyzeThenContinue();
       return;
     }
 
@@ -190,12 +221,13 @@ export default function HomePage() {
     router.push(`/chat?${qp.toString()}`);
   }
 
-  function onInlineSurveySubmit(e: React.FormEvent) {
+  async function onInlineSurveySubmit(e: React.FormEvent) {
     e.preventDefault();
+    if (analyzing) return;
 
     // Step 1: website
     if (heroStep === "website") {
-      setHeroStep("email");
+      await analyzeThenContinue();
       return;
     }
 
@@ -295,11 +327,18 @@ export default function HomePage() {
 
               <button
                 type="submit"
-                className="rounded-none bg-[color:var(--accent)] px-6 py-3 text-sm font-bold text-white"
+                disabled={analyzing}
+                className="rounded-none bg-[color:var(--accent)] px-6 py-3 text-sm font-bold text-white disabled:opacity-60"
               >
-                КАНДИДАТСТВАЙ ЗА ОДИТ →
+                {analyzing ? "АНАЛИЗИРАМЕ…" : "КАНДИДАТСТВАЙ ЗА ОДИТ →"}
               </button>
             </form>
+
+            {analyzing ? (
+              <div className="mx-auto mt-3 max-w-3xl border border-[color:var(--stroke)] bg-white p-3 text-left text-sm text-[color:var(--muted)]">
+                {analysisNote || "Анализираме сайта…"}
+              </div>
+            ) : null}
 
             <div className="mx-auto mt-5 grid max-w-3xl grid-cols-1 gap-3 text-left text-sm text-[color:var(--muted)] md:grid-cols-3">
               <div className="flex gap-3 border border-[color:var(--stroke)] bg-white p-3">
@@ -421,9 +460,10 @@ export default function HomePage() {
                     </div>
                     <button
                       type="submit"
-                      className="rounded-none bg-[color:var(--accent)] px-8 py-3 text-sm font-semibold text-white shadow-none hover:bg-[color:var(--accent-2)]"
+                      disabled={analyzing}
+                      className="rounded-none bg-[color:var(--accent)] px-8 py-3 text-sm font-semibold text-white shadow-none hover:bg-[color:var(--accent-2)] disabled:opacity-60"
                     >
-                      Продължи →
+                      {analyzing ? "АНАЛИЗИРАМЕ…" : "Продължи →"}
                     </button>
                   </>
                 ) : (
