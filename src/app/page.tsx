@@ -144,13 +144,8 @@ export default function HomePage() {
                   <p className="mt-2 text-sm leading-6 text-[color:var(--muted)]">
                     Обновени насоки за допустимост и документи. Кандидатстването започва с проверка на сайта и служебен имейл.
                   </p>
-                  <div className="mt-5 flex justify-end">
-                    <Link
-                      href="/news"
-                      className="inline-flex bg-[color:var(--accent)] px-5 py-2.5 text-xs font-bold uppercase tracking-widest text-white"
-                    >
-                      Прочети повече →
-                    </Link>
+                  <div className="mt-4 text-xs font-semibold uppercase tracking-widest text-[color:var(--muted)]">
+                    Актуално от официални източници и европейски политики.
                   </div>
                 </div>
               </article>
@@ -188,6 +183,15 @@ export default function HomePage() {
                   </article>
                 ))}
               </div>
+            </div>
+
+            <div className="mt-6 flex justify-end">
+              <Link
+                href="/news"
+                className="inline-flex bg-[color:var(--accent)] px-6 py-3 text-xs font-bold uppercase tracking-widest text-white"
+              >
+                Научете повече →
+              </Link>
             </div>
           </div>
         </section>
