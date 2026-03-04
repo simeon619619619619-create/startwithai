@@ -79,7 +79,7 @@ export default function ProgramPage() {
       <main className="mx-auto max-w-6xl px-5 pb-16 pt-40">
         <div className="mx-auto max-w-4xl text-center">
           <div className="text-xs font-semibold uppercase tracking-widest text-[color:var(--muted)]">
-            Секция: Програма „Интелигентен растеж“
+            Програма „Интелигентен растеж“
           </div>
           <h1 className="mt-3 text-balance text-3xl font-semibold tracking-tight text-[color:var(--text)] md:text-4xl">
             Пътна карта към пълна бизнес автоматизация
