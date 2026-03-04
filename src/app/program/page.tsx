@@ -1,3 +1,4 @@
+import Link from "next/link";
 import SiteHeader from "@/components/SiteHeader";
 
 type Module = {
@@ -174,20 +175,17 @@ export default function ProgramPage() {
         {/* Conditions */}
         <section className="mx-auto mt-10 max-w-5xl border border-[color:var(--stroke)] bg-white p-6">
           <div className="text-sm font-semibold uppercase tracking-widest text-[color:var(--muted)]">Условия</div>
-          <ul className="mt-4 list-disc pl-5 text-sm leading-6 text-[color:var(--muted)]">
-            <li>
-              <span className="font-semibold text-[color:var(--text)]">Финансиране:</span> обучението се покрива на 100% от ваучерната система и е
-              безплатно за работодателя (при одобрение).
-            </li>
-            <li>
-              <span className="font-semibold text-[color:var(--text)]">Продължителност:</span> минимум 45–55 учебни часа според нивото на дигитални
-              умения.
-            </li>
-            <li>
-              <span className="font-semibold text-[color:var(--text)]">Резултат:</span> обучен екип + работещи AI инструменти, които спестяват време
-              от ден първи.
-            </li>
-          </ul>
+          <p className="mt-4 text-sm leading-6 text-[color:var(--muted)]">
+            Участието е възможно само при одобрение и при приемане на официалните Общи условия на програмата.
+          </p>
+          <div className="mt-5">
+            <Link
+              href="/terms"
+              className="inline-flex bg-[color:var(--accent)] px-6 py-3 text-sm font-bold uppercase tracking-widest text-white"
+            >
+              ОБЩИ УСЛОВИЯ →
+            </Link>
+          </div>
         </section>
       </main>
     </div>
