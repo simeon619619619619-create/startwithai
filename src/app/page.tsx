@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import SiteHeader from "@/components/SiteHeader";
 
 function SectionTitle({ title, subtitle }: { title: string; subtitle?: string }) {
@@ -71,34 +72,38 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* Program */}
+        {/* Program teaser */}
         <section className="mt-16" id="program">
           <SectionTitle
-            title="Какво получавате"
-            subtitle="Целта е измерим ефект: обучение + внедряване + отчет." 
+            title="Програма „Интелигентен растеж“"
+            subtitle="Единен 3-месечен план: държавно финансирано обучение + 8 AI модула + реално внедряване и отчет." 
           />
 
-          <div className="mx-auto mt-10 grid max-w-5xl grid-cols-1 gap-4 md:grid-cols-2">
+          <div className="mx-auto mt-10 grid max-w-5xl grid-cols-1 gap-4 md:grid-cols-3">
             <Card
-              title="100% безплатно обучение"
-              desc="Квалификация на служители по ключови дигитални компетенции и AI инструменти, покрита от ваучерната схема на АЗ."
+              title="Месец 1: старт + диагностика"
+              desc="Административно съдействие, анализ на процесите и официално обучение (DigComp) по ваучерната схема."
             />
             <Card
-              title="Директна автоматизация"
-              desc="Внедряваме 2 персонализирани AI автоматизации в ежедневни процеси (напр. обработка на запитвания, фактуриране, репортинг)."
+              title="Месец 2: 8 AI модула"
+              desc="CEO/COO, Inbox, Calendar, HR, Finance + Marketing и Sales. Избирате приоритети според целта." 
             />
             <Card
-              title="Официален сертификат"
-              desc="Всеки обучен служител получава държавно признат сертификат за дигитални умения."
-            />
-            <Card
-              title="Пълно съдействие"
-              desc="Поемаме административната тежест по подготовката и подаването на документите към Агенция по заетостта."
+              title="Месец 3: внедряване"
+              desc="Интегрираме 2 избрани процеса директно във вашата среда + тестване + сертификация + отчет." 
             />
           </div>
 
-          <div className="mx-auto mt-6 max-w-5xl border border-[color:var(--stroke)] bg-white p-4 text-sm text-[color:var(--muted)]">
-            Програмата е насочена към повишаване на конкурентоспособността чрез автоматизация на повтарящи се задачи.
+          <div className="mx-auto mt-6 flex max-w-5xl flex-col items-center justify-between gap-4 border border-[color:var(--stroke)] bg-white p-4 md:flex-row">
+            <div className="text-sm text-[color:var(--muted)]">
+              Вижте пълната пътна карта и модулите (с „Преди и След“).
+            </div>
+            <Link
+              href="/program"
+              className="bg-[color:var(--accent)] px-6 py-3 text-sm font-bold uppercase tracking-widest text-white"
+            >
+              ВИЖ ПРОГРАМАТА →
+            </Link>
           </div>
         </section>
 
