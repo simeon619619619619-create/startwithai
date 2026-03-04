@@ -144,15 +144,13 @@ export default function HomePage() {
                   <p className="mt-2 text-sm leading-6 text-[color:var(--muted)]">
                     Обновени насоки за допустимост и документи. Кандидатстването започва с проверка на сайта и служебен имейл.
                   </p>
-                  <div className="mt-4">
-                    <a
-                      href="https://www.europarl.europa.eu/topics/bg/article/20230601STO93804/zakon-za-izkustveniya-intelekt-na-es"
-                      target="_blank"
-                      rel="noreferrer"
-                      className="text-xs font-semibold uppercase tracking-widest text-[color:var(--muted)] hover:text-[color:var(--text)]"
+                  <div className="mt-5 flex justify-end">
+                    <Link
+                      href="/news"
+                      className="inline-flex bg-[color:var(--accent)] px-5 py-2.5 text-xs font-bold uppercase tracking-widest text-white"
                     >
                       Прочети повече →
-                    </a>
+                    </Link>
                   </div>
                 </div>
               </article>
