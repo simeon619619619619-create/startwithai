@@ -37,7 +37,7 @@ export default function SiteHeader() {
         </div>
 
         <div className="pb-4">
-          <IntakeBar compact />
+          <IntakeBar compact variant="header" />
         </div>
       </div>
     </header>

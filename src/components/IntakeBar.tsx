@@ -5,9 +5,10 @@ import { useRouter } from "next/navigation";
 
 type Props = {
   compact?: boolean;
+  variant?: "default" | "header";
 };
 
-export default function IntakeBar({ compact }: Props) {
+export default function IntakeBar({ compact, variant = "default" }: Props) {
   const router = useRouter();
   const [step, setStep] = useState<"website" | "email">("website");
   const [website, setWebsite] = useState("");
@@ -164,7 +165,12 @@ export default function IntakeBar({ compact }: Props) {
         <button
           type="submit"
           disabled={analyzing}
-          className="border border-white/35 bg-white px-6 py-3 text-sm font-bold uppercase tracking-widest text-[color:var(--accent)] disabled:opacity-60"
+          className={
+            (variant === "header"
+              ? "border border-white/35 bg-white px-6 py-3 text-sm font-bold uppercase tracking-widest text-[color:var(--accent)]"
+              : "bg-[color:var(--accent)] px-6 py-3 text-sm font-bold uppercase tracking-widest text-white") +
+            " disabled:opacity-60"
+          }
         >
           {analyzing ? "АНАЛИЗИРАМЕ…" : step === "website" ? "ПРОДЪЛЖИ" : "ЗАПОЧНИ"}
         </button>
