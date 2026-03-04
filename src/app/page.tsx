@@ -151,40 +151,44 @@ export default function HomePage() {
               </article>
 
               {/* List */}
-              <div className="flex flex-col gap-3">
-                {[
-                  [
-                    "24.02.2026",
-                    "Добавени 8 специализирани AI модула към 90-дневния план",
-                    "/news/photo-1555066931-4365d14bab8c.jpg",
-                    "AI модули",
-                  ],
-                  [
-                    "21.02.2026",
-                    "Нов процес: анализ → консултация → документи → внедряване",
-                    "/news/photo-1556155092-490a1ba16284.jpg",
-                    "Процес",
-                  ],
-                  [
-                    "18.02.2026",
-                    "Нова страница: Общи условия и политика за данни",
-                    "/news/photo-1450101499163-c8848c66ca85.jpg",
-                    "Документи",
-                  ],
-                ].map(([date, title, img, alt]) => (
-                  <article key={title} className="flex gap-3 border border-[color:var(--stroke)] bg-white p-4">
-                    <div className="h-12 w-16 shrink-0 overflow-hidden bg-[#f3f6fb] ring-1 ring-[color:var(--stroke)]">
-                      <img src={img} alt={alt} className="h-full w-full object-cover" loading="lazy" />
-                    </div>
-                    <div>
-                      <div className="text-xs font-semibold uppercase tracking-widest text-[color:var(--muted)]">{date}</div>
-                      <div className="mt-1 text-sm font-semibold text-[color:var(--text)]">{title}</div>
-                    </div>
-                  </article>
-                ))}
+              <div className="flex h-full flex-col gap-3">
+                <div className="flex flex-col gap-3">
+                  {[
+                    [
+                      "24.02.2026",
+                      "Добавени 8 специализирани AI модула към 90-дневния план",
+                      "/news/photo-1555066931-4365d14bab8c.jpg",
+                      "AI модули",
+                    ],
+                    [
+                      "21.02.2026",
+                      "Нов процес: анализ → консултация → документи → внедряване",
+                      "/news/photo-1556155092-490a1ba16284.jpg",
+                      "Процес",
+                    ],
+                    [
+                      "18.02.2026",
+                      "Нова страница: Общи условия и политика за данни",
+                      "/news/photo-1450101499163-c8848c66ca85.jpg",
+                      "Документи",
+                    ],
+                  ].map(([date, title, img, alt]) => (
+                    <article key={title} className="flex gap-3 border border-[color:var(--stroke)] bg-white p-4">
+                      <div className="h-12 w-16 shrink-0 overflow-hidden bg-[#f3f6fb] ring-1 ring-[color:var(--stroke)]">
+                        <img src={img} alt={alt} className="h-full w-full object-cover" loading="lazy" />
+                      </div>
+                      <div>
+                        <div className="text-xs font-semibold uppercase tracking-widest text-[color:var(--muted)]">{date}</div>
+                        <div className="mt-1 text-sm font-semibold text-[color:var(--text)]">{title}</div>
+                      </div>
+                    </article>
+                  ))}
+                </div>
 
-                {/* CTA placement (inside right column, in the empty space) */}
-                <div className="mt-6 flex justify-end">
+                {/* Spacer to push CTA down into the circled area */}
+                <div className="flex-1" />
+
+                <div className="flex justify-end">
                   <Link
                     href="/news"
                     className="inline-flex bg-[color:var(--accent)] px-6 py-3 text-xs font-bold uppercase tracking-widest text-white"
