@@ -105,7 +105,7 @@ export default function HomePage() {
         {/* Footer */}
         <footer className="mt-16 border-t border-[color:var(--stroke)] py-10 text-xs text-[color:var(--muted)]">
           <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-3 md:flex-row">
-            <div>© {new Date().getFullYear()} Портал за технологична асистенция</div>
+            <div>© {new Date().getFullYear()} Програма „Интелигентен растеж“</div>
             <div className="uppercase tracking-[0.4em]">Технологична асистенция</div>
           </div>
         </footer>

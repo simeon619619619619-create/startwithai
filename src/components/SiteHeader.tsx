@@ -10,7 +10,7 @@ export default function SiteHeader() {
         <div className="flex items-center justify-between gap-4 py-4">
           <Link href="/" className="flex items-center gap-3">
             <div className="h-8 w-8 bg-[color:var(--accent)] ring-1 ring-[color:var(--stroke)]" />
-            <div className="font-semibold tracking-tight text-[color:var(--text)]">Портал за технологична асистенция</div>
+            <div className="font-semibold tracking-tight text-[color:var(--text)]">Програма „Интелигентен растеж“</div>
           </Link>
 
           <nav className="hidden items-center gap-6 text-xs font-semibold uppercase tracking-widest text-[color:var(--muted)] md:flex">
