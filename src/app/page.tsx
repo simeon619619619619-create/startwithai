@@ -185,7 +185,7 @@ export default function HomePage() {
               </div>
             </div>
 
-            <div className="mt-6 flex justify-end">
+            <div className="mt-2 flex justify-end">
               <Link
                 href="/news"
                 className="inline-flex bg-[color:var(--accent)] px-6 py-3 text-xs font-bold uppercase tracking-widest text-white"
