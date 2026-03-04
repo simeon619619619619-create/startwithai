@@ -11,7 +11,7 @@ export default function ContactPage() {
         <div className="mt-8 grid grid-cols-1 gap-4 md:grid-cols-3">
           <div className="border border-[color:var(--stroke)] bg-white p-5">
             <div className="font-semibold text-[color:var(--text)]">Имейл</div>
-            <div className="mt-2 text-sm text-[color:var(--muted)]">contact@startwithai.vercel.app</div>
+            <div className="mt-2 text-sm text-[color:var(--muted)]">contact@techaid-portal.bg</div>
           </div>
           <div className="border border-[color:var(--stroke)] bg-white p-5">
             <div className="font-semibold text-[color:var(--text)]">Телефон</div>

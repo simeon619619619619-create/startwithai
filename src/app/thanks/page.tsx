@@ -7,7 +7,7 @@ export default function ThanksPage() {
         <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-5 py-4">
           <div className="flex items-center gap-3">
             <div className="h-8 w-8 rounded-xl bg-gradient-to-br from-[color:var(--accent)] to-[color:var(--accent-2)] ring-1 ring-[color:var(--stroke)]" />
-            <div className="font-semibold tracking-tight text-[color:var(--text)]">startwithai</div>
+            <div className="font-semibold tracking-tight text-[color:var(--text)]">Портал за технологична асистенция</div>
           </div>
         </div>
       </header>

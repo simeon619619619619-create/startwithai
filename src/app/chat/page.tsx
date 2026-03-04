@@ -445,7 +445,7 @@ function ChatInner() {
         <div className="mx-auto flex max-w-5xl items-center justify-between gap-4 px-5 py-4">
           <div className="flex items-center gap-3">
             <div className="h-8 w-8 rounded-xl bg-gradient-to-br from-sky-400/80 via-emerald-300/60 to-sky-400/30 ring-1 ring-white/15" />
-            <div className="font-semibold tracking-tight text-[color:var(--text)]">startwithai</div>
+            <div className="font-semibold tracking-tight text-[color:var(--text)]">Портал за технологична асистенция</div>
           </div>
           <button
             onClick={() => router.push("/")}
