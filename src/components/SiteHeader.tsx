@@ -17,6 +17,7 @@ export default function SiteHeader() {
             <Link className="hover:text-[color:var(--text)]" href="/program">Програма</Link>
             <Link className="hover:text-[color:var(--text)]" href="/process">Процес</Link>
             <Link className="hover:text-[color:var(--text)]" href="/questions">Въпроси</Link>
+            <Link className="hover:text-[color:var(--text)]" href="/news">Новини</Link>
             <Link className="hover:text-[color:var(--text)]" href="/contact">Контакти</Link>
           </nav>
         </div>
