@@ -236,13 +236,12 @@ export default function HomePage() {
       <main className="relative pt-28">
         <div className="mx-auto max-w-6xl px-5">
           <div className="mx-auto max-w-4xl text-center">
-            <Pill>Кандидатствай за безплатно обучение + сертификати (признати в ЕС)</Pill>
+            <Pill>Провери готовността на бизнеса си за AI трансформация</Pill>
             <h1 className="mt-6 text-balance text-4xl font-semibold leading-[1.05] tracking-tight text-[color:var(--text)] md:text-6xl">
-              Увеличи продуктивността на екипа си с AI внедряване за 90 дни.
+              Национална програма за технологична асистенция: Интеграция на изкуствен интелект
             </h1>
             <p className="mx-auto mt-5 max-w-3xl text-pretty text-base leading-7 text-[color:var(--muted)] md:text-lg">
-              Обучение + сертификация (призната в цяла Европа) + реални автоматизации в процесите — с измерим резултат в спестени човекочасове.
-              Започваме с бърза проверка на допустимост и план за внедряване.
+              Проверете допустимостта на вашето предприятие и заявете безплатен одит за автоматизация на работните процеси.
             </p>
 
             <form
@@ -256,7 +255,7 @@ export default function HomePage() {
                     value={heroWebsite}
                     onChange={(e) => setHeroWebsite(e.target.value)}
                     className="w-full bg-transparent text-sm text-[color:var(--text)] placeholder:text-[color:var(--muted)] focus:outline-none"
-                    placeholder="Въведи сайта на фирмата (по желание)"
+                    placeholder="Въведете ЕИК или URL на фирмата за проверка на допустимост"
                   />
                 </div>
               ) : (
@@ -301,16 +300,32 @@ export default function HomePage() {
                 type="submit"
                 className="rounded-none bg-[color:var(--accent)] px-6 py-3 text-sm font-bold text-white"
               >
-                {heroStep === "website" ? "Продължи →" : "Към въпросите →"}
+                КАНДИДАТСТВАЙ ЗА ОДИТ →
               </button>
             </form>
 
-            <div className="mt-5 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs text-[color:var(--muted)]">
-              <span>Договор: 0 лв такса за обучение/сертификация (при одобрение)</span>
-              <span className="hidden md:inline">•</span>
-              <span>Микро-сесии извън пиковите часове</span>
-              <span className="hidden md:inline">•</span>
-              <span>Измерим отчет за спестени човекочасове</span>
+            <div className="mx-auto mt-5 grid max-w-3xl grid-cols-1 gap-3 text-left text-sm text-[color:var(--muted)] md:grid-cols-3">
+              <div className="flex gap-3 border border-[color:var(--stroke)] bg-white p-3">
+                <div className="font-semibold text-[color:var(--text)]">✓</div>
+                <div>
+                  <div className="font-semibold text-[color:var(--text)]">Финансиране</div>
+                  <div>0 лв такса за одобрени кандидати.</div>
+                </div>
+              </div>
+              <div className="flex gap-3 border border-[color:var(--stroke)] bg-white p-3">
+                <div className="font-semibold text-[color:var(--text)]">✓</div>
+                <div>
+                  <div className="font-semibold text-[color:var(--text)]">Гъвкавост</div>
+                  <div>Микро-сесии, съобразени с работния график.</div>
+                </div>
+              </div>
+              <div className="flex gap-3 border border-[color:var(--stroke)] bg-white p-3">
+                <div className="font-semibold text-[color:var(--text)]">✓</div>
+                <div>
+                  <div className="font-semibold text-[color:var(--text)]">Отчетност</div>
+                  <div>Пълен измерим доклад за спестени човекочасове.</div>
+                </div>
+              </div>
             </div>
           </div>
 
@@ -397,7 +412,7 @@ export default function HomePage() {
                   <input
                     value={heroWebsite}
                     onChange={(e) => setHeroWebsite(e.target.value)}
-                    placeholder="Въведи сайта на фирмата (по желание)"
+                    placeholder="Въведете ЕИК или URL на фирмата за проверка на допустимост"
                     className="w-full bg-transparent text-sm text-[color:var(--text)] placeholder:text-[color:var(--muted)] focus:outline-none"
                   />
                 </div>
