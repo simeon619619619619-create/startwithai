@@ -34,7 +34,6 @@ export default function SiteHeader() {
             <Link className="hover:text-white" href="/process">Процес</Link>
             <Link className="hover:text-white" href="/questions">Въпроси</Link>
             <Link className="hover:text-white" href="/news">Новини</Link>
-            <Link className="hover:text-white" href="/contact">Контакти</Link>
           </nav>
         </div>
 
