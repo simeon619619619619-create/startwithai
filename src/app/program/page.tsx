@@ -81,7 +81,7 @@ export default function ProgramPage() {
             Програма „Интелигентен растеж“
           </div>
           <h1 className="mt-3 text-balance text-3xl font-semibold tracking-tight text-[color:var(--text)] md:text-4xl">
-            Пътна карта към пълна бизнес автоматизация
+            От обучение до внедряване: 90-дневен план
           </h1>
           <p className="mx-auto mt-4 max-w-3xl text-pretty text-[color:var(--muted)]">
             Комбинираме държавно финансирано обучение с директно техническо внедряване на AI инструменти във вашия екип.
