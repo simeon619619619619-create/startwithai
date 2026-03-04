@@ -222,7 +222,6 @@ export default function HomePage() {
             <div className="font-semibold tracking-tight text-[color:var(--text)]">startwithai</div>
           </div>
           <nav className="hidden items-center gap-6 text-xs font-semibold uppercase tracking-widest text-[color:var(--muted)] md:flex">
-            <a className="hover:text-[color:var(--text)]" href="#aktualno">Актуално</a>
             <a className="hover:text-[color:var(--text)]" href="#program">Програма</a>
             <a className="hover:text-[color:var(--text)]" href="#process">Процес</a>
             <a className="hover:text-[color:var(--text)]" href="#faq">Въпроси</a>
