@@ -107,6 +107,82 @@ export default function HomePage() {
           </div>
         </section>
 
+        {/* Process teaser */}
+        <section className="mt-16" id="process">
+          <SectionTitle
+            title="Процес"
+            subtitle="Ясен път от проверка на допустимост до работещи автоматизации — с прозрачност във всяка стъпка."
+          />
+
+          <div className="mx-auto mt-10 grid max-w-5xl grid-cols-1 gap-4 md:grid-cols-3">
+            <Card title="1) Анализ" desc="Въвеждате сайта → правим първична проверка и насочване." />
+            <Card title="2) Документи" desc="Помагаме с подготовка и подаване към АЗ (при одобрение)." />
+            <Card title="3) Внедряване" desc="2 автоматизации + обучение + финален отчет за ефекта." />
+          </div>
+
+          <div className="mx-auto mt-6 flex max-w-5xl justify-end">
+            <Link
+              href="/process"
+              className="inline-flex bg-[color:var(--accent)] px-6 py-3 text-sm font-bold uppercase tracking-widest text-white"
+            >
+              ВИЖ ПРОЦЕСА →
+            </Link>
+          </div>
+        </section>
+
+        {/* FAQ teaser */}
+        <section className="mt-16" id="questions">
+          <SectionTitle
+            title="Често задавани въпроси"
+            subtitle="Административни детайли по ваучерите + технически въпроси около AI автоматизацията."
+          />
+
+          <div className="mx-auto mt-10 grid max-w-5xl grid-cols-1 gap-3">
+            {[
+              ["Колко струва на фирмата?", "0 лв за одобрени кандидати по програмата."],
+              ["Колко време отнема?", "Около 3 месеца — обучение + внедряване + отчет."],
+              ["Безопасни ли са данните?", "Работим със защитени архитектури, GDPR и добри практики."],
+            ].map(([q, a]) => (
+              <details key={q} className="border border-[color:var(--stroke)] bg-white p-4">
+                <summary className="cursor-pointer font-semibold text-[color:var(--text)]">{q}</summary>
+                <div className="mt-2 text-sm leading-6 text-[color:var(--muted)]">{a}</div>
+              </details>
+            ))}
+          </div>
+
+          <div className="mx-auto mt-6 flex max-w-5xl justify-end">
+            <Link
+              href="/questions"
+              className="inline-flex bg-[color:var(--accent)] px-6 py-3 text-sm font-bold uppercase tracking-widest text-white"
+            >
+              ВИЖ ВСИЧКИ ВЪПРОСИ →
+            </Link>
+          </div>
+        </section>
+
+        {/* Contact teaser */}
+        <section className="mt-16" id="contact">
+          <SectionTitle
+            title="Контакти"
+            subtitle="Ако имате конкретен казус — пишете ни и ще ви насочим как да кандидатствате." 
+          />
+
+          <div className="mx-auto mt-10 grid max-w-5xl grid-cols-1 gap-4 md:grid-cols-3">
+            <Card title="Време" desc="Кратък разговор: 10–15 мин." />
+            <Card title="Подготовка" desc="Сайт + фирмен имейл са достатъчни за старт." />
+            <Card title="Следваща стъпка" desc="Ще получите насоки + план за внедряване." />
+          </div>
+
+          <div className="mx-auto mt-6 flex max-w-5xl justify-end">
+            <Link
+              href="/contact"
+              className="inline-flex bg-[color:var(--accent)] px-6 py-3 text-sm font-bold uppercase tracking-widest text-white"
+            >
+              КЪМ КОНТАКТИ →
+            </Link>
+          </div>
+        </section>
+
         {/* News */}
         <section className="mt-16" id="news">
           <div className="mx-auto max-w-5xl">
