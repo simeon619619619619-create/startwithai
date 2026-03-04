@@ -160,6 +160,8 @@ export default function HomePage() {
           </div>
         </section>
 
+        
+
         {/* Contact teaser */}
         <section className="mt-16" id="contact">
           <SectionTitle
@@ -261,7 +263,6 @@ export default function HomePage() {
                   ))}
                 </div>
 
-                {/* Spacer to push CTA down into the circled area */}
                 <div className="flex-1" />
 
                 <div className="flex justify-end">
@@ -276,6 +277,8 @@ export default function HomePage() {
             </div>
           </div>
         </section>
+
+        
 
         {/* Footer */}
         <footer className="mt-16 border-t border-[color:var(--stroke)] py-10 text-xs text-[color:var(--muted)]">
