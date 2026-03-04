@@ -63,12 +63,10 @@ export default function ProgramPage() {
     {
       title: "Marketing Pro",
       desc: "Генерация на съдържание и управление на рекламни кампании.",
-      tag: "ново",
     },
     {
       title: "Sales Booster",
       desc: "Автоматични отговори на запитвания и водене на клиенти по фунията.",
-      tag: "ново",
     },
   ];
 
