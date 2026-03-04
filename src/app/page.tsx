@@ -28,7 +28,7 @@ function SectionTitle({ title, subtitle }: { title: string; subtitle?: string })
 
 function Pill({ children }: { children: React.ReactNode }) {
   return (
-    <span className="inline-flex items-center gap-2 rounded-full border border-[color:var(--stroke)] bg-white/70 px-4 py-1.5 text-sm font-semibold tracking-wide text-[color:var(--muted)]">
+    <span className="inline-flex items-center gap-2 rounded-full border border-[color:var(--stroke)] bg-white px-4 py-1.5 text-sm font-semibold tracking-wide text-[color:var(--muted)]">
       {children}
     </span>
   );
@@ -36,7 +36,7 @@ function Pill({ children }: { children: React.ReactNode }) {
 
 function Card({ title, desc }: { title: string; desc: string }) {
   return (
-    <div className="rounded-2xl border border-[color:var(--stroke)] bg-white/80 p-5 shadow-sm">
+    <div className="rounded-none border border-[color:var(--stroke)] bg-white p-5 shadow-none">
       <div className="flex items-start gap-3">
         <div className="mt-1 h-6 w-6 shrink-0 rounded-full bg-emerald-400/15 ring-1 ring-emerald-400/35" />
         <div>
@@ -207,24 +207,25 @@ export default function HomePage() {
   return (
     <div>
       {/* Topbar */}
-      <header className="fixed inset-x-0 top-0 z-50 border-b border-[color:var(--stroke)] bg-white/70 backdrop-blur">
+      <header className="fixed inset-x-0 top-0 z-50 border-b border-[color:var(--stroke)] bg-white">
         <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-5 py-4">
           <div className="flex items-center gap-3">
-            <div className="h-8 w-8 rounded-xl bg-gradient-to-br from-[color:var(--accent)] to-[color:var(--accent-2)] ring-1 ring-[color:var(--stroke)]" />
+            <div className="h-8 w-8 rounded-none bg-gradient-to-br from-[color:var(--accent)] to-[color:var(--accent-2)] ring-1 ring-[color:var(--stroke)]" />
             <div className="font-semibold tracking-tight text-[color:var(--text)]">startwithai</div>
           </div>
-          <div className="hidden items-center gap-6 text-xs font-semibold uppercase tracking-widest text-[color:var(--muted)] md:flex">
-            <a className="hover:text-[color:var(--text)]" href="#what">Какво получаваш</a>
-            <a className="hover:text-[color:var(--text)]" href="#process">90 дни</a>
-            <a className="hover:text-[color:var(--text)]" href="#faq">FAQ</a>
-            <a className="hover:text-[color:var(--text)]" href="#about">За нас</a>
-          </div>
+          <nav className="hidden items-center gap-6 text-xs font-semibold uppercase tracking-widest text-[color:var(--muted)] md:flex">
+            <a className="hover:text-[color:var(--text)]" href="#aktualno">Актуално</a>
+            <a className="hover:text-[color:var(--text)]" href="#program">Програма</a>
+            <a className="hover:text-[color:var(--text)]" href="#process">Процес</a>
+            <a className="hover:text-[color:var(--text)]" href="#faq">Въпроси</a>
+            <a className="hover:text-[color:var(--text)]" href="#contact">Контакти</a>
+          </nav>
           <button
             onClick={() => {
               scrollToHero();
               setHeroStep("website");
             }}
-            className="rounded-full bg-[color:var(--accent)] px-4 py-2 text-xs font-bold uppercase tracking-widest text-white shadow-[0_10px_30px_rgba(37,99,235,0.22)] hover:bg-[color:var(--accent-2)]"
+            className="rounded-none bg-[color:var(--accent)] px-4 py-2 text-xs font-bold uppercase tracking-widest text-white shadow-none hover:bg-[color:var(--accent-2)]"
           >
             Кандидатствай
           </button>
@@ -246,10 +247,10 @@ export default function HomePage() {
 
             <form
               onSubmit={onHeroSubmit}
-              className="mx-auto mt-9 flex max-w-3xl flex-col gap-3 rounded-2xl border border-[color:var(--stroke)] bg-white/80 p-3 shadow-sm md:flex-row md:items-center"
+              className="mx-auto mt-9 flex max-w-3xl flex-col gap-3 rounded-none border border-[color:var(--stroke)] bg-white p-3 shadow-none md:flex-row md:items-center"
             >
               {heroStep === "website" ? (
-                <div className="flex flex-1 items-center gap-3 rounded-xl border border-[color:var(--stroke)] bg-white px-4 py-3">
+                <div className="flex flex-1 items-center gap-3 rounded-none border border-[color:var(--stroke)] bg-white px-4 py-3">
                   <span className="text-[color:var(--muted)]">🌐</span>
                   <input
                     value={heroWebsite}
@@ -260,7 +261,7 @@ export default function HomePage() {
                 </div>
               ) : (
                 <div className="flex flex-1 flex-col gap-2">
-                  <div className="flex items-center gap-3 rounded-xl border border-[color:var(--stroke)] bg-white px-4 py-3">
+                  <div className="flex items-center gap-3 rounded-none border border-[color:var(--stroke)] bg-white px-4 py-3">
                     <span className="text-[color:var(--muted)]">✉️</span>
                     <input
                       value={heroEmail}
@@ -298,7 +299,7 @@ export default function HomePage() {
 
               <button
                 type="submit"
-                className="rounded-xl bg-gradient-to-r from-sky-400 to-emerald-300 px-6 py-3 text-sm font-bold text-black"
+                className="rounded-none bg-[color:var(--accent)] px-6 py-3 text-sm font-bold text-white"
               >
                 {heroStep === "website" ? "Продължи →" : "Към въпросите →"}
               </button>
@@ -314,7 +315,7 @@ export default function HomePage() {
           </div>
 
           {/* What you receive */}
-          <section id="what" className="mx-auto mt-16 max-w-5xl">
+          <section id="program" className="mx-auto mt-16 max-w-5xl">
             <div className="text-center text-xs font-semibold uppercase tracking-[0.5em] text-[color:var(--muted-2)]">
               Какво получаваш
             </div>
@@ -340,7 +341,7 @@ export default function HomePage() {
         </div>
 
         {/* 90 days */}
-        <section id="process" className="mt-20 bg-white/50">
+        <section id="process" className="mt-20 bg-white">
           <div className="mx-auto max-w-6xl px-5 py-16">
             <SectionTitle
               title="90-дневна система: обучение + внедряване + измерим резултат"
@@ -366,14 +367,14 @@ export default function HomePage() {
                   d: "Отчет за спестени човекочасове + инструкции за поддръжка и разширяване.",
                 },
               ].map((x) => (
-                <div key={x.t} className="rounded-2xl border border-[color:var(--stroke)] bg-white/80 p-6 shadow-sm">
+                <div key={x.t} className="rounded-none border border-[color:var(--stroke)] bg-white p-6 shadow-none">
                   <div className="text-sm font-semibold text-[color:var(--text)]">{x.t}</div>
                   <div className="mt-2 text-sm leading-6 text-[color:var(--muted)]">{x.d}</div>
                 </div>
               ))}
             </div>
 
-            <div className="mx-auto mt-10 max-w-5xl rounded-2xl border border-[color:var(--stroke)] bg-white/80 p-6 shadow-sm">
+            <div className="mx-auto mt-10 max-w-5xl rounded-none border border-[color:var(--stroke)] bg-white p-6 shadow-none">
               <div className="text-sm font-semibold text-[color:var(--text)]">Гаранция „Измерим капацитет“</div>
               <div className="mt-2 text-sm leading-6 text-[color:var(--muted)]">
                 Ако до 90-ия ден не: имате минимум 10 сертифицирани служители, внедрите поне 2 работещи автоматизации и получите отчет за реално спестени часове —
@@ -384,14 +385,14 @@ export default function HomePage() {
         </section>
 
         {/* Inline survey (above FAQ) */}
-        <section className="border-t border-[color:var(--stroke)] bg-white/50">
+        <section className="border-t border-[color:var(--stroke)] bg-white">
           <div className="mx-auto max-w-6xl px-5 py-10">
-            <div className="mx-auto max-w-5xl rounded-2xl border border-[color:var(--stroke)] bg-white/80 p-4 shadow-sm">
+            <div className="mx-auto max-w-5xl rounded-none border border-[color:var(--stroke)] bg-white p-4 shadow-none">
               <form
                 onSubmit={onInlineSurveySubmit}
                 className="flex flex-col gap-3 md:flex-row md:items-center"
               >
-                <div className="flex flex-1 items-center gap-3 rounded-xl border border-[color:var(--stroke)] bg-white px-4 py-3">
+                <div className="flex flex-1 items-center gap-3 rounded-none border border-[color:var(--stroke)] bg-white px-4 py-3">
                   <span className="text-[color:var(--muted)]">🌐</span>
                   <input
                     value={heroWebsite}
@@ -401,7 +402,7 @@ export default function HomePage() {
                   />
                 </div>
 
-                <div className="flex flex-1 items-center gap-3 rounded-xl border border-[color:var(--stroke)] bg-white px-4 py-3">
+                <div className="flex flex-1 items-center gap-3 rounded-none border border-[color:var(--stroke)] bg-white px-4 py-3">
                   <span className="text-[color:var(--muted)]">✉️</span>
                   <input
                     value={heroEmail}
@@ -419,7 +420,7 @@ export default function HomePage() {
 
                 <button
                   type="submit"
-                  className="rounded-xl bg-[color:var(--accent)] px-8 py-3 text-sm font-semibold text-white shadow-[0_10px_30px_rgba(37,99,235,0.18)] hover:bg-[color:var(--accent-2)]"
+                  className="rounded-none bg-[color:var(--accent)] px-8 py-3 text-sm font-semibold text-white shadow-none hover:bg-[color:var(--accent-2)]"
                 >
                   Продължи →
                 </button>
@@ -433,7 +434,7 @@ export default function HomePage() {
         </section>
 
         {/* FAQ */}
-        <section id="faq" className="border-t border-[color:var(--stroke)] bg-white/50">
+        <section id="faq" className="border-t border-[color:var(--stroke)] bg-white">
           <div className="mx-auto max-w-6xl px-5 py-16">
             <SectionTitle
               title="Често задавани въпроси"
@@ -444,7 +445,7 @@ export default function HomePage() {
               {faqs.map((f) => (
                 <details
                   key={f.q}
-                  className="group rounded-2xl border border-[color:var(--stroke)] bg-white/80 p-5 shadow-sm"
+                  className="group rounded-none border border-[color:var(--stroke)] bg-white p-5 shadow-none"
                 >
                   <summary className="cursor-pointer list-none text-sm font-semibold text-[color:var(--text)]">
                     <div className="flex items-center justify-between gap-4">
@@ -467,7 +468,7 @@ export default function HomePage() {
                   scrollToHero();
                   setHeroStep("website");
                 }}
-                className="rounded-xl bg-gradient-to-r from-sky-400 to-emerald-300 px-6 py-3 text-sm font-bold text-black"
+                className="rounded-none bg-[color:var(--accent)] px-6 py-3 text-sm font-bold text-white"
               >
                 Кандидатствай →
               </button>
@@ -475,31 +476,31 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* About */}
-        <section id="about" className="border-t border-[color:var(--stroke)] bg-white/50">
+        {/* Contact */}
+        <section id="contact" className="border-t border-[color:var(--stroke)] bg-white">
           <div className="mx-auto max-w-6xl px-5 py-16">
             <SectionTitle
-              title="За нас"
-              subtitle="Екип от консултанти и внедрители, фокусирани върху практични AI решения за реални процеси."
+              title="Контакти"
+              subtitle="За въпроси и съдействие — свържете се с нас."
             />
 
             <div className="mx-auto mt-10 grid max-w-5xl grid-cols-1 gap-4 md:grid-cols-3">
-              <div className="rounded-2xl border border-[color:var(--stroke)] bg-white/80 p-6 shadow-sm">
-                <div className="text-sm font-semibold text-[color:var(--text)]">Практика, не теория</div>
+              <div className="rounded-none border border-[color:var(--stroke)] bg-white p-6 shadow-none">
+                <div className="text-sm font-semibold text-[color:var(--text)]">Имейл</div>
                 <div className="mt-2 text-sm leading-6 text-[color:var(--muted)]">
-                  Работим по конкретни процеси и измерваме резултата в време, капацитет и качество.
+                  contact@startwithai.vercel.app
                 </div>
               </div>
-              <div className="rounded-2xl border border-[color:var(--stroke)] bg-white/80 p-6 shadow-sm">
-                <div className="text-sm font-semibold text-[color:var(--text)]">Прозрачен модел</div>
+              <div className="rounded-none border border-[color:var(--stroke)] bg-white p-6 shadow-none">
+                <div className="text-sm font-semibold text-[color:var(--text)]">Телефон</div>
                 <div className="mt-2 text-sm leading-6 text-[color:var(--muted)]">
-                  Всичко се уточнява предварително и се описва писмено — без скрити условия.
+                  +359 000 000 000
                 </div>
               </div>
-              <div className="rounded-2xl border border-[color:var(--stroke)] bg-white/80 p-6 shadow-sm">
-                <div className="text-sm font-semibold text-[color:var(--text)]">GDPR ориентирано</div>
+              <div className="rounded-none border border-[color:var(--stroke)] bg-white p-6 shadow-none">
+                <div className="text-sm font-semibold text-[color:var(--text)]">Адрес</div>
                 <div className="mt-2 text-sm leading-6 text-[color:var(--muted)]">
-                  Подхождаме внимателно към данните и достъпите при внедряване в реална среда.
+                  София, България
                 </div>
               </div>
             </div>
