@@ -125,7 +125,7 @@ export default function HomePage() {
               <article className="border border-[color:var(--stroke)] bg-white">
                 <div className="h-48 w-full overflow-hidden border-b border-[color:var(--stroke)] bg-[#f3f6fb] md:h-64">
                   <img
-                    src="https://images.unsplash.com/photo-1521791136064-7986c2920216?auto=format&fit=crop&w=1600&q=80"
+                    src="/news/photo-1521791136064-7986c2920216.jpg"
                     alt="Екип в офис среда"
                     className="h-full w-full object-cover"
                     loading="lazy"
@@ -161,19 +161,19 @@ export default function HomePage() {
                   [
                     "24.02.2026",
                     "Добавени 8 специализирани AI модула към 90-дневния план",
-                    "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=400&q=80",
+                    "/news/photo-1555066931-4365d14bab8c.jpg",
                     "AI модули",
                   ],
                   [
                     "21.02.2026",
                     "Нов процес: анализ → консултация → документи → внедряване",
-                    "https://images.unsplash.com/photo-1556155092-490a1ba16284?auto=format&fit=crop&w=400&q=80",
+                    "/news/photo-1556155092-490a1ba16284.jpg",
                     "Процес",
                   ],
                   [
                     "18.02.2026",
                     "Нова страница: Общи условия и политика за данни",
-                    "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?auto=format&fit=crop&w=400&q=80",
+                    "/news/photo-1450101499163-c8848c66ca85.jpg",
                     "Документи",
                   ],
                 ].map(([date, title, img, alt]) => (
