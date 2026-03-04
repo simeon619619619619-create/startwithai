@@ -1,3 +1,4 @@
+import Link from "next/link";
 import SiteHeader from "@/components/SiteHeader";
 
 export default function VoucherInfoPage() {
@@ -6,6 +7,15 @@ export default function VoucherInfoPage() {
       <SiteHeader />
       <main className="mx-auto max-w-6xl px-5 pb-16 pt-40">
         <div className="mx-auto max-w-4xl">
+          <div className="mb-6">
+            <Link
+              href="/program"
+              className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-[color:var(--muted)] hover:text-[color:var(--text)]"
+            >
+              <span aria-hidden>←</span>
+              Назад
+            </Link>
+          </div>
           <div className="text-xs font-semibold uppercase tracking-widest text-[color:var(--muted)]">Информация</div>
           <h1 className="mt-3 text-balance text-3xl font-semibold tracking-tight text-[color:var(--text)] md:text-4xl">
             Ваучер за обучение: „Квалификация, умения и кариерно развитие на заети лица“
