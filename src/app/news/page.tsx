@@ -30,7 +30,11 @@ export default function NewsPage() {
                   </div>
                 </div>
 
-                <h2 className="mt-3 text-base font-semibold leading-snug text-[color:var(--text)]">{n.title}</h2>
+                <h2 className="mt-3 text-base font-semibold leading-snug text-[color:var(--text)]">
+                  <a href={n.url} target="_blank" rel="noreferrer" className="hover:underline">
+                    {n.title}
+                  </a>
+                </h2>
                 <p className="mt-2 text-sm leading-6 text-[color:var(--muted)]">{n.excerpt}</p>
 
                 <div className="mt-4">

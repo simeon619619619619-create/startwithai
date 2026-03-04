@@ -145,12 +145,14 @@ export default function HomePage() {
                     Обновени насоки за допустимост и документи. Кандидатстването започва с проверка на сайта и служебен имейл.
                   </p>
                   <div className="mt-4">
-                    <Link
-                      href="/news"
+                    <a
+                      href="https://www.europarl.europa.eu/topics/bg/article/20230601STO93804/zakon-za-izkustveniya-intelekt-na-es"
+                      target="_blank"
+                      rel="noreferrer"
                       className="text-xs font-semibold uppercase tracking-widest text-[color:var(--muted)] hover:text-[color:var(--text)]"
                     >
-                      Прочети →
-                    </Link>
+                      Прочети повече →
+                    </a>
                   </div>
                 </div>
               </article>
