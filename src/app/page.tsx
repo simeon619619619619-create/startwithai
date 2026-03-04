@@ -123,7 +123,14 @@ export default function HomePage() {
             <div className="mt-6 grid grid-cols-1 gap-4 border border-[color:var(--stroke)] bg-white p-4 md:grid-cols-[1.2fr_0.8fr]">
               {/* Featured */}
               <article className="border border-[color:var(--stroke)] bg-white">
-                <div className="h-48 w-full bg-[linear-gradient(135deg,#e8eef8,white)] md:h-64" />
+                <div className="h-48 w-full overflow-hidden border-b border-[color:var(--stroke)] bg-[#f3f6fb] md:h-64">
+                  <img
+                    src="https://images.unsplash.com/photo-1521791136064-7986c2920216?auto=format&fit=crop&w=1600&q=80"
+                    alt="Екип в офис среда"
+                    className="h-full w-full object-cover"
+                    loading="lazy"
+                  />
+                </div>
                 <div className="p-5">
                   <div className="flex items-center gap-3">
                     <span className="border border-[color:var(--stroke)] bg-white px-2 py-1 text-[10px] font-semibold uppercase tracking-widest text-[color:var(--muted)]">
@@ -151,12 +158,29 @@ export default function HomePage() {
               {/* List */}
               <div className="flex flex-col gap-3">
                 {[
-                  ["24.02.2026", "Добавени 8 специализирани AI модула към 90-дневния план"],
-                  ["21.02.2026", "Нов процес: анализ → консултация → документи → внедряване"],
-                  ["18.02.2026", "Нова страница: Общи условия и политика за данни"],
-                ].map(([date, title]) => (
+                  [
+                    "24.02.2026",
+                    "Добавени 8 специализирани AI модула към 90-дневния план",
+                    "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=400&q=80",
+                    "AI модули",
+                  ],
+                  [
+                    "21.02.2026",
+                    "Нов процес: анализ → консултация → документи → внедряване",
+                    "https://images.unsplash.com/photo-1556155092-490a1ba16284?auto=format&fit=crop&w=400&q=80",
+                    "Процес",
+                  ],
+                  [
+                    "18.02.2026",
+                    "Нова страница: Общи условия и политика за данни",
+                    "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?auto=format&fit=crop&w=400&q=80",
+                    "Документи",
+                  ],
+                ].map(([date, title, img, alt]) => (
                   <article key={title} className="flex gap-3 border border-[color:var(--stroke)] bg-white p-4">
-                    <div className="h-12 w-16 shrink-0 bg-[linear-gradient(135deg,#f3f6fb,white)] ring-1 ring-[color:var(--stroke)]" />
+                    <div className="h-12 w-16 shrink-0 overflow-hidden bg-[#f3f6fb] ring-1 ring-[color:var(--stroke)]">
+                      <img src={img} alt={alt} className="h-full w-full object-cover" loading="lazy" />
+                    </div>
                     <div>
                       <div className="text-xs font-semibold uppercase tracking-widest text-[color:var(--muted)]">{date}</div>
                       <div className="mt-1 text-sm font-semibold text-[color:var(--text)]">{title}</div>
