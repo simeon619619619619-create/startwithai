@@ -15,7 +15,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="bg">
-      <body className="antialiased">{children}</body>
+      <body className="antialiased">
+        {children}
+        <footer className="border-t border-[color:var(--stroke)] bg-white">
+          <div className="mx-auto max-w-6xl px-5 py-6 text-center text-[11px] font-semibold uppercase tracking-widest text-[color:var(--muted)]">
+            Сертификатите и документите по програмата са признати в цяла Европа.
+          </div>
+        </footer>
+      </body>
     </html>
   );
 }
