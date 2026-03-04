@@ -155,9 +155,7 @@ export default function HomePage() {
     return "";
   }
 
-  function scrollToHero() {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  }
+  // scrollToHero removed (no header/FAQ CTA)
 
   function onHeroSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -227,15 +225,7 @@ export default function HomePage() {
             <a className="hover:text-[color:var(--text)]" href="#faq">Въпроси</a>
             <a className="hover:text-[color:var(--text)]" href="#contact">Контакти</a>
           </nav>
-          <button
-            onClick={() => {
-              scrollToHero();
-              setHeroStep("website");
-            }}
-            className="rounded-none bg-[color:var(--accent)] px-4 py-2 text-xs font-bold uppercase tracking-widest text-white shadow-none hover:bg-[color:var(--accent-2)]"
-          >
-            Кандидатствай
-          </button>
+          {/* header cta removed */}
         </div>
       </header>
 
@@ -503,17 +493,7 @@ export default function HomePage() {
               ))}
             </div>
 
-            <div className="mx-auto mt-10 max-w-4xl text-center">
-              <button
-                onClick={() => {
-                  scrollToHero();
-                  setHeroStep("website");
-                }}
-                className="rounded-none bg-[color:var(--accent)] px-6 py-3 text-sm font-bold text-white"
-              >
-                Кандидатствай →
-              </button>
-            </div>
+            {/* removed extra CTA under FAQ */}
           </div>
         </section>
 
