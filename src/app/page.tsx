@@ -255,7 +255,7 @@ export default function HomePage() {
                     value={heroWebsite}
                     onChange={(e) => setHeroWebsite(e.target.value)}
                     className="w-full bg-transparent text-sm text-[color:var(--text)] placeholder:text-[color:var(--muted)] focus:outline-none"
-                    placeholder="Въведете ЕИК или URL на фирмата за проверка на допустимост"
+                    placeholder="Линк към сайта на фирмата (URL)"
                   />
                 </div>
               ) : (
@@ -416,7 +416,7 @@ export default function HomePage() {
                   <input
                     value={heroWebsite}
                     onChange={(e) => setHeroWebsite(e.target.value)}
-                    placeholder="Въведете ЕИК или URL на фирмата за проверка на допустимост"
+                    placeholder="Линк към сайта на фирмата (URL)"
                     className="w-full bg-transparent text-sm text-[color:var(--text)] placeholder:text-[color:var(--muted)] focus:outline-none"
                   />
                 </div>
