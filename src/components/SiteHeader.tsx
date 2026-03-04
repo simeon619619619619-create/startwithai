@@ -23,7 +23,7 @@ export default function SiteHeader() {
           )}
 
           <Link href="/" className="flex items-center gap-3">
-            <div className="h-8 w-8 overflow-hidden rounded-none bg-white/10 ring-1 ring-white/25">
+            <div className="h-8 w-8 overflow-hidden rounded-none bg-transparent">
               <img src="/logo.png" alt="Лого" className="h-full w-full object-contain" />
             </div>
             <div className="font-semibold tracking-tight text-white">Програма „Интелигентен растеж“</div>
