@@ -259,28 +259,7 @@ export default function HomePage() {
 
         
 
-        {/* Contact teaser */}
-        <section className="mt-16" id="contact">
-          <SectionTitle
-            title="Контакти"
-            subtitle="Ако имате конкретен казус — пишете ни и ще ви насочим как да кандидатствате." 
-          />
-
-          <div className="mx-auto mt-10 grid max-w-5xl grid-cols-1 gap-4 md:grid-cols-3">
-            <Card title="Време" desc="Кратък разговор: 10–15 мин." />
-            <Card title="Подготовка" desc="Сайт + фирмен имейл са достатъчни за старт." />
-            <Card title="Следваща стъпка" desc="Ще получите насоки + план за внедряване." />
-          </div>
-
-          <div className="mx-auto mt-6 flex max-w-5xl justify-end">
-            <Link
-              href="/contact"
-              className="inline-flex bg-[color:var(--accent)] px-6 py-3 text-sm font-bold uppercase tracking-widest text-white"
-            >
-              КЪМ КОНТАКТИ →
-            </Link>
-          </div>
-        </section>
+        
 
         {/* Footer */}
         <footer className="mt-16 border-t border-[color:var(--stroke)] py-10 text-xs text-[color:var(--muted)]">
