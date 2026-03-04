@@ -1,15 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
-import { useRouter } from "next/navigation";
-
-type Lead = {
-  website?: string;
-  email: string;
-  submittedAt: string;
-};
-
-const KEY = "startwithai_leads";
+import SiteHeader from "@/components/SiteHeader";
 
 function SectionTitle({ title, subtitle }: { title: string; subtitle?: string }) {
   return (
@@ -26,552 +17,96 @@ function SectionTitle({ title, subtitle }: { title: string; subtitle?: string })
   );
 }
 
-function Pill({ children }: { children: React.ReactNode }) {
-  return (
-    <span className="inline-flex items-center gap-2 rounded-full border border-[color:var(--stroke)] bg-white px-4 py-1.5 text-sm font-semibold tracking-wide text-[color:var(--muted)]">
-      {children}
-    </span>
-  );
-}
-
 function Card({ title, desc }: { title: string; desc: string }) {
   return (
-    <div className="rounded-none border border-[color:var(--stroke)] bg-white p-5 shadow-none">
-      <div className="flex items-start gap-3">
-        <div className="mt-1 h-6 w-6 shrink-0 rounded-full bg-emerald-400/15 ring-1 ring-emerald-400/35" />
-        <div>
-          <div className="text-sm font-semibold text-[color:var(--text)]">{title}</div>
-          <div className="mt-1 text-sm leading-6 text-[color:var(--muted)]">{desc}</div>
-        </div>
-      </div>
+    <div className="border border-[color:var(--stroke)] bg-white p-5">
+      <div className="text-sm font-semibold text-[color:var(--text)]">{title}</div>
+      <div className="mt-2 text-sm leading-6 text-[color:var(--muted)]">{desc}</div>
     </div>
   );
 }
 
 export default function HomePage() {
-  const router = useRouter();
-
-  const [heroStep, setHeroStep] = useState<"website" | "email">("website");
-  const [heroWebsite, setHeroWebsite] = useState("");
-  const [heroEmail, setHeroEmail] = useState("");
-  const [heroEmailError, setHeroEmailError] = useState<string>("");
-  const [analyzing, setAnalyzing] = useState(false);
-  const [analysisNote, setAnalysisNote] = useState<string>("");
-
-  useEffect(() => {
-    try {
-      const sidKey = "swai_session_id";
-      let sid = localStorage.getItem(sidKey) || "";
-      if (!sid) {
-        sid = crypto.randomUUID();
-        localStorage.setItem(sidKey, sid);
-      }
-
-      fetch("/api/track/visit", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          sessionId: sid,
-          path: "/",
-          referrer: document.referrer,
-          userAgent: navigator.userAgent,
-        }),
-      }).catch(() => null);
-    } catch {
-      // ignore
-    }
-  }, []);
-
-  const disallowedEmailDomains = useMemo(
-    () =>
-      new Set([
-        "gmail.com",
-        "googlemail.com",
-        "yahoo.com",
-        "yahoo.co.uk",
-        "yahoo.de",
-        "yahoo.fr",
-        "outlook.com",
-        "hotmail.com",
-        "live.com",
-        "msn.com",
-        "icloud.com",
-        "me.com",
-        "mac.com",
-        "aol.com",
-        "proton.me",
-        "protonmail.com",
-        "mail.com",
-        "yandex.com",
-        "yandex.ru",
-        "abv.bg",
-        "mail.bg",
-        "dir.bg",
-      ]),
-    []
-  );
-
-  const faqs = useMemo(
-    () => [
-      {
-        q: "Как е безплатно за фирмата?",
-        a: "Кандидатстваш за програма, в която обучението и сертификацията са без разход за фирмата (при одобрение). На кратка среща обясняваме модела и проверяваме допустимост.",
-      },
-      {
-        q: "Ще ми загубите ли работното време?",
-        a: "Не. Обученията се разпределят в микро-сесии извън пиковите часове по график протокол.",
-      },
-      {
-        q: "AI е сложно — хората ми ще се справят ли?",
-        a: "Да. Включваме практическа система за подготовка (тестове + симулации) и готови шаблони за автоматизация за МСП.",
-      },
-      {
-        q: "Има ли скрити такси / обвързване?",
-        a: "Не. Има договор за нулев разход: 0 лв такса. Всичко е ясно фиксирано предварително.",
-      },
-      {
-        q: "Какво точно получавам за 90 дни?",
-        a: "Обучение + сертификация + внедряване на 3 автоматизации + отчет за спестени човекочасове + бонус 1000 лв за всеки 10 сертифицирани.",
-      },
-    ],
-    []
-  );
-
-  function validateProfessionalEmail(email: string) {
-    const v = (email || "").trim().toLowerCase();
-    if (!v) return "Въведи фирмен имейл.";
-
-    // Strict format requested: word@domain.com
-    // - local part: only letters/numbers (no dots, plus, underscores)
-    // - domain: single label + TLD (domain.com), no subdomains
-    const strict = /^[a-z0-9]+@[a-z0-9-]+\.[a-z]{2,}$/i;
-    if (!strict.test(v)) {
-      return "Използвай формат: word@domain.com (без точки/плюсове и без поддомейни).";
-    }
-
-    const domain = v.split("@")[1];
-    if (disallowedEmailDomains.has(domain)) {
-      return "Приемаме само фирмени имейли (не Gmail/Outlook/Abv и т.н.).";
-    }
-
-    return "";
-  }
-
-  // scrollToHero removed (no header/FAQ CTA)
-
-  async function analyzeThenContinue() {
-    setAnalyzing(true);
-    setAnalysisNote("Анализираме сайта…");
-
-    try {
-      const r = await fetch("/api/analyze", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ url: heroWebsite }),
-      });
-      const j = await r.json().catch(() => null);
-      if (j?.ok && (j.title || j.description)) {
-        const label = j.title ? `Открихме: ${j.title}` : "";
-        setAnalysisNote(label || "Анализът е готов.");
-      }
-    } catch {
-      // ignore
-    }
-
-    // wait 3–5 seconds to feel like a real check
-    const waitMs = 3000 + Math.floor(Math.random() * 2000);
-    await new Promise((res) => setTimeout(res, waitMs));
-
-    setAnalyzing(false);
-    setAnalysisNote("");
-    setHeroStep("email");
-  }
-
-  async function onHeroSubmit(e: React.FormEvent) {
-    e.preventDefault();
-    if (analyzing) return;
-
-    if (heroStep === "website") {
-      await analyzeThenContinue();
-      return;
-    }
-
-    const err = validateProfessionalEmail(heroEmail);
-    setHeroEmailError(err);
-    if (err) return;
-
-    // Save a minimal lead right away (MVP)
-    try {
-      const payload: Lead = {
-        website: heroWebsite || undefined,
-        email: heroEmail.trim().toLowerCase(),
-        submittedAt: new Date().toISOString(),
-      };
-      const existing = JSON.parse(localStorage.getItem(KEY) || "[]") as Lead[];
-      existing.push(payload);
-      localStorage.setItem(KEY, JSON.stringify(existing));
-    } catch {
-      // ignore
-    }
-
-    const qp = new URLSearchParams();
-    if (heroWebsite) qp.set("website", heroWebsite);
-    qp.set("email", heroEmail.trim().toLowerCase());
-
-    router.push(`/chat?${qp.toString()}`);
-  }
-
-  async function onInlineSurveySubmit(e: React.FormEvent) {
-    e.preventDefault();
-    if (analyzing) return;
-
-    // Step 1: website
-    if (heroStep === "website") {
-      await analyzeThenContinue();
-      return;
-    }
-
-    // Step 2: email
-    const err = validateProfessionalEmail(heroEmail);
-    setHeroEmailError(err);
-    if (err) return;
-
-    const qp = new URLSearchParams();
-    if (heroWebsite) qp.set("website", heroWebsite);
-    qp.set("email", heroEmail.trim().toLowerCase());
-    router.push(`/chat?${qp.toString()}`);
-  }
-
   return (
     <div>
-      {/* Topbar */}
-      <header className="fixed inset-x-0 top-0 z-50 border-b border-[color:var(--stroke)] bg-white">
-        <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-5 py-4">
-          <div className="flex items-center gap-3">
-            <div className="h-8 w-8 rounded-none bg-gradient-to-br from-[color:var(--accent)] to-[color:var(--accent-2)] ring-1 ring-[color:var(--stroke)]" />
-            <div className="font-semibold tracking-tight text-[color:var(--text)]">startwithai</div>
-          </div>
-          <nav className="hidden items-center gap-6 text-xs font-semibold uppercase tracking-widest text-[color:var(--muted)] md:flex">
-            <a className="hover:text-[color:var(--text)]" href="#program">Програма</a>
-            <a className="hover:text-[color:var(--text)]" href="#process">Процес</a>
-            <a className="hover:text-[color:var(--text)]" href="#faq">Въпроси</a>
-            <a className="hover:text-[color:var(--text)]" href="#contact">Контакти</a>
-          </nav>
-          {/* header cta removed */}
-        </div>
-      </header>
+      <SiteHeader />
 
-      {/* Hero */}
-      <main className="relative pt-28">
-        <div className="mx-auto max-w-6xl px-5">
-          <div className="mx-auto max-w-4xl text-center">
-            <Pill>Провери готовността на бизнеса си за AI трансформация</Pill>
-            <h1 className="mt-6 text-balance text-4xl font-semibold leading-[1.05] tracking-tight text-[color:var(--text)] md:text-6xl">
+      <main className="mx-auto max-w-6xl px-5 pb-16 pt-40">
+        {/* Hero */}
+        <section className="border border-[color:var(--stroke)] bg-white p-6">
+          <div className="text-center">
+            <div className="text-xs font-semibold uppercase tracking-widest text-[color:var(--muted)]">
+              Национална програма
+            </div>
+            <h1 className="mt-3 text-balance text-3xl font-semibold leading-[1.15] tracking-tight text-[color:var(--text)] md:text-5xl">
               Модернизирайте бизнеса си с 0 лв. собствена инвестиция
             </h1>
-            <p className="mx-auto mt-5 max-w-3xl text-pretty text-base leading-7 text-[color:var(--muted)] md:text-lg">
+            <p className="mx-auto mt-4 max-w-3xl text-pretty text-[color:var(--muted)]">
               Възползвайте се от държавно финансиране чрез ваучерната схема на Агенция по заетостта. Ние ще обучим екипа ви и ще автоматизираме два ключови процеса във вашата фирма напълно безплатно.
             </p>
+          </div>
 
-            <form
-              onSubmit={onHeroSubmit}
-              className="mx-auto mt-9 flex max-w-3xl flex-col gap-3 rounded-none border border-[color:var(--stroke)] bg-white p-3 shadow-none md:flex-row md:items-center"
-            >
-              {heroStep === "website" ? (
-                <div className="flex flex-1 items-center gap-3 rounded-none border border-[color:var(--stroke)] bg-white px-4 py-3">
-                  <span className="text-[color:var(--muted)]">🌐</span>
-                  <input
-                    value={heroWebsite}
-                    onChange={(e) => setHeroWebsite(e.target.value)}
-                    className="w-full bg-transparent text-sm text-[color:var(--text)] placeholder:text-[color:var(--muted)] focus:outline-none"
-                    placeholder="Линк към сайта на фирмата (URL)"
-                  />
-                </div>
-              ) : (
-                <div className="flex flex-1 flex-col gap-2">
-                  <div className="flex items-center gap-3 rounded-none border border-[color:var(--stroke)] bg-white px-4 py-3">
-                    <span className="text-[color:var(--muted)]">✉️</span>
-                    <input
-                      value={heroEmail}
-                      onChange={(e) => {
-                        setHeroEmail(e.target.value);
-                        setHeroEmailError("");
-                        e.currentTarget.setCustomValidity("");
-                      }}
-                      onInvalid={(e) => {
-                        e.currentTarget.setCustomValidity(
-                          "Използвай формат: word@domain.com (само латински букви/цифри; без точки/плюсове; без поддомейни)."
-                        );
-                      }}
-                      type="text"
-                      inputMode="email"
-                      autoComplete="email"
-                      autoCapitalize="none"
-                      spellCheck={false}
-                      pattern="[A-Za-z0-9]+@[A-Za-z0-9-]+\\.[A-Za-z]{2,}"
-                      className="w-full bg-transparent text-sm text-[color:var(--text)] placeholder:text-[color:var(--muted)] focus:outline-none"
-                      placeholder="Въведи фирмен имейл (пример: office@company.com)"
-                      required
-                    />
-                  </div>
-                  {heroEmailError ? (
-                    <div className="text-left text-xs font-semibold text-rose-200/90">
-                      {heroEmailError}
-                    </div>
-                  ) : null}
-                  <div className="text-left text-xs text-[color:var(--muted)]">
-                    Допускат се само професионални имейли с фирмен домейн.
-                  </div>
-                </div>
-              )}
-
-              <button
-                type="submit"
-                disabled={analyzing}
-                className="rounded-none bg-[color:var(--accent)] px-6 py-3 text-sm font-bold text-white disabled:opacity-60"
-              >
-                {analyzing ? "АНАЛИЗИРАМЕ…" : "КАНДИДАТСТВАЙ ЗА ОДИТ →"}
-              </button>
-            </form>
-
-            {analyzing ? (
-              <div className="mx-auto mt-3 max-w-3xl border border-[color:var(--stroke)] bg-white p-3 text-left text-sm text-[color:var(--muted)]">
-                {analysisNote || "Анализираме сайта…"}
+          <div className="mx-auto mt-5 grid max-w-5xl grid-cols-1 gap-3 text-left text-sm text-[color:var(--muted)] md:grid-cols-3">
+            <div className="flex gap-3 border border-[color:var(--stroke)] bg-white p-3">
+              <div className="font-semibold text-[color:var(--text)]">✓</div>
+              <div>
+                <div className="font-semibold text-[color:var(--text)]">Финансиране</div>
+                <div>0 лв такса за одобрени кандидати.</div>
               </div>
-            ) : null}
-
-            <div className="mx-auto mt-5 grid max-w-3xl grid-cols-1 gap-3 text-left text-sm text-[color:var(--muted)] md:grid-cols-3">
-              <div className="flex gap-3 border border-[color:var(--stroke)] bg-white p-3">
-                <div className="font-semibold text-[color:var(--text)]">✓</div>
-                <div>
-                  <div className="font-semibold text-[color:var(--text)]">Финансиране</div>
-                  <div>0 лв такса за одобрени кандидати.</div>
-                </div>
+            </div>
+            <div className="flex gap-3 border border-[color:var(--stroke)] bg-white p-3">
+              <div className="font-semibold text-[color:var(--text)]">✓</div>
+              <div>
+                <div className="font-semibold text-[color:var(--text)]">Гъвкавост</div>
+                <div>Микро-сесии, съобразени с работния график.</div>
               </div>
-              <div className="flex gap-3 border border-[color:var(--stroke)] bg-white p-3">
-                <div className="font-semibold text-[color:var(--text)]">✓</div>
-                <div>
-                  <div className="font-semibold text-[color:var(--text)]">Гъвкавост</div>
-                  <div>Микро-сесии, съобразени с работния график.</div>
-                </div>
-              </div>
-              <div className="flex gap-3 border border-[color:var(--stroke)] bg-white p-3">
-                <div className="font-semibold text-[color:var(--text)]">✓</div>
-                <div>
-                  <div className="font-semibold text-[color:var(--text)]">Отчетност</div>
-                  <div>Пълен измерим доклад за спестени човекочасове.</div>
-                </div>
+            </div>
+            <div className="flex gap-3 border border-[color:var(--stroke)] bg-white p-3">
+              <div className="font-semibold text-[color:var(--text)]">✓</div>
+              <div>
+                <div className="font-semibold text-[color:var(--text)]">Отчетност</div>
+                <div>Пълен измерим доклад за спестени човекочасове.</div>
               </div>
             </div>
           </div>
+        </section>
 
-          {/* Value proposition */}
-          <section id="program" className="mx-auto mt-16 max-w-5xl">
-            <div className="text-center text-xs font-semibold uppercase tracking-[0.5em] text-[color:var(--muted-2)]">
-              Какво получавате
-            </div>
-            <div className="mt-6 grid grid-cols-1 gap-4 md:grid-cols-2">
-              <Card
-                title="100% безплатно обучение"
-                desc="Квалификация на служители по ключови дигитални компетенции и AI инструменти, изцяло покрита от ваучерната схема на АЗ."
-              />
-              <Card
-                title="Директна автоматизация"
-                desc="Внедряваме 2 персонализирани AI автоматизации в ежедневни процеси (напр. обработка на запитвания, фактуриране, репортинг)."
-              />
-              <Card
-                title="Официален сертификат"
-                desc="Всеки обучен служител получава държавно признат сертификат за дигитални умения."
-              />
-              <Card
-                title="Пълно съдействие"
-                desc="Поемаме административната тежест по подготовката и подаването на документите към Агенция по заетостта."
-              />
-            </div>
+        {/* Program */}
+        <section className="mt-16" id="program">
+          <SectionTitle
+            title="Какво получавате"
+            subtitle="Целта е измерим ефект: обучение + внедряване + отчет." 
+          />
 
-            <div className="mt-6 border border-[color:var(--stroke)] bg-white p-4 text-sm text-[color:var(--muted)]">
-              Програмата е насочена към повишаване на конкурентоспособността чрез автоматизация на повтарящи се задачи.
-            </div>
-          </section>
-        </div>
-
-        {/* 90 days */}
-        <section id="process" className="mt-20 bg-white">
-          <div className="mx-auto max-w-6xl px-5 py-16">
-            <SectionTitle
-              title="90-дневна система: обучение + внедряване + измерим резултат"
-              subtitle="Повечето пазари предлагат или скъпа консултация, или теоретично обучение. Тук процесът е комбиниран и контролиран."
+          <div className="mx-auto mt-10 grid max-w-5xl grid-cols-1 gap-4 md:grid-cols-2">
+            <Card
+              title="100% безплатно обучение"
+              desc="Квалификация на служители по ключови дигитални компетенции и AI инструменти, покрита от ваучерната схема на АЗ."
             />
-
-            <div className="mx-auto mt-10 grid max-w-5xl grid-cols-1 gap-4 md:grid-cols-2">
-              {[
-                {
-                  t: "Седмица 1–2: Процесен анализ",
-                  d: "Избираме 3 процеса, които губят най-много време, и правим план за внедряване.",
-                },
-                {
-                  t: "Седмица 3–6: Обучение в микро-сесии",
-                  d: "График протокол извън пиковите часове + практическа подготовка за изпити.",
-                },
-                {
-                  t: "Седмица 7–10: Внедряване на автоматизации",
-                  d: "Изпълняваме автоматизациите с готови шаблони, настройка и обучение на екипа.",
-                },
-                {
-                  t: "Седмица 11–13: Измерване и отчет",
-                  d: "Отчет за спестени човекочасове + инструкции за поддръжка и разширяване.",
-                },
-              ].map((x) => (
-                <div key={x.t} className="rounded-none border border-[color:var(--stroke)] bg-white p-6 shadow-none">
-                  <div className="text-sm font-semibold text-[color:var(--text)]">{x.t}</div>
-                  <div className="mt-2 text-sm leading-6 text-[color:var(--muted)]">{x.d}</div>
-                </div>
-              ))}
-            </div>
-
-            <div className="mx-auto mt-10 max-w-5xl rounded-none border border-[color:var(--stroke)] bg-white p-6 shadow-none">
-              <div className="text-sm font-semibold text-[color:var(--text)]">Гаранция „Измерим капацитет“</div>
-              <div className="mt-2 text-sm leading-6 text-[color:var(--muted)]">
-                Ако до 90-ия ден не: имате минимум 10 сертифицирани служители, внедрите поне 2 работещи автоматизации и получите отчет за реално спестени часове —
-                провеждаме допълнителен 30-дневен цикъл безплатно.
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Inline survey (above FAQ) */}
-        <section className="border-t border-[color:var(--stroke)] bg-white">
-          <div className="mx-auto max-w-6xl px-5 py-10">
-            <div className="mx-auto max-w-5xl rounded-none border border-[color:var(--stroke)] bg-white p-4 shadow-none">
-              <form
-                onSubmit={onInlineSurveySubmit}
-                className="flex flex-col gap-3 md:flex-row md:items-center"
-              >
-                {heroStep === "website" ? (
-                  <>
-                    <div className="flex flex-1 items-center gap-3 rounded-none border border-[color:var(--stroke)] bg-white px-4 py-3">
-                      <span className="text-[color:var(--muted)]">🌐</span>
-                      <input
-                        value={heroWebsite}
-                        onChange={(e) => setHeroWebsite(e.target.value)}
-                        placeholder="Линк към сайта на фирмата (URL)"
-                        className="w-full bg-transparent text-sm text-[color:var(--text)] placeholder:text-[color:var(--muted)] focus:outline-none"
-                      />
-                    </div>
-                    <button
-                      type="submit"
-                      disabled={analyzing}
-                      className="rounded-none bg-[color:var(--accent)] px-8 py-3 text-sm font-semibold text-white shadow-none hover:bg-[color:var(--accent-2)] disabled:opacity-60"
-                    >
-                      {analyzing ? "АНАЛИЗИРАМЕ…" : "Продължи →"}
-                    </button>
-                  </>
-                ) : (
-                  <>
-                    <div className="flex flex-1 items-center gap-3 rounded-none border border-[color:var(--stroke)] bg-white px-4 py-3">
-                      <span className="text-[color:var(--muted)]">✉️</span>
-                      <input
-                        value={heroEmail}
-                        onChange={(e) => {
-                          setHeroEmail(e.target.value);
-                          setHeroEmailError("");
-                        }}
-                        onInvalid={(e) => {
-                          (e.target as HTMLInputElement).setCustomValidity(
-                            "Моля, въведете фирмен имейл във формат: word@domain.com"
-                          );
-                        }}
-                        onInput={(e) => (e.target as HTMLInputElement).setCustomValidity("")}
-                        placeholder="Фирмен имейл (напр. office@company.com)"
-                        className="w-full bg-transparent text-sm text-[color:var(--text)] placeholder:text-[color:var(--muted)] focus:outline-none"
-                        required
-                      />
-                    </div>
-                    <button
-                      type="submit"
-                      className="rounded-none bg-[color:var(--accent)] px-8 py-3 text-sm font-semibold text-white shadow-none hover:bg-[color:var(--accent-2)]"
-                    >
-                      Продължи →
-                    </button>
-                  </>
-                )}
-              </form>
-
-              {heroEmailError ? (
-                <div className="mt-3 text-left text-xs text-red-600">{heroEmailError}</div>
-              ) : null}
-            </div>
-          </div>
-        </section>
-
-        {/* FAQ */}
-        <section id="faq" className="border-t border-[color:var(--stroke)] bg-white">
-          <div className="mx-auto max-w-6xl px-5 py-16">
-            <SectionTitle
-              title="Често задавани въпроси"
-              subtitle="Скептицизмът е нормален — затова моделът е прозрачен и измерим."
+            <Card
+              title="Директна автоматизация"
+              desc="Внедряваме 2 персонализирани AI автоматизации в ежедневни процеси (напр. обработка на запитвания, фактуриране, репортинг)."
             />
-
-            <div className="mx-auto mt-10 max-w-4xl space-y-3">
-              {faqs.map((f) => (
-                <details
-                  key={f.q}
-                  className="group rounded-none border border-[color:var(--stroke)] bg-white p-5 shadow-none"
-                >
-                  <summary className="cursor-pointer list-none text-sm font-semibold text-[color:var(--text)]">
-                    <div className="flex items-center justify-between gap-4">
-                      <span>{f.q}</span>
-                      <span className="text-[color:var(--muted)] transition-transform group-open:rotate-45">
-                        +
-                      </span>
-                    </div>
-                  </summary>
-                  <div className="mt-3 text-sm leading-6 text-[color:var(--muted)]">
-                    {f.a}
-                  </div>
-                </details>
-              ))}
-            </div>
-
-            {/* removed extra CTA under FAQ */}
-          </div>
-        </section>
-
-        {/* Contact */}
-        <section id="contact" className="border-t border-[color:var(--stroke)] bg-white">
-          <div className="mx-auto max-w-6xl px-5 py-16">
-            <SectionTitle
-              title="Контакти"
-              subtitle="За въпроси и съдействие — свържете се с нас."
+            <Card
+              title="Официален сертификат"
+              desc="Всеки обучен служител получава държавно признат сертификат за дигитални умения."
             />
+            <Card
+              title="Пълно съдействие"
+              desc="Поемаме административната тежест по подготовката и подаването на документите към Агенция по заетостта."
+            />
+          </div>
 
-            <div className="mx-auto mt-10 grid max-w-5xl grid-cols-1 gap-4 md:grid-cols-3">
-              <div className="rounded-none border border-[color:var(--stroke)] bg-white p-6 shadow-none">
-                <div className="text-sm font-semibold text-[color:var(--text)]">Имейл</div>
-                <div className="mt-2 text-sm leading-6 text-[color:var(--muted)]">
-                  contact@startwithai.vercel.app
-                </div>
-              </div>
-              <div className="rounded-none border border-[color:var(--stroke)] bg-white p-6 shadow-none">
-                <div className="text-sm font-semibold text-[color:var(--text)]">Телефон</div>
-                <div className="mt-2 text-sm leading-6 text-[color:var(--muted)]">
-                  +359 000 000 000
-                </div>
-              </div>
-              <div className="rounded-none border border-[color:var(--stroke)] bg-white p-6 shadow-none">
-                <div className="text-sm font-semibold text-[color:var(--text)]">Адрес</div>
-                <div className="mt-2 text-sm leading-6 text-[color:var(--muted)]">
-                  София, България
-                </div>
-              </div>
-            </div>
+          <div className="mx-auto mt-6 max-w-5xl border border-[color:var(--stroke)] bg-white p-4 text-sm text-[color:var(--muted)]">
+            Програмата е насочена към повишаване на конкурентоспособността чрез автоматизация на повтарящи се задачи.
           </div>
         </section>
 
-        <footer className="border-t border-[color:var(--stroke)] py-10">
-          <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-3 px-5 text-xs text-[color:var(--muted)] md:flex-row">
-            <div>© {new Date().getFullYear()} startwithai</div>
-            <div className="uppercase tracking-[0.4em]">AI внедряване за МСП</div>
+        {/* Footer */}
+        <footer className="mt-16 border-t border-[color:var(--stroke)] py-10 text-xs text-[color:var(--muted)]">
+          <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-3 md:flex-row">
+            <div>© {new Date().getFullYear()} AI Модернизация</div>
+            <div className="uppercase tracking-[0.4em]">Технологична асистенция</div>
           </div>
         </footer>
       </main>
