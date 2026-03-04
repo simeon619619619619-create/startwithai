@@ -94,7 +94,16 @@ export default function ProgramPage() {
             <ul className="list-disc pl-5">
               <li>
                 <span className="font-semibold text-[color:var(--text)]">Административно съдействие:</span> Пълна подкрепа при кандидатстване
-                за ваучер по проект „Квалификация, умения и кариерно развитие на заети лица“.
+                за ваучер по проект „
+                <a
+                  href="https://servicesprocess.az.government.bg/"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="font-semibold text-[color:var(--accent)] underline"
+                >
+                  Квалификация, умения и кариерно развитие на заети лица
+                </a>
+                “.
               </li>
               <li>
                 <span className="font-semibold text-[color:var(--text)]">Диагностика на процесите:</span> Анализираме кои ежедневни задачи
