@@ -194,6 +194,14 @@ export default function HomePage() {
 
   function onInlineSurveySubmit(e: React.FormEvent) {
     e.preventDefault();
+
+    // Step 1: website
+    if (heroStep === "website") {
+      setHeroStep("email");
+      return;
+    }
+
+    // Step 2: email
     const err = validateProfessionalEmail(heroEmail);
     setHeroEmailError(err);
     if (err) return;
@@ -411,38 +419,53 @@ export default function HomePage() {
                 onSubmit={onInlineSurveySubmit}
                 className="flex flex-col gap-3 md:flex-row md:items-center"
               >
-                <div className="flex flex-1 items-center gap-3 rounded-none border border-[color:var(--stroke)] bg-white px-4 py-3">
-                  <span className="text-[color:var(--muted)]">🌐</span>
-                  <input
-                    value={heroWebsite}
-                    onChange={(e) => setHeroWebsite(e.target.value)}
-                    placeholder="Линк към сайта на фирмата (URL)"
-                    className="w-full bg-transparent text-sm text-[color:var(--text)] placeholder:text-[color:var(--muted)] focus:outline-none"
-                  />
-                </div>
-
-                <div className="flex flex-1 items-center gap-3 rounded-none border border-[color:var(--stroke)] bg-white px-4 py-3">
-                  <span className="text-[color:var(--muted)]">✉️</span>
-                  <input
-                    value={heroEmail}
-                    onChange={(e) => setHeroEmail(e.target.value)}
-                    onInvalid={(e) => {
-                      (e.target as HTMLInputElement).setCustomValidity(
-                        "Моля, въведете фирмен имейл във формат: word@domain.com"
-                      );
-                    }}
-                    onInput={(e) => (e.target as HTMLInputElement).setCustomValidity("")}
-                    placeholder="Фирмен имейл (напр. office@company.com)"
-                    className="w-full bg-transparent text-sm text-[color:var(--text)] placeholder:text-[color:var(--muted)] focus:outline-none"
-                  />
-                </div>
-
-                <button
-                  type="submit"
-                  className="rounded-none bg-[color:var(--accent)] px-8 py-3 text-sm font-semibold text-white shadow-none hover:bg-[color:var(--accent-2)]"
-                >
-                  Продължи →
-                </button>
+                {heroStep === "website" ? (
+                  <>
+                    <div className="flex flex-1 items-center gap-3 rounded-none border border-[color:var(--stroke)] bg-white px-4 py-3">
+                      <span className="text-[color:var(--muted)]">🌐</span>
+                      <input
+                        value={heroWebsite}
+                        onChange={(e) => setHeroWebsite(e.target.value)}
+                        placeholder="Линк към сайта на фирмата (URL)"
+                        className="w-full bg-transparent text-sm text-[color:var(--text)] placeholder:text-[color:var(--muted)] focus:outline-none"
+                      />
+                    </div>
+                    <button
+                      type="submit"
+                      className="rounded-none bg-[color:var(--accent)] px-8 py-3 text-sm font-semibold text-white shadow-none hover:bg-[color:var(--accent-2)]"
+                    >
+                      Продължи →
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <div className="flex flex-1 items-center gap-3 rounded-none border border-[color:var(--stroke)] bg-white px-4 py-3">
+                      <span className="text-[color:var(--muted)]">✉️</span>
+                      <input
+                        value={heroEmail}
+                        onChange={(e) => {
+                          setHeroEmail(e.target.value);
+                          setHeroEmailError("");
+                        }}
+                        onInvalid={(e) => {
+                          (e.target as HTMLInputElement).setCustomValidity(
+                            "Моля, въведете фирмен имейл във формат: word@domain.com"
+                          );
+                        }}
+                        onInput={(e) => (e.target as HTMLInputElement).setCustomValidity("")}
+                        placeholder="Фирмен имейл (напр. office@company.com)"
+                        className="w-full bg-transparent text-sm text-[color:var(--text)] placeholder:text-[color:var(--muted)] focus:outline-none"
+                        required
+                      />
+                    </div>
+                    <button
+                      type="submit"
+                      className="rounded-none bg-[color:var(--accent)] px-8 py-3 text-sm font-semibold text-white shadow-none hover:bg-[color:var(--accent-2)]"
+                    >
+                      Продължи →
+                    </button>
+                  </>
+                )}
               </form>
 
               {heroEmailError ? (
