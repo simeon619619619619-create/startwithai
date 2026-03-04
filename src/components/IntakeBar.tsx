@@ -75,19 +75,31 @@ export default function IntakeBar({ compact }: Props) {
         body: JSON.stringify({ url: website }),
       });
       const j = await r.json().catch(() => null);
-      if (j?.ok && (j.title || j.description)) {
+
+      if (!j?.ok) {
+        setAnalyzing(false);
+        setAnalysisNote("");
+        setError(j?.message || "Сайтът не може да бъде проверен.");
+        setStep("website");
+        return;
+      }
+
+      if (j.title || j.description) {
         setAnalysisNote(j.title ? `Открихме: ${j.title}` : "Анализът е готов.");
       }
+
+      const waitMs = 3000 + Math.floor(Math.random() * 2000);
+      await new Promise((res) => setTimeout(res, waitMs));
+
+      setAnalyzing(false);
+      setAnalysisNote("");
+      setStep("email");
     } catch {
-      // ignore
+      setAnalyzing(false);
+      setAnalysisNote("");
+      setError("Не успяхме да достъпим сайта. Проверете URL.");
+      setStep("website");
     }
-
-    const waitMs = 3000 + Math.floor(Math.random() * 2000);
-    await new Promise((res) => setTimeout(res, waitMs));
-
-    setAnalyzing(false);
-    setAnalysisNote("");
-    setStep("email");
   }
 
   function startChat() {
