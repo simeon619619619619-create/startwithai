@@ -107,6 +107,67 @@ export default function HomePage() {
           </div>
         </section>
 
+        {/* News */}
+        <section className="mt-16" id="news">
+          <div className="mx-auto max-w-5xl">
+            <div className="flex items-center justify-between gap-4">
+              <h2 className="text-lg font-semibold tracking-tight text-[color:var(--text)]">Новини</h2>
+              <Link
+                href="/news"
+                className="text-xs font-semibold uppercase tracking-widest text-[color:var(--muted)] hover:text-[color:var(--text)]"
+              >
+                Всички новини →
+              </Link>
+            </div>
+
+            <div className="mt-6 grid grid-cols-1 gap-4 border border-[color:var(--stroke)] bg-white p-4 md:grid-cols-[1.2fr_0.8fr]">
+              {/* Featured */}
+              <article className="border border-[color:var(--stroke)] bg-white">
+                <div className="h-48 w-full bg-[linear-gradient(135deg,#e8eef8,white)] md:h-64" />
+                <div className="p-5">
+                  <div className="flex items-center gap-3">
+                    <span className="border border-[color:var(--stroke)] bg-white px-2 py-1 text-[10px] font-semibold uppercase tracking-widest text-[color:var(--muted)]">
+                      Администрация
+                    </span>
+                    <span className="text-xs font-semibold uppercase tracking-widest text-[color:var(--muted)]">26.02.2026</span>
+                  </div>
+                  <h3 className="mt-3 text-lg font-semibold text-[color:var(--text)]">
+                    Отворен прием за кандидати по Програма „Интелигентен растеж“
+                  </h3>
+                  <p className="mt-2 text-sm leading-6 text-[color:var(--muted)]">
+                    Обновени насоки за допустимост и документи. Кандидатстването започва с проверка на сайта и служебен имейл.
+                  </p>
+                  <div className="mt-4">
+                    <Link
+                      href="/news"
+                      className="text-xs font-semibold uppercase tracking-widest text-[color:var(--muted)] hover:text-[color:var(--text)]"
+                    >
+                      Прочети →
+                    </Link>
+                  </div>
+                </div>
+              </article>
+
+              {/* List */}
+              <div className="flex flex-col gap-3">
+                {[
+                  ["24.02.2026", "Добавени 8 специализирани AI модула към 90-дневния план"],
+                  ["21.02.2026", "Нов процес: анализ → консултация → документи → внедряване"],
+                  ["18.02.2026", "Нова страница: Общи условия и политика за данни"],
+                ].map(([date, title]) => (
+                  <article key={title} className="flex gap-3 border border-[color:var(--stroke)] bg-white p-4">
+                    <div className="h-12 w-16 shrink-0 bg-[linear-gradient(135deg,#f3f6fb,white)] ring-1 ring-[color:var(--stroke)]" />
+                    <div>
+                      <div className="text-xs font-semibold uppercase tracking-widest text-[color:var(--muted)]">{date}</div>
+                      <div className="mt-1 text-sm font-semibold text-[color:var(--text)]">{title}</div>
+                    </div>
+                  </article>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+
         {/* Footer */}
         <footer className="mt-16 border-t border-[color:var(--stroke)] py-10 text-xs text-[color:var(--muted)]">
           <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-3 md:flex-row">
