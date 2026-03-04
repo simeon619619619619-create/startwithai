@@ -7,13 +7,13 @@ import IntakeBar from "@/components/IntakeBar";
 export default function SiteHeader() {
   const pathname = usePathname();
   return (
-    <header className="fixed inset-x-0 top-0 z-50 border-b border-[color:var(--stroke)] bg-white">
+    <header className="fixed inset-x-0 top-0 z-50 border-b border-[color:rgba(255,255,255,0.18)] bg-[color:var(--accent)]">
       <div className="mx-auto max-w-6xl px-5">
         <div className="flex items-center justify-between gap-4 py-4">
           {pathname !== "/" ? (
             <Link
               href="/"
-              className="hidden text-xs font-semibold uppercase tracking-widest text-[color:var(--muted)] hover:text-[color:var(--text)] md:inline-flex"
+              className="hidden text-xs font-semibold uppercase tracking-widest text-white/80 hover:text-white md:inline-flex"
               aria-label="Назад към начална страница"
             >
               ← Начало
@@ -23,16 +23,16 @@ export default function SiteHeader() {
           )}
 
           <Link href="/" className="flex items-center gap-3">
-            <div className="h-8 w-8 bg-[color:var(--accent)] ring-1 ring-[color:var(--stroke)]" />
-            <div className="font-semibold tracking-tight text-[color:var(--text)]">Програма „Интелигентен растеж“</div>
+            <div className="h-8 w-8 bg-white/15 ring-1 ring-white/25" />
+            <div className="font-semibold tracking-tight text-white">Програма „Интелигентен растеж“</div>
           </Link>
 
-          <nav className="hidden items-center gap-6 text-xs font-semibold uppercase tracking-widest text-[color:var(--muted)] md:flex">
-            <Link className="hover:text-[color:var(--text)]" href="/program">Програма</Link>
-            <Link className="hover:text-[color:var(--text)]" href="/process">Процес</Link>
-            <Link className="hover:text-[color:var(--text)]" href="/questions">Въпроси</Link>
-            <Link className="hover:text-[color:var(--text)]" href="/news">Новини</Link>
-            <Link className="hover:text-[color:var(--text)]" href="/contact">Контакти</Link>
+          <nav className="hidden items-center gap-6 text-xs font-semibold uppercase tracking-widest text-white/80 md:flex">
+            <Link className="hover:text-white" href="/program">Програма</Link>
+            <Link className="hover:text-white" href="/process">Процес</Link>
+            <Link className="hover:text-white" href="/questions">Въпроси</Link>
+            <Link className="hover:text-white" href="/news">Новини</Link>
+            <Link className="hover:text-white" href="/contact">Контакти</Link>
           </nav>
         </div>
 

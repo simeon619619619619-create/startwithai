@@ -164,7 +164,7 @@ export default function IntakeBar({ compact }: Props) {
         <button
           type="submit"
           disabled={analyzing}
-          className="bg-[color:var(--accent)] px-6 py-3 text-sm font-bold uppercase tracking-widest text-white disabled:opacity-60"
+          className="border border-white/35 bg-white px-6 py-3 text-sm font-bold uppercase tracking-widest text-[color:var(--accent)] disabled:opacity-60"
         >
           {analyzing ? "АНАЛИЗИРАМЕ…" : step === "website" ? "ПРОДЪЛЖИ" : "ЗАПОЧНИ"}
         </button>
