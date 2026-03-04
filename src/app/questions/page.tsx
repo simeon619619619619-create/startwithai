@@ -1,23 +1,90 @@
+import Link from "next/link";
 import SiteHeader from "@/components/SiteHeader";
 
+type QA = { q: string; a: string };
+
 export default function QuestionsPage() {
+  const faqs: QA[] = [
+    {
+      q: "Какво представлява ваучерната система?",
+      a: "Това е механизъм за безвъзмездно финансиране по проект „Квалификация, умения и кариерно развитие на заети лица“. Чрез него държавата покрива 100% от разходите за обучение по дигитални умения за вашите служители.",
+    },
+    {
+      q: "Колко точно струва програмата на моята фирма?",
+      a: "Таксата за обучение и сертификация е 0 лв., тъй като се финансира от Европейския социален фонд плюс (ЕСФ+). Допълнителната услуга по внедряване на 2 автоматизации е включена като бонус за партньори по програмата (при одобрение).",
+    },
+    {
+      q: "Кои фирми са допустими за кандидатстване?",
+      a: "Допустими са микро, малки, средни и големи предприятия, регистрирани в България, които искат да повишат дигиталната квалификация на своя персонал.",
+    },
+    {
+      q: "Какви служители могат да бъдат обучени?",
+      a: "Всички лица, наети на трудов договор в частния сектор, могат да се възползват от ваучер за обучение за дигитални умения.",
+    },
+    {
+      q: "Какво включва „бонус автоматизацията“?",
+      a: "Освен обучението, избираме два конкретни процеса във вашата фирма (напр. четене на фактури или обработка на имейли) и настройваме AI инструменти, които да ги изпълняват автоматизирано вместо ръчна работа.",
+    },
+    {
+      q: "Колко време отнема целият процес?",
+      a: "Стандартният цикъл от кандидатстване до финално внедряване и сертификация е около 3 месеца, като обучението за средно ниво е минимум 45 учебни часа.",
+    },
+    {
+      q: "Трябва ли служителите да спират работа, за да учат?",
+      a: "Не. Предлагаме гъвкави микро-сесии, които могат да се провеждат извън пиковите часове, за да не се прекъсва работният процес.",
+    },
+    {
+      q: "Какъв документ се получава след обучението?",
+      a: "След успешно положен изпит всеки служител получава официален сертификат за дигитална компетентност. Сертификатите и документите по програмата са признати в цяла Европа.",
+    },
+    {
+      q: "Безопасни ли са данните на фирмата ми при внедряване на AI?",
+      a: "Да. Работим със защитени архитектури, съобразени с изискванията на ЕС (AI Act) и GDPR. Данните ви остават конфиденциални и не се използват за обучение на публични модели.",
+    },
+    {
+      q: "Каква е ролята на „Интелигентен растеж“ в процеса?",
+      a: "Ние сме вашият технологичен партньор. Помагаме с административната подготовка към АЗ, провеждаме специализираното обучение и извършваме техническото внедряване на AI решенията.",
+    },
+  ];
+
   return (
     <div>
       <SiteHeader />
+
       <main className="mx-auto max-w-6xl px-5 pb-16 pt-40">
-        <h1 className="text-3xl font-semibold text-[color:var(--text)]">Често задавани въпроси</h1>
-        <div className="mt-8 grid grid-cols-1 gap-3">
-          {[
-            ["Колко струва на фирмата?", "0 лв за одобрени кандидати по програмата."],
-            ["Кои фирми са допустими?", "Повечето микро, малки и средни предприятия, регистрирани в България."],
-            ["Какво е „бонус автоматизация“?", "Внедряваме 2 AI решения, които спестяват реални часове работа."],
-          ].map(([q, a]) => (
-            <details key={q} className="border border-[color:var(--stroke)] bg-white p-4">
-              <summary className="cursor-pointer font-semibold text-[color:var(--text)]">{q}</summary>
-              <div className="mt-2 text-sm text-[color:var(--muted)]">{a}</div>
+        <div className="mx-auto max-w-4xl text-center">
+          <div className="text-xs font-semibold uppercase tracking-widest text-[color:var(--muted)]">Въпроси</div>
+          <h1 className="mt-3 text-balance text-3xl font-semibold tracking-tight text-[color:var(--text)] md:text-4xl">Често задавани въпроси</h1>
+          <p className="mx-auto mt-4 max-w-3xl text-pretty text-[color:var(--muted)]">
+            Административни детайли по ваучерите + технически въпроси около AI автоматизацията.
+          </p>
+        </div>
+
+        <section className="mx-auto mt-10 grid max-w-5xl grid-cols-1 gap-3">
+          {faqs.map((x, i) => (
+            <details key={x.q} className="border border-[color:var(--stroke)] bg-white p-4">
+              <summary className="cursor-pointer select-none font-semibold text-[color:var(--text)]">
+                {i + 1}. {x.q}
+              </summary>
+              <div className="mt-2 text-sm leading-6 text-[color:var(--muted)]">{x.a}</div>
             </details>
           ))}
-        </div>
+
+          <div className="mt-3 border border-[color:var(--stroke)] bg-white p-6">
+            <div className="flex flex-col items-start justify-between gap-4 md:flex-row md:items-center">
+              <div>
+                <div className="text-sm font-semibold text-[color:var(--text)]">Имате друг въпрос?</div>
+                <div className="mt-1 text-sm text-[color:var(--muted)]">Свържете се с нас и ще ви насочим.</div>
+              </div>
+              <Link
+                href="/contact"
+                className="inline-flex bg-[color:var(--accent)] px-6 py-3 text-sm font-bold uppercase tracking-widest text-white"
+              >
+                КЪМ КОНТАКТИ →
+              </Link>
+            </div>
+          </div>
+        </section>
       </main>
     </div>
   );
