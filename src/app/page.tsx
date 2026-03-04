@@ -182,16 +182,17 @@ export default function HomePage() {
                     </div>
                   </article>
                 ))}
-              </div>
-            </div>
 
-            <div className="mt-2 flex justify-end">
-              <Link
-                href="/news"
-                className="inline-flex bg-[color:var(--accent)] px-6 py-3 text-xs font-bold uppercase tracking-widest text-white"
-              >
-                Научете повече →
-              </Link>
+                {/* CTA placement (inside right column, in the empty space) */}
+                <div className="mt-2 flex justify-end">
+                  <Link
+                    href="/news"
+                    className="inline-flex bg-[color:var(--accent)] px-6 py-3 text-xs font-bold uppercase tracking-widest text-white"
+                  >
+                    Научете повече →
+                  </Link>
+                </div>
+              </div>
             </div>
           </div>
         </section>
