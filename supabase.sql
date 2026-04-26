@@ -49,3 +49,27 @@ drop trigger if exists set_chat_leads_updated_at on public.chat_leads;
 create trigger set_chat_leads_updated_at
 before update on public.chat_leads
 for each row execute function public.set_updated_at();
+
+-- Business inquiries: full contact survey submissions
+create table if not exists public.business_inquiries (
+  id uuid primary key default gen_random_uuid(),
+  name text not null,
+  company text,
+  email text not null,
+  phone text,
+  website text,
+  business_type text,
+  team_size text,
+  services text[] default '{}',
+  pains text,
+  budget text,
+  timeline text,
+  details text,
+  voucher_interest boolean default false,
+  resend_id text,
+  status text default 'new',
+  created_at timestamptz not null default now()
+);
+create index if not exists business_inquiries_email_idx on public.business_inquiries(email);
+create index if not exists business_inquiries_created_at_idx on public.business_inquiries(created_at);
+create index if not exists business_inquiries_status_idx on public.business_inquiries(status);

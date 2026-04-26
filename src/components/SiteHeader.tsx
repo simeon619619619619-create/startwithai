@@ -32,8 +32,13 @@ export default function SiteHeader() {
           <nav className="hidden items-center gap-6 text-xs font-semibold uppercase tracking-widest text-white/80 md:flex">
             <Link className="hover:text-white" href="/uslugi">Услуги & Цени</Link>
             <Link className="hover:text-white" href="/program">Програма</Link>
-            <Link className="hover:text-white" href="/process">Процес</Link>
-            <Link className="hover:text-white" href="/questions">Въпроси</Link>
+            <Link className="hover:text-white" href="/terms">Условия</Link>
+            <Link
+              className="border border-white/40 bg-white/10 px-3 py-1.5 text-white hover:bg-white hover:text-[color:var(--accent)]"
+              href="/contact"
+            >
+              Контакт →
+            </Link>
           </nav>
         </div>
 

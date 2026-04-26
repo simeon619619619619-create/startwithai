@@ -176,19 +176,29 @@ export default function ProgramPage() {
           </div>
         </section>
 
-        {/* Conditions */}
-        <section className="mx-auto mt-10 max-w-5xl border border-[color:var(--stroke)] bg-white p-6">
-          <div className="text-sm font-semibold uppercase tracking-widest text-[color:var(--muted)]">Условия</div>
-          <p className="mt-4 text-sm leading-6 text-[color:var(--muted)]">
-            Участието е възможно само при одобрение и при приемане на официалните Общи условия на програмата.
-          </p>
-          <div className="mt-5">
+        {/* CTA — Apply / Contact */}
+        <section className="mx-auto mt-12 max-w-5xl border border-[color:var(--accent)] bg-[color:var(--accent)] p-8 text-white md:p-10">
+          <div className="grid grid-cols-1 items-center gap-6 md:grid-cols-[1fr_auto]">
+            <div>
+              <div className="text-xs font-semibold uppercase tracking-widest text-white/70">
+                Готов ли си?
+              </div>
+              <h2 className="mt-2 text-2xl font-semibold tracking-tight md:text-3xl">
+                Кандидатствай за програмата
+              </h2>
+              <p className="mt-3 text-white/80">
+                Попълни анкетата за 3-4 минути — научаваме за бизнеса ти, проверяваме допустимост за ваучер, насрочваме безплатен 30-минутен разговор.
+              </p>
+            </div>
             <Link
-              href="/terms"
-              className="inline-flex bg-[color:var(--accent)] px-6 py-3 text-sm font-bold uppercase tracking-widest text-white"
+              href="/contact"
+              className="inline-flex bg-white px-8 py-4 text-sm font-bold uppercase tracking-widest text-[color:var(--accent)] hover:bg-[#f5f5f5]"
             >
-              ОБЩИ УСЛОВИЯ →
+              Започни →
             </Link>
+          </div>
+          <div className="mt-6 border-t border-white/20 pt-4 text-xs text-white/60">
+            Виж <Link href="/terms" className="underline hover:text-white">пълни условия и политика за сигурност</Link> · GDPR-съвместимо · Данните не се споделят с трети страни
           </div>
         </section>
       </main>
