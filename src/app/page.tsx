@@ -86,80 +86,96 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* Pain section — what we solve */}
+        {/* Solutions section — what we solve, framed as solutions with next steps */}
         <section className="mt-16">
           <div className="mx-auto max-w-3xl text-center">
             <div className="text-xs font-semibold uppercase tracking-widest text-[color:var(--muted)]">
-              Болките които решаваме
+              Какво решаваме
             </div>
             <h2 className="mt-2 text-balance text-2xl font-semibold tracking-tight md:text-3xl">
-              Тези 6 проблема познаваш ли ги?
+              6 от най-честите бизнес ситуации
             </h2>
           </div>
 
           <div className="mx-auto mt-10 grid max-w-5xl grid-cols-1 gap-4 md:grid-cols-2">
             {[
               {
-                stat: "56%",
-                pain: "Не мога да намеря добри хора. Като ги намеря — не могат, като се научат — си тръгват.",
-                solution: "AI пресява кандидати, прави първи разговор, освобождава теб за финалното интервю.",
-                module: "HR Kit · AI асистенти",
+                num: "01",
+                title: "Не намираш и не задържаш кадри",
+                solution: "AI пресява CV-та, провежда първи скрининг разговор и подрежда финалистите. Ти влизаш само на последното интервю.",
+                stepLabel: "Виж HR Kit & AI асистенти",
+                stepHref: "/uslugi#ai",
               },
               {
-                stat: "67%",
-                pain: "Затрупан съм с НАП, SAF-T, фактури. Половината седмица в хартии. Кога да продавам?",
-                solution: "AI чете фактурите, прави отчети, отговаря на стандартни запитвания в имейла.",
-                module: "Finance Shield · Inbox Commander",
+                num: "02",
+                title: "Затрупан си с админ — НАП, SAF-T, фактури",
+                solution: "AI чете входящи фактури, попълва отчети и отговаря на стандартни запитвания в имейла без твоя намеса.",
+                stepLabel: "Поискай оферта за автоматизация",
+                stepHref: "/contact",
               },
               {
-                stat: "66%",
-                pain: "B2B фактурите ми са просрочени по 90 дни. Имам поръчки — нямам пари.",
-                solution: "Automated reminder pipeline, dashboard кой дължи колко, escalation секвенция.",
-                module: "Финансова автоматизация",
+                num: "03",
+                title: "Клиентите ти не плащат на време",
+                solution: "Automated reminder pipeline, dashboard за просрочени плащания, ескалационна секвенция със SMS/имейл/телефон.",
+                stepLabel: "Виж финансова автоматизация",
+                stepHref: "/uslugi#ai",
               },
               {
-                stat: "8%",
-                pain: "Само 8% от българските фирми ползват AI. Аз не разбирам откъде да започна.",
-                solution: "Кратко изясняване → AI инструмент който решава ТВОЯ конкретен процес, не теория.",
-                module: "Цял каталог 01-09",
+                num: "04",
+                title: "Не знаеш откъде да започнеш с AI",
+                solution: "30-минутна безплатна консултация → конкретен AI инструмент за ТВОЯ процес, не теория.",
+                stepLabel: "Запази безплатна консултация",
+                stepHref: "/contact",
               },
               {
-                stat: "62%",
-                pain: "Аз СЪМ бизнесът — не мога да се махна за 1 ден. Burnout всеки 2-ри месец.",
-                solution: "Автоматизираме 2-3 от най-болезнените процеси. Връщаш си 10-15 часа седмично.",
-                module: "Workflow engine + Health checks",
+                num: "05",
+                title: "Работиш по 12 часа без време за стратегия",
+                solution: "Автоматизираме 2-3 от най-болезнените процеси за 4-8 седмици. Връщаш си 10-15 часа седмично.",
+                stepLabel: "Виж workflow engine",
+                stepHref: "/uslugi#ai",
               },
               {
-                stat: "38%",
-                pain: "Сайтът ми е от 2018. Temu и Amazon ме мачкат, не знам откъде да започна.",
-                solution: "Production уеб платформа (Next.js + Supabase + Vercel) за 4-8 седмици.",
-                module: "Уеб платформи & E-commerce",
+                num: "06",
+                title: "Сайтът ти е стар и конкуренцията те мачка онлайн",
+                solution: "Production уеб платформа на Next.js + Supabase + Vercel за 4-8 седмици. Готова за SEO и AI search.",
+                stepLabel: "Виж уеб платформи",
+                stepHref: "/uslugi#web",
               },
             ].map((p) => (
-              <div key={p.pain} className="border border-[color:var(--stroke)] bg-white p-5">
-                <div className="flex items-baseline gap-3">
-                  <div className="text-3xl font-semibold italic text-[#C9A84C]">{p.stat}</div>
-                  <div className="text-xs font-semibold uppercase tracking-widest text-[color:var(--muted)]">от BG бизнеса</div>
+              <div key={p.num} className="flex flex-col border border-[color:var(--stroke)] bg-white p-6">
+                <div className="text-xs font-semibold uppercase tracking-widest text-[color:var(--muted)]">
+                  {p.num}
                 </div>
-                <div className="mt-3 border-l-2 border-[color:var(--stroke)] pl-3 text-sm italic leading-6 text-[color:var(--text)]">
-                  „{p.pain}&ldquo;
+                <div className="mt-2 text-lg font-semibold leading-snug text-[color:var(--text)]">
+                  {p.title}
                 </div>
                 <div className="mt-3 text-sm leading-6 text-[color:var(--muted)]">
-                  <span className="font-semibold text-[color:var(--text)]">Решение:</span> {p.solution}
+                  {p.solution}
                 </div>
-                <div className="mt-3 text-[10px] font-semibold uppercase tracking-widest text-[#C9A84C]">
-                  → {p.module}
+                <div className="mt-auto pt-5">
+                  <Link
+                    href={p.stepHref}
+                    className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-[color:var(--accent)] hover:underline"
+                  >
+                    {p.stepLabel} →
+                  </Link>
                 </div>
               </div>
             ))}
           </div>
 
-          <div className="mx-auto mt-8 flex max-w-5xl justify-center">
+          <div className="mx-auto mt-10 flex max-w-5xl flex-wrap justify-center gap-3">
             <Link
               href="/uslugi"
               className="inline-flex bg-[color:var(--accent)] px-6 py-3 text-sm font-bold uppercase tracking-widest text-white"
             >
               Виж всички услуги →
+            </Link>
+            <Link
+              href="/contact"
+              className="inline-flex border border-[color:var(--accent)] bg-white px-6 py-3 text-sm font-bold uppercase tracking-widest text-[color:var(--accent)] hover:bg-[color:var(--accent)] hover:text-white"
+            >
+              Започни анкета
             </Link>
           </div>
         </section>
