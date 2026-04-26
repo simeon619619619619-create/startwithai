@@ -30,10 +30,10 @@ export default function SiteHeader() {
           </div>
 
           <nav className="hidden items-center gap-6 text-xs font-semibold uppercase tracking-widest text-white/80 md:flex">
+            <Link className="hover:text-white" href="/uslugi">Услуги & Цени</Link>
             <Link className="hover:text-white" href="/program">Програма</Link>
             <Link className="hover:text-white" href="/process">Процес</Link>
             <Link className="hover:text-white" href="/questions">Въпроси</Link>
-            <Link className="hover:text-white" href="/news">Новини</Link>
           </nav>
         </div>
 

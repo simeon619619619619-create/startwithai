@@ -37,38 +37,130 @@ export default function HomePage() {
         <section className="border border-[color:var(--stroke)] bg-white p-6">
           <div className="text-center">
             <div className="text-xs font-semibold uppercase tracking-widest text-[color:var(--muted)]">
-              Национална програма
+              За български МСП · April 2026
             </div>
             <h1 className="mt-3 text-balance text-3xl font-semibold leading-[1.15] tracking-tight text-[color:var(--text)] md:text-5xl">
-              Модернизирайте бизнеса си с 0 лв. собствена инвестиция
+              Спри да работиш по 12 часа на ден за да крепиш фирмата.
             </h1>
             <p className="mx-auto mt-4 max-w-3xl text-pretty text-[color:var(--muted)]">
-              Възползвайте се от държавно финансиране чрез ваучерната схема на Агенция по заетостта. Ние ще обучим екипа ви и ще автоматизираме два ключови процеса във вашата фирма напълно безплатно.
+              Изграждаме AI асистенти, автоматизации и платформи които поемат админ-а, фактурите, имейлите и пресяването на кандидати — за да правиш това, за което започна този бизнес.
             </p>
+            <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
+              <Link
+                href="/uslugi"
+                className="inline-flex bg-[color:var(--accent)] px-6 py-3 text-sm font-bold uppercase tracking-widest text-white"
+              >
+                Виж услугите и цените →
+              </Link>
+              <Link
+                href="/program"
+                className="inline-flex border border-[color:var(--stroke)] bg-white px-6 py-3 text-sm font-bold uppercase tracking-widest text-[color:var(--text)] hover:border-[color:var(--accent)]"
+              >
+                Ваучерна програма
+              </Link>
+            </div>
           </div>
 
-          <div className="mx-auto mt-5 grid max-w-5xl grid-cols-1 gap-3 text-left text-sm text-[color:var(--muted)] md:grid-cols-3">
+          <div className="mx-auto mt-8 grid max-w-5xl grid-cols-1 gap-3 text-left text-sm text-[color:var(--muted)] md:grid-cols-3">
             <div className="flex gap-3 border border-[color:var(--stroke)] bg-white p-3">
               <div className="font-semibold text-[color:var(--text)]">✓</div>
               <div>
-                <div className="font-semibold text-[color:var(--text)]">Финансиране</div>
-                <div>0 лв такса за одобрени кандидати.</div>
+                <div className="font-semibold text-[color:var(--text)]">Реални клиентски кейсове</div>
+                <div>BOSY, EFI, Cara Diamanti, Founders Club, Simora — production проекти.</div>
               </div>
             </div>
             <div className="flex gap-3 border border-[color:var(--stroke)] bg-white p-3">
               <div className="font-semibold text-[color:var(--text)]">✓</div>
               <div>
-                <div className="font-semibold text-[color:var(--text)]">Гъвкавост</div>
-                <div>Микро-сесии, съобразени с работния график.</div>
+                <div className="font-semibold text-[color:var(--text)]">Прозрачни цени</div>
+                <div>Каталог от 100€ до enterprise проекти. Ваучерна схема за обучение.</div>
               </div>
             </div>
             <div className="flex gap-3 border border-[color:var(--stroke)] bg-white p-3">
               <div className="font-semibold text-[color:var(--text)]">✓</div>
               <div>
-                <div className="font-semibold text-[color:var(--text)]">Отчетност</div>
-                <div>Пълен измерим доклад за спестени човекочасове.</div>
+                <div className="font-semibold text-[color:var(--text)]">14-дневен support</div>
+                <div>Включен във всеки проект + опционален месечен retainer.</div>
               </div>
             </div>
+          </div>
+        </section>
+
+        {/* Pain section — what we solve */}
+        <section className="mt-16">
+          <div className="mx-auto max-w-3xl text-center">
+            <div className="text-xs font-semibold uppercase tracking-widest text-[color:var(--muted)]">
+              Болките които решаваме
+            </div>
+            <h2 className="mt-2 text-balance text-2xl font-semibold tracking-tight md:text-3xl">
+              Тези 6 проблема познаваш ли ги?
+            </h2>
+          </div>
+
+          <div className="mx-auto mt-10 grid max-w-5xl grid-cols-1 gap-4 md:grid-cols-2">
+            {[
+              {
+                stat: "56%",
+                pain: "Не мога да намеря добри хора. Като ги намеря — не могат, като се научат — си тръгват.",
+                solution: "AI пресява кандидати, прави първи разговор, освобождава теб за финалното интервю.",
+                module: "HR Kit · AI асистенти",
+              },
+              {
+                stat: "67%",
+                pain: "Затрупан съм с НАП, SAF-T, фактури. Половината седмица в хартии. Кога да продавам?",
+                solution: "AI чете фактурите, прави отчети, отговаря на стандартни запитвания в имейла.",
+                module: "Finance Shield · Inbox Commander",
+              },
+              {
+                stat: "66%",
+                pain: "B2B фактурите ми са просрочени по 90 дни. Имам поръчки — нямам пари.",
+                solution: "Automated reminder pipeline, dashboard кой дължи колко, escalation секвенция.",
+                module: "Финансова автоматизация",
+              },
+              {
+                stat: "8%",
+                pain: "Само 8% от българските фирми ползват AI. Аз не разбирам откъде да започна.",
+                solution: "Кратко изясняване → AI инструмент който решава ТВОЯ конкретен процес, не теория.",
+                module: "Цял каталог 01-09",
+              },
+              {
+                stat: "62%",
+                pain: "Аз СЪМ бизнесът — не мога да се махна за 1 ден. Burnout всеки 2-ри месец.",
+                solution: "Автоматизираме 2-3 от най-болезнените процеси. Връщаш си 10-15 часа седмично.",
+                module: "Workflow engine + Health checks",
+              },
+              {
+                stat: "38%",
+                pain: "Сайтът ми е от 2018. Temu и Amazon ме мачкат, не знам откъде да започна.",
+                solution: "Production уеб платформа (Next.js + Supabase + Vercel) за 4-8 седмици.",
+                module: "Уеб платформи & E-commerce",
+              },
+            ].map((p) => (
+              <div key={p.pain} className="border border-[color:var(--stroke)] bg-white p-5">
+                <div className="flex items-baseline gap-3">
+                  <div className="text-3xl font-semibold italic text-[#C9A84C]">{p.stat}</div>
+                  <div className="text-xs font-semibold uppercase tracking-widest text-[color:var(--muted)]">от BG бизнеса</div>
+                </div>
+                <div className="mt-3 border-l-2 border-[color:var(--stroke)] pl-3 text-sm italic leading-6 text-[color:var(--text)]">
+                  „{p.pain}&ldquo;
+                </div>
+                <div className="mt-3 text-sm leading-6 text-[color:var(--muted)]">
+                  <span className="font-semibold text-[color:var(--text)]">Решение:</span> {p.solution}
+                </div>
+                <div className="mt-3 text-[10px] font-semibold uppercase tracking-widest text-[#C9A84C]">
+                  → {p.module}
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className="mx-auto mt-8 flex max-w-5xl justify-center">
+            <Link
+              href="/uslugi"
+              className="inline-flex bg-[color:var(--accent)] px-6 py-3 text-sm font-bold uppercase tracking-widest text-white"
+            >
+              Виж всички услуги →
+            </Link>
           </div>
         </section>
 
