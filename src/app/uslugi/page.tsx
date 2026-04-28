@@ -525,7 +525,7 @@ export default function UslugiPage() {
             Каталог услуги · April 2026
           </div>
           <h1 className="mt-3 text-balance text-3xl font-semibold tracking-tight text-[color:var(--text)] md:text-5xl">
-            Дигитално развитие <span className="italic text-[#C9A84C]">и автоматизация</span>
+            Дигитално развитие <span className="italic text-[#1A2B48]">и автоматизация</span>
           </h1>
           <p className="mx-auto mt-4 max-w-3xl text-pretty text-[color:var(--muted)]">
             Изграждане на платформи, AI асистенти, маркетинг кампании, скрейпване на данни и операционна автоматизация — с реални клиентски кейсове и доказан резултат.
@@ -533,22 +533,22 @@ export default function UslugiPage() {
         </div>
 
         {/* Special offer banner */}
-        <section className="mt-10 border border-[#C9A84C] bg-[#0d0d0d] p-6 text-white md:p-8">
+        <section className="mt-10 border-2 border-[#1A2B48] bg-white p-6 md:p-8">
           <div className="grid grid-cols-1 items-center gap-6 md:grid-cols-[auto_1fr_auto]">
-            <div className="text-xs font-semibold uppercase tracking-widest text-[#C9A84C]">
+            <div className="text-xs font-semibold uppercase tracking-widest text-[#1A2B48]">
               Специална оферта
             </div>
             <div>
-              <div className="text-2xl font-semibold leading-tight md:text-3xl">
-                <span className="italic text-[#C9A84C]">−40%</span> на всички услуги от каталога
+              <div className="text-2xl font-semibold leading-tight text-[color:var(--text)] md:text-3xl">
+                <span className="font-bold text-[#1A2B48]">−40%</span> на всички услуги от каталога
               </div>
-              <div className="mt-1 text-sm text-white/70">
+              <div className="mt-1 text-sm text-[color:var(--muted)]">
                 при подписан 3-месечен договор за поддръжка (Basic / Pro / Enterprise)
               </div>
             </div>
             <Link
               href="#retainer"
-              className="inline-flex bg-[#C9A84C] px-5 py-3 text-xs font-bold uppercase tracking-widest text-[#0d0d0d] hover:bg-white"
+              className="inline-flex bg-[#1A2B48] px-5 py-3 text-xs font-bold uppercase tracking-widest text-white hover:bg-[#0f1d36]"
             >
               Виж пакетите →
             </Link>
@@ -569,15 +569,15 @@ export default function UslugiPage() {
               <a
                 key={c.id}
                 href={`#${c.id}`}
-                className="group flex items-center justify-between gap-4 border border-[color:var(--stroke)] bg-white p-5 transition-colors hover:border-[#C9A84C]"
+                className="group flex items-center justify-between gap-4 border border-[color:var(--stroke)] bg-white p-5 transition-colors hover:border-[#1A2B48]"
               >
                 <div className="flex items-center gap-4">
-                  <div className="text-xs font-semibold uppercase tracking-widest text-[color:var(--muted)] group-hover:text-[#C9A84C]">
+                  <div className="text-xs font-semibold uppercase tracking-widest text-[color:var(--muted)] group-hover:text-[#1A2B48]">
                     {c.num}
                   </div>
                   <div className="text-base font-semibold text-[color:var(--text)]">{c.title}</div>
                 </div>
-                <div className="text-sm font-semibold italic text-[#C9A84C]">{c.startsAt}</div>
+                <div className="text-sm font-semibold italic text-[#1A2B48]">{c.startsAt}</div>
               </a>
             ))}
           </div>
@@ -587,7 +587,7 @@ export default function UslugiPage() {
         {CATEGORIES.map((c) => (
           <section key={c.id} id={c.id} className="mt-20 scroll-mt-32">
             <div className="border-t border-[color:var(--stroke)] pt-10">
-              <div className="text-xs font-semibold uppercase tracking-widest text-[#C9A84C]">
+              <div className="text-xs font-semibold uppercase tracking-widest text-[#1A2B48]">
                 {c.num} · {c.startsAt}
               </div>
               <h2 className="mt-2 text-balance text-2xl font-semibold tracking-tight text-[color:var(--text)] md:text-4xl">
@@ -604,8 +604,8 @@ export default function UslugiPage() {
                 >
                   <div>
                     <div className="text-base font-semibold text-[color:var(--text)] md:text-lg">{s.title}</div>
-                    <div className="mt-3 border-l-2 border-[#C9A84C] bg-[#faf7f0] px-4 py-3 text-sm leading-6 text-[color:var(--text)]">
-                      <span className="font-semibold uppercase tracking-widest text-[#8a7028] text-[10px]">За кого</span>
+                    <div className="mt-3 border-l-2 border-[#1A2B48] bg-[#f5f8fc] px-4 py-3 text-sm leading-6 text-[color:var(--text)]">
+                      <span className="font-semibold uppercase tracking-widest text-[#1A2B48] text-[10px]">За кого</span>
                       <div className="mt-1">{s.helps}</div>
                     </div>
                     <div className="mt-3 text-sm leading-6 text-[color:var(--muted)]">
@@ -617,7 +617,7 @@ export default function UslugiPage() {
                   </div>
                   <div className="md:text-right">
                     <div className="text-xs font-semibold uppercase tracking-widest text-[color:var(--muted)]">от</div>
-                    <div className="text-2xl font-semibold italic text-[#C9A84C]">{s.price}</div>
+                    <div className="text-2xl font-semibold italic text-[#1A2B48]">{s.price}</div>
                   </div>
                 </div>
               ))}
@@ -628,7 +628,7 @@ export default function UslugiPage() {
         {/* Retainer / Maintenance */}
         <section id="retainer" className="mt-24 scroll-mt-32 border-t border-[color:var(--stroke)] pt-10">
           <div className="mx-auto max-w-3xl text-center">
-            <div className="text-xs font-semibold uppercase tracking-widest text-[#C9A84C]">
+            <div className="text-xs font-semibold uppercase tracking-widest text-[#1A2B48]">
               10 · от 200 €/мес
             </div>
             <h2 className="mt-2 text-balance text-2xl font-semibold tracking-tight md:text-4xl">
@@ -636,7 +636,7 @@ export default function UslugiPage() {
             </h2>
             <p className="mt-3 text-[color:var(--muted)]">
               Месечни пакети след предаване на проекта. При 3-месечен договор —
-              <span className="font-semibold text-[#C9A84C]"> автоматично 40% отстъпка </span>
+              <span className="font-semibold text-[#1A2B48]"> автоматично 40% отстъпка </span>
               от всички услуги в каталога за същия период.
             </p>
           </div>
@@ -648,21 +648,21 @@ export default function UslugiPage() {
                 className={
                   "relative border bg-white p-6 " +
                   (t.recommended
-                    ? "border-[#C9A84C] shadow-[0_0_0_1px_#C9A84C]"
+                    ? "border-[#1A2B48] shadow-[0_0_0_1px_#1A2B48]"
                     : "border-[color:var(--stroke)]")
                 }
               >
                 {t.recommended ? (
-                  <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-[#C9A84C] px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-[#0d0d0d]">
+                  <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-[#1A2B48] px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-white">
                     Препоръчан
                   </div>
                 ) : null}
                 <div className="text-2xl font-semibold tracking-tight">{t.name}</div>
-                <div className="mt-2 text-3xl font-semibold italic text-[#C9A84C]">{t.price}</div>
+                <div className="mt-2 text-3xl font-semibold text-[#1A2B48]">{t.price}</div>
                 <ul className="mt-5 space-y-2 text-sm leading-6 text-[color:var(--muted)]">
                   {t.features.map((f) => (
                     <li key={f} className="flex gap-2">
-                      <span className="text-[#C9A84C]">·</span>
+                      <span className="text-[#1A2B48]">·</span>
                       <span>{f}</span>
                     </li>
                   ))}
@@ -672,7 +672,7 @@ export default function UslugiPage() {
             ))}
           </div>
 
-          <div className="mx-auto mt-8 max-w-5xl border border-[#C9A84C] bg-[#faf7f0] p-5 text-sm leading-6">
+          <div className="mx-auto mt-8 max-w-5xl border border-[#1A2B48] bg-[#f5f8fc] p-5 text-sm leading-6">
             <div className="font-semibold text-[color:var(--text)]">3-месечен договор → 40% отстъпка</div>
             <ul className="mt-2 list-disc pl-5 text-[color:var(--muted)]">
               <li>Подписваш минимум 3 месеца поддръжка (Basic / Pro / Enterprise) — получаваш −40% на всяка услуга от каталога 01–09 за същия период.</li>
@@ -697,13 +697,13 @@ export default function UslugiPage() {
               ["04 — Поддръжка", "След 14-дневния период — retainer от 200 €/месец (до 4 часа) или per-incident. Включва monitoring, security updates, минорни промени."],
             ].map(([t, d]) => (
               <div key={t} className="border border-[color:var(--stroke)] bg-white p-5">
-                <div className="text-sm font-semibold uppercase tracking-widest text-[#C9A84C]">{t}</div>
+                <div className="text-sm font-semibold uppercase tracking-widest text-[#1A2B48]">{t}</div>
                 <div className="mt-3 text-sm leading-6 text-[color:var(--muted)]">{d}</div>
               </div>
             ))}
           </div>
 
-          <div className="mx-auto mt-6 max-w-5xl border border-[#C9A84C] bg-[#faf7f0] p-5 text-sm leading-6">
+          <div className="mx-auto mt-6 max-w-5xl border border-[#1A2B48] bg-[#f5f8fc] p-5 text-sm leading-6">
             <div className="font-semibold text-[color:var(--text)]">Важно</div>
             <ul className="mt-2 list-disc pl-5 text-[color:var(--muted)]">
               <li>Цените са в EUR без ДДС. При фактуриране се добавя 20% ДДС за БГ юридически лица.</li>
@@ -715,33 +715,41 @@ export default function UslugiPage() {
         </section>
 
         {/* CTA */}
-        <section className="mt-20 border border-[color:var(--stroke)] bg-[#0d0d0d] p-8 text-white md:p-12">
+        <section className="mt-20 border border-[color:var(--stroke)] bg-[#1A2B48] p-8 text-white md:p-12">
           <div className="mx-auto max-w-3xl text-center">
             <h2 className="text-balance text-2xl font-semibold tracking-tight md:text-4xl">
-              Да започнем <span className="italic text-[#C9A84C]">заедно</span>
+              Да започнем заедно
             </h2>
             <p className="mx-auto mt-4 text-pretty text-white/70">
               Изпрати кратко описание на проекта и preferred timeline. Отговор в рамките на 24 часа. За спешни проекти — Telegram.
             </p>
-            <div className="mt-8 grid grid-cols-1 gap-6 text-left md:grid-cols-2">
+            <div className="mt-6 flex justify-center">
+              <Link
+                href="/contact"
+                className="inline-flex bg-white px-8 py-4 text-sm font-bold uppercase tracking-widest text-[#1A2B48] hover:bg-[#f5f8fc]"
+              >
+                Започни анкета →
+              </Link>
+            </div>
+            <div className="mt-10 grid grid-cols-1 gap-6 text-left md:grid-cols-2">
               <div>
-                <div className="text-xs font-semibold uppercase tracking-widest text-[#C9A84C]">Email</div>
-                <a className="mt-1 block text-base hover:text-[#C9A84C]" href="mailto:simeondimitrov@eufashioninstitute.com">
+                <div className="text-xs font-semibold uppercase tracking-widest text-white/60">Email</div>
+                <a className="mt-1 block text-base hover:text-white/70" href="mailto:simeondimitrov@eufashioninstitute.com">
                   simeondimitrov@eufashioninstitute.com
                 </a>
               </div>
               <div>
-                <div className="text-xs font-semibold uppercase tracking-widest text-[#C9A84C]">Местоположение</div>
+                <div className="text-xs font-semibold uppercase tracking-widest text-white/60">Местоположение</div>
                 <div className="mt-1 text-base">София, България</div>
               </div>
               <div>
-                <div className="text-xs font-semibold uppercase tracking-widest text-[#C9A84C]">Web</div>
-                <a className="mt-1 block text-base hover:text-[#C9A84C]" href="https://eufashioninstitute.com" target="_blank">
+                <div className="text-xs font-semibold uppercase tracking-widest text-white/60">Web</div>
+                <a className="mt-1 block text-base hover:text-white/70" href="https://eufashioninstitute.com" target="_blank">
                   eufashioninstitute.com
                 </a>
               </div>
               <div>
-                <div className="text-xs font-semibold uppercase tracking-widest text-[#C9A84C]">Други брандове</div>
+                <div className="text-xs font-semibold uppercase tracking-widest text-white/60">Други брандове</div>
                 <div className="mt-1 text-base">simora.bg · bosy.bg · founderclub.bg · caradiamanti.it</div>
               </div>
             </div>

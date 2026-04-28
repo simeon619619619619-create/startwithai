@@ -32,8 +32,8 @@ function row(label: string, value?: string | string[] | boolean) {
 
   const content = Array.isArray(value) ? `<ul style="margin:0;padding-left:18px;">${v}</ul>` : v;
   return `<tr>
-    <td style="padding:10px 14px;background:#faf7f0;border:1px solid #e8e2cc;width:35%;font-weight:600;color:#0d0d0d;vertical-align:top;">${label}</td>
-    <td style="padding:10px 14px;border:1px solid #e8e2cc;color:#0d0d0d;vertical-align:top;">${content}</td>
+    <td style="padding:10px 14px;background:#f5f8fc;border:1px solid #dde3ee;width:35%;font-weight:600;color:#1A2B48;vertical-align:top;">${label}</td>
+    <td style="padding:10px 14px;border:1px solid #dde3ee;color:#1A2B48;vertical-align:top;">${content}</td>
   </tr>`;
 }
 
@@ -64,7 +64,7 @@ export async function POST(req: Request) {
 
     const subject = `🎯 Нова заявка: ${body.name}${body.company ? ` (${body.company})` : ""} — ${body.budget}`;
 
-    const html = `<div style="font-family:-apple-system,Arial,sans-serif;max-width:680px;margin:0 auto;color:#0d0d0d;">
+    const html = `<div style="font-family:-apple-system,Arial,sans-serif;max-width:680px;margin:0 auto;color:#1A2B48;">
       <div style="background:#1A2B48;padding:24px;text-align:center;color:#fff;">
         <div style="font-size:11px;letter-spacing:3px;text-transform:uppercase;opacity:0.7;">StartWithAI · Нова заявка</div>
         <div style="margin-top:8px;font-size:20px;font-weight:600;">${escape(body.name)}${body.company ? ` · ${escape(body.company)}` : ""}</div>
@@ -86,7 +86,7 @@ export async function POST(req: Request) {
           ${row("Ваучерна програма", body.voucher)}
         </table>
       </div>
-      <div style="background:#0d0d0d;padding:14px;text-align:center;color:#999;font-size:11px;letter-spacing:2px;text-transform:uppercase;">
+      <div style="background:#1A2B48;padding:14px;text-align:center;color:#999;font-size:11px;letter-spacing:2px;text-transform:uppercase;">
         startwithai.vercel.app · ${new Date().toLocaleString("bg-BG", { timeZone: "Europe/Sofia" })}
       </div>
     </div>`;

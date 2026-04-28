@@ -126,7 +126,7 @@ export default function ContactPage() {
       <div>
         <SiteHeader />
         <main className="mx-auto max-w-3xl px-5 pb-16 pt-40 text-center">
-          <div className="text-xs font-semibold uppercase tracking-widest text-[#C9A84C]">Получено · {new Date().toLocaleDateString("bg-BG")}</div>
+          <div className="text-xs font-semibold uppercase tracking-widest text-[#1A2B48]">Получено · {new Date().toLocaleDateString("bg-BG")}</div>
           <h1 className="mt-3 text-balance text-3xl font-semibold tracking-tight md:text-5xl">
             Благодарим, {form.name.split(" ")[0]}!
           </h1>
